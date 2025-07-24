@@ -1,4 +1,12 @@
-@charset "UTF-8";
+/*상품 리스트에 관한 CSS*/
+
+/*전체 화면 비율 조정*/
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
 /* 상품 우측 카테고리 필터링 부분 */
 .breadcrumb {
     background-color: #f8f9fa;
@@ -313,7 +321,18 @@
 }
 
 /*반응형 UI 처리*/
-/* Responsive Design for Products */
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1600px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1400px;
+    }
+}
+
 @media (max-width: 1024px) {
     .products-layout {
         grid-template-columns: 200px 1fr;
@@ -327,6 +346,9 @@
 }
 
 @media (max-width: 768px) {
+	.container {
+        padding: 0 15px;
+    }
     .products-layout {
         grid-template-columns: 1fr;
         gap: 1rem;
@@ -366,6 +388,10 @@
 }
 
 @media (max-width: 480px) {
+	.container {
+        padding: 0 10px;
+    }
+    
     .products-grid {
         grid-template-columns: 1fr;
     }
