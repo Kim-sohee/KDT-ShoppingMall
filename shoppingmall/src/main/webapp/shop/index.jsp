@@ -7,6 +7,7 @@
     <title>보드게임</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/shop/styles/main.css">
+    <link rel="stylesheet" href="/static/shop/styles/product.css">
 </head>
 <body> 
 	<%@ include file="../inc/date.jsp" %>
