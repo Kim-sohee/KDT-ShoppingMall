@@ -1,0 +1,295 @@
+/*주문 실패 페이지에 관한 CSS*/
+
+/* 기본 버튼 스타일 지정 */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+    width: 300px;
+}
+
+/*화면 비율 조정*/
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/*주문 페이지 제목 영역*/
+.order-fail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #D70C19;
+}
+
+.order-fail-header h1 {
+    font-size: 2.5rem;
+    color: #D70C19;
+    font-weight: 700;
+}
+
+.order-fail-steps {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 2px;
+    background: #ddd;
+}
+
+.step.active:not(:last-child)::after {
+    background: #D70C19;
+}
+
+.step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #ddd;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.step.active .step-number {
+    background: #D70C19;
+}
+
+.step-text {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.step.active .step-text {
+    color: #D70C19;
+    font-weight: 600;
+}
+
+/*레이아웃 배치*/
+.order-fail-layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* 주문 실패 안내 영역 너비 설정 */
+.order-fail-items-wrapper {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.order-fail-items {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.order-fail-items:last-of-type {
+	margin-bottom: 2rem;
+	padding-bottom: 2.5rem;
+}
+
+/*주문 실패 안내*/
+.order-fail-msg {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: #fff;
+    margin-bottom: 2rem;
+}
+
+.order-fail-msg img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.order-fail-msg h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.order-fail-msg p {
+    font-size: 1.8rem;
+    color: #333;
+    font-weight: 700;
+}
+
+/* 주문 실패 상세 안내 */
+.order-fail-detail-msg {
+    padding: 1.5rem;
+    background-color: #fff7f7;
+    border: 1px solid #f5c2c2;
+    border-radius: 6px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.order-fail-detail-msg label {
+    font-weight: bold;
+    color: #d9534f;
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.order-fail-detail-msg p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* 장바구니로 이동 버튼 */
+.goto-cart {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.btn-cart {
+    background-color: #D70C19;
+    color: #fff;
+    border: none;
+}
+
+.btn-cart:hover {
+    background-color: #B00A14;
+    transform: translateY(-2px);
+}
+
+/* 홈으로 이동 버튼 */
+.goto-home {
+    text-align: center;
+}
+
+.btn-home {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+}
+
+.btn-home:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+}
+
+
+/* 반응형 UI */
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1600px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1400px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .order-fail-msg h2 {
+        font-size: 1.6rem;
+    }
+
+    .order-fail-msg p {
+        font-size: 1.4rem;
+    }
+
+    .order-fail-detail-msg p {
+        font-size: 1rem;
+    }
+
+    .btn {
+        width: 100%; /* 버튼 전체 너비 사용 */
+        font-size: 1rem;
+    }
+
+    .goto-cart,
+    .goto-home {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+	.container {
+        padding: 0 15px;
+    }
+    .order-fail-layout {
+        padding: 1.5rem 1rem;
+    }
+
+    .order-fail-msg img {
+        width: 80px;
+    }
+
+    .order-fail-msg h2 {
+        font-size: 1.4rem;
+    }
+
+    .order-fail-msg p {
+        font-size: 1.3rem;
+    }
+
+    .order-fail-detail-msg {
+        padding: 1rem;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 0.7rem 1rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+	.container {
+        padding: 0 10px;
+    }
+    .order-fail-layout {
+        padding: 1rem 0.5rem;
+    }
+
+    .order-fail-msg h2,
+    .order-fail-msg p {
+        font-size: 1.2rem;
+    }
+
+    .order-fail-detail-msg p {
+        font-size: 0.95rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+    }
+}
