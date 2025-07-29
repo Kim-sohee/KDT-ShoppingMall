@@ -310,14 +310,10 @@
     border-color: #D70C19;
 }
 
-.page-btn:disabled {
+.page-btn.disabled {
     opacity: 0.5;
     cursor: not-allowed;
-}
-
-.page-dots {
-    padding: 0.8rem;
-    color: #666;
+    pointer-events: none;
 }
 
 /*반응형 UI 처리*/

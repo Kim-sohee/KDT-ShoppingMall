@@ -21,6 +21,11 @@ public class ProductServiceImp implements ProductService{
 	public Product select(int product_id) {
 		return productDAO.select(product_id);
 	}
+
+	@Override
+	public List selectProductByFilter(Product product) {
+		return productDAO.selectProductByFilter(product);
+	}
 	
 	
 }

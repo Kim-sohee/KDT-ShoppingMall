@@ -26,6 +26,23 @@
 		select * from product
 	</select>
 	
+	<!-- 필터링한 상품 모두 가져오기 -->
+	<select id="selectProductByFilter" resultMap="productMap" parameterType="Product">
+		select * from product where 1=1
+		<if test="theme != null and theme.theme_id != null">
+			and theme_id = #{theme.theme_id}
+		</if>
+		<if test="playerRange != null and playerRange.player_range_id">
+			and player_range_id = #{playerRange.player_range_id}
+		</if>
+		<if test="ageRange != null and ageRange.age_range_id != null">
+			and age_range_id = #{age_range_id}
+		</if>
+		<if test="difficulty != null and difficulty.difficulty_id != null">
+			and difficulty_id = #{difficulty.difficulty_id}
+		</if>
+	</select>
+	
 	<!-- 한 건 가져오기 -->
 	<select id="select" parameterType="int" resultMap="productMap">
 		select * from product where product_id=#{product_id}
