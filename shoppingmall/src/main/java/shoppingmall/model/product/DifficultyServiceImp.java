@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class DifficultyServiceImp implements DifficultyService{
 	@Autowired
-	DifficultyService difficultyService;
+	DifficultyDAO difficultyDAO;
 	
 	@Override
 	public List selectAll() {
-		return difficultyService.selectAll();
+		return difficultyDAO.selectAll();
 	}
 	
 }

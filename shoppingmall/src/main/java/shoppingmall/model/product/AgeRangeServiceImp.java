@@ -8,11 +8,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AgeRangeServiceImp implements AgeRangeService{
 	@Autowired
-	AgeRangeService ageRangeService;
+	AgeRangeDAO ageRangeDAO;
 	
 	@Override
 	public List selectAll() {
-		return ageRangeService.selectAll();
+		return ageRangeDAO.selectAll();
 	}
-	
 }

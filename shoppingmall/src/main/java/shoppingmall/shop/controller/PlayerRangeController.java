@@ -14,7 +14,7 @@ public class PlayerRangeController {
 	@Autowired
 	private PlayerRangeService playerRangeService;
 	
-	@GetMapping("/shop/playerRange/list")
+	@GetMapping("/playerRange/list")
 	@ResponseBody
 	public List selectAll() {
 		List playerRangeList = playerRangeService.selectAll();

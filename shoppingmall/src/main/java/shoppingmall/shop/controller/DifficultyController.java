@@ -14,7 +14,7 @@ public class DifficultyController {
 	@Autowired
 	private DifficultyService difficultyService;
 	
-	@GetMapping("/shop/difficulty/list")
+	@GetMapping("/difficulty/list")
 	@ResponseBody
 	public List selectAll() {
 		List difficultyList = difficultyService.selectAll();

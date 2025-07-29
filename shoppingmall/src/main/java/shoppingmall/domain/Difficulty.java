@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class Difficulty {
 	private int difficulty_id;
-	private int game_level;
+	private String game_level;
 }

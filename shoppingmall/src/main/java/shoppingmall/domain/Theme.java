@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class Theme {
 	private int theme_id;
-	private int theme_name;
+	private String theme_name;
 }

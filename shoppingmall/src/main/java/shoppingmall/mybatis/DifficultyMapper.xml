@@ -8,7 +8,7 @@
 	</select>
 	
 	<!-- 한 건 가져오기 -->
-	<select id="select">
+	<select id="select" parameterType="int" resultType="Difficulty">
 		select * from difficulty where difficulty_id=#{difficulty_id}	
 	</select>
 	

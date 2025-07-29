@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ThemeServiceImp implements ThemeService{
 	@Autowired
-	ThemeService themeService;
+	ThemeDAO themeDAO;
 	
 	@Override
 	public List selectAll() {
-		return themeService.selectAll();
+		return themeDAO.selectAll();
 	}
 	
 }

@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlayerRangeServiceImp implements PlayerRangeService{
 	@Autowired
-	PlayerRangeService playerRangeService;
+	PlayerRangeDAO playerRangeDAO;
 	
 	@Override
 	public List selectAll() {
-		return playerRangeService.selectAll();
+		return playerRangeDAO.selectAll();
 	}
 	
 }

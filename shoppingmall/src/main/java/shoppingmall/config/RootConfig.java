@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration  
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"ShoppingMall.domain","ShoppingMall.util"})
+@ComponentScan(basePackages = {"shoppingmall.model","shoppingmall.util"})
 public class RootConfig {
 	
 	public DataSource dataSource() throws NamingException{
@@ -45,7 +45,7 @@ public class RootConfig {
 	@Bean 
 	public SqlSessionFactory sqlSessionFactory() throws Exception{
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-		sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mall/mybatis/mybatis-config.xml")); //mybatis 설정파일 위치
+		sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("shoppingmall/mybatis/mybatis-config.xml")); //mybatis 설정파일 위치
 		
 		//SqlSessionFactoryBean 에게 사용할 DB를 알려줘야 함
 		sqlSessionFactoryBean.setDataSource(dataSource());

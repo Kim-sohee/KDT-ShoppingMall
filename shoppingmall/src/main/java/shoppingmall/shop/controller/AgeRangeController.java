@@ -14,7 +14,7 @@ public class AgeRangeController {
 	@Autowired
 	private AgeRangeService ageRangeService;
 	
-	@GetMapping("/shop/ageRange/list")
+	@GetMapping("/ageRange/list")
 	@ResponseBody
 	public List selectAll() {
 		List ageRangeList = ageRangeService.selectAll();

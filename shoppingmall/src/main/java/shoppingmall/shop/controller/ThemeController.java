@@ -14,7 +14,7 @@ public class ThemeController {
 	@Autowired
 	private ThemeService themeService;
 	
-	@GetMapping("/shop/theme/list")
+	@GetMapping("/theme/list")
 	@ResponseBody
 	public List selectAll() {
 		List themeList = themeService.selectAll();
