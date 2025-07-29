@@ -1,4 +1,4 @@
-package ShoppingMall.util;
+package shoppingmall.util;
 
 import java.util.List;
 

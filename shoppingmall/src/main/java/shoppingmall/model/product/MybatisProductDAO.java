@@ -1,4 +1,4 @@
-package ShoppingMall.model.product;
+package shoppingmall.model.product;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ShoppingMall.domain.Product;
+import shoppingmall.domain.Product;
 
 @Repository
 public class MybatisProductDAO implements ProductDAO{

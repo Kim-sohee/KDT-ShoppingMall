@@ -1,4 +1,4 @@
-package ShoppingMall.config;
+package shoppingmall.config;
 
 import javax.naming.NamingException;
 import javax.sql.DataSource;

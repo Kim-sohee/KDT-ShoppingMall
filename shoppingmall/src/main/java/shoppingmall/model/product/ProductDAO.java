@@ -1,8 +1,8 @@
-package ShoppingMall.model.product;
+package shoppingmall.model.product;
 
 import java.util.List;
 
-import ShoppingMall.domain.Product;
+import shoppingmall.domain.Product;
 
 public interface ProductDAO {
 	public List selectAll();	//모두 조회

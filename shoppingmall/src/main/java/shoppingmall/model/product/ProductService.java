@@ -1,8 +1,8 @@
-package ShoppingMall.model.product;
+package shoppingmall.model.product;
 
 import java.util.List;
 
-import ShoppingMall.domain.Product;
+import shoppingmall.domain.Product;
 
 public interface ProductService {
 	public List selectAll();

@@ -1,10 +1,10 @@
-package ShoppingMall.domain;
+package shoppingmall.domain;
 
 import lombok.Data;
 
-//상품 스냅샷 관한 모델
+//상품에 관한 모델
 @Data
-public class ProductSnapshot {
+public class Product {
 	private int product_id;
 	private String product_name;
 	private int price;
