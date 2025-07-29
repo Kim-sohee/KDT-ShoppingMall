@@ -1,4 +1,4 @@
-<%@page import="ShoppingMall.util.Paging"%>
+<%@page import="shoppingmall.util.Paging"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@include file="../inc/init.jsp" %>
 <%

@@ -1,4 +1,4 @@
-package ShoppingMall.domain;
+package shoppingmall.domain;
 
 public class Member {
 	private int member_id;

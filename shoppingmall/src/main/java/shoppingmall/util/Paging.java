@@ -1,4 +1,4 @@
-package ShoppingMall.util;
+package shoppingmall.util;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+@Sl4j
 @Component
 @Data
 public class Paging {

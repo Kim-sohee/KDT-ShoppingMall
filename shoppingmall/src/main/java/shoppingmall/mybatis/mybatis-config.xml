@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="shoppingmall.domain.Status"		alias="Status"/>
+		<typeAlias type="shoppingmall.domain.Qna"			alias="Qna"/>
+		<typeAlias type="shoppingmall.domain.Returns"		alias="Returns"/>
+		<typeAlias type="shoppingmall.domain.Delivery"		alias="Delivery"/>
+		<typeAlias type="shoppingmall.domain.Member"		alias="Member"/>
+		<typeAlias type="shoppingmall.domain.OrderSummary"	alias="OrderSummary"/>
+
+	</typeAliases>
+	
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="JNDI">
+				<property name="data_source" value="java:comp/env/jndi/mysql" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="shoppingmall/mybatis/StatusMapper.xml" />
+		<mapper resource="shoppingmall/mybatis/QnaMapper.xml" />
+		<mapper resource="shoppingmall/mybatis/ReturnsMapper.xml" />
+		<mapper resource="shoppingmall/mybatis/DeliveryMapper.xml" />
+		<mapper resource="shoppingmall/mybatis/MemberMapper.xml" />
+		<mapper resource="shoppingmall/mybatis/OrderSummaryMapper.xml" />
+	</mappers>
+</configuration>
