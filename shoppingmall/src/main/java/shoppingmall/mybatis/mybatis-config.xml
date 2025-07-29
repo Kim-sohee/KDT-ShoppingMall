@@ -17,7 +17,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-c
 		<typeAlias type="shoppingmall.domain.PlayerRange" 	alias="PlayerRange"/>
 		<typeAlias type="shoppingmall.domain.Theme" 		alias="Theme"/>
 		<typeAlias type="shoppingmall.domain.ProductSnapshot" alias="ProductSnapshot"/>
-
 	</typeAliases>
 	
 	<environments default="development">

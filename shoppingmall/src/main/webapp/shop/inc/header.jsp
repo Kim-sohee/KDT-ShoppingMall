@@ -16,11 +16,11 @@ body{
 	
 }
 
-/* 이미지 대체 색상 박스. 이후 수정 */
-#image_sample {
+/* 로고 박스*/
+#logo_image {
 	width: 150px;
-	height: 90px;
-	background-color: yellow;
+	height:130px;
+	
 }
 
 /* 쇼핑몰 상호 박스 위치 조정 */
@@ -85,10 +85,8 @@ body{
 <body>
 	<!-- whole wrapper start -->
 	<div id="wrapper">
-		<!-- icon (sinse) -->
-		<!-- 이미지 부착 예정... 수정 전까지 노란색 박스로 유지 -->
-		<div id="image_sample"> </div>
-
+		<!-- logo -->
+		<img alt="logo_image" id = "logo_image" src="/img/sinsegae_games.png">
 		<!-- 쇼핑몰 이름 라벨 --> 
 		<div id="shoppingMallName_box">
 			<label id="shoppingMallName">보드 게임 </label>
