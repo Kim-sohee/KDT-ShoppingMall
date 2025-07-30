@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!-- 
 	pageParam은 각 페이지 별 .jsp 최상단에 init.jsp로 받아옵니다.
@@ -48,4 +48,4 @@
 			</div>
 		</div>
 	</div>
-</section>
+</section> --%>
