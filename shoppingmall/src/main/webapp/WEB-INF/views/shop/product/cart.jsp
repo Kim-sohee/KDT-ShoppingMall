@@ -21,6 +21,7 @@
                 <span>></span>
                 <span>장바구니</span>
             </div>
+            
 			<!-- 장바구니 페이지 제목 시작 -->
             <div class="cart-header">
                 <h1>장바구니</h1>

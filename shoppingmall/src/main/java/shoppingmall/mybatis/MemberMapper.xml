@@ -2,30 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Member">
 	<sql id="columns">
-		member_id, id, password, email, sns_provider, phone, join_at, point_remained, default_address
+		member_id, member_name, id, password, salt, email, sns_provider, phone,
+		joined_at, point_remained, default_address
 	</sql>
-	
+
 	<select id="selectAll" resultType="Member">
-		SELECT <include refid="columns"/> FROM member
+		SELECT
+		<include refid="columns" />
+		FROM member
+	</select>
+
+	<select id="select" parameterType="String" resultType="Member">
+		SELECT
+		<include refid="columns" />
+		FROM member WHERE member_id = #{member_id}
 	</select>
 	
-	<select id="select" parameterType="int" resultType="Member">
-		SELECT <include refid="columns"/> FROM member WHERE member_id = #{member_id}
+	<select id="selectById" parameterType="int" resultType="Member">
+		SELECT
+		<include refid="columns" />
+		FROM member WHERE id = #{id}
 	</select>
-		
+	
+	<select id="selectByEmail" parameterType="Member" resultType="Member">
+		SELECT
+		<include refid="columns" />
+		FROM member WHERE email = #{email}
+	</select>
+
 	<insert id="insert" parameterType="Member">
-		INSERT INTO member(id, password, email, sns_provider, phone, join_at, point_remained, default_address)
-		VALUES(#{id}, #{password}, #{email}, #{sns_provider}, #{phone}, #{join_at}, #{point_remained}, #{default_address})
+		INSERT INTO member(member_name, id, password, salt, email, phone, default_address)
+		VALUES(#{member_name}, #{id}, #{password}, #{salt}, #{email}, #{phone}, #{default_address})
 	</insert>
-	
+
 	<update id="update" parameterType="Member">
 		UPDATE member
-		SET password = #{password},  phone = #{phone}, default_address = #{default_address}
-		WHERE member_id = #{member_id};
+		SET password =
+		#{password}, phone = #{phone}, default_address = #{default_address}
+		WHERE member_id = #{member_id}
 	</update>
-	
+
 	<delete id="delete" parameterType="int">
-		DELETE FROM member WHERE member_id = #{member_id}
+		DELETE FROM member WHERE
+		member_id = #{member_id}
 	</delete>
-	
+
 </mapper>

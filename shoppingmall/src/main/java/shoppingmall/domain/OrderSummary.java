@@ -1,7 +1,8 @@
 package shoppingmall.domain;
 
-import javax.persistence.ManyToOne;
+import lombok.Data;
 
+@Data
 public class OrderSummary {
 	private int order_summary_id;
 	private String ordered_at; 		//주문일자, 구매일자
@@ -10,7 +11,6 @@ public class OrderSummary {
 	private String payment_type;	//결제수단
 	private int point_used;		//결제에 사용된 포인트
 	
-	@ManyToOne
 	private Member member;
 	private Status status;
 	private Delivery delivery;

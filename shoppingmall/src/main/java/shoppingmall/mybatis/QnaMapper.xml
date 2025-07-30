@@ -2,45 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Qna">
 	<sql id="columns">
-		qna_id, qna_title, qna_content, comment_member, comment, is_commented, member_id, product_id
+		qna_id, qna_title, qna_content, comment_member, comment,
+		is_commented, member_id, product_id
 	</sql>
-	
+
 	<!-- join을 이용하여 qna 정보 조회 시작 -->
 	<resultMap id="joinMap" type="Qna">
-		<id column="qna_id" property="qna_id"/>
-		<result column="qna_title" 		property="qna_title"/>
-		<result column="qna_content"	property="qna_content"/>
-		<result column="comment_member"	property="comment_member"/>
-		<result column="comment" 		property="comment"/>
-		<result column="is_commented"	property="is_commented"/>
-		
-		<association column="member_id" property="member" javaType="Member" 
-					select="Member.select"/>
+		<id column="qna_id" property="qna_id" />
+		<result column="qna_title" property="qna_title" />
+		<result column="qna_content" property="qna_content" />
+		<result column="comment_member" property="comment_member" />
+		<result column="comment" property="comment" />
+		<result column="is_commented" property="is_commented" />
+
+		<association column="member_id" property="member"
+			javaType="Member" select="Member.select" />
 	</resultMap>
-	
+
 	<select id="selectAll" resultMap="joinMap">
-		SELECT <include refid="columns"/> FROM qna
+		SELECT
+		<include refid="columns" />
+		FROM qna
 	</select>
-	
+
 	<select id="select" parameterType="int" resultMap="joinMap">
-		SELECT <include refid="columns"/> FROM qna WHERE qna_id = #{qna_id}	
+		SELECT
+		<include refid="columns" />
+		FROM qna WHERE qna_id = #{qna_id}
 	</select>
 	<!-- join을 이용하여 qna 정보 조회 끝 -->
-		
+
 	<insert id="insert" parameterType="Qna">
-		INSERT INTO qna(qna_title, qna_content, comment_member, comment, is_commented, member_id, product_id)
-		VALUES(#{qna_title}, #{qna_content}, #{comment_member}, #{comment}, #{is_commented}, #{member.member_id})
+		INSERT INTO qna(qna_title,
+		qna_content, comment_member, comment, is_commented, member_id,
+		product_id)
+		VALUES(#{qna_title}, #{qna_content}, #{comment_member},
+		#{comment}, #{is_commented}, #{member.member_id})
 	</insert>
 	<!-- product_id는 추후 추가 예정 -->
-	
+
 	<update id="update" parameterType="Qna">
 		UPDATE qna
-		SET qna_title = #{qna_title},  qna_content = #{qna_content}
+		SET qna_title =
+		#{qna_title}, qna_content = #{qna_content}
 		WHERE qna_id = #{qna_id}
 	</update>
-	
+
 	<delete id="delete" parameterType="int">
-		DELETE FROM qna WHERE qna_id = #{qna_id}
+		DELETE FROM qna WHERE qna_id =
+		#{qna_id}
 	</delete>
-	
+
 </mapper>
