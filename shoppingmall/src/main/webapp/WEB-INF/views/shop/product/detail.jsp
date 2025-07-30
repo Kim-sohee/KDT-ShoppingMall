@@ -15,6 +15,7 @@ Map<Integer, Integer> ratingMap = (Map<Integer, Integer>) request.getAttribute("
 int totalCount = (int) request.getAttribute("count");
 List<Qna> qnas = (List<Qna>)request.getAttribute("qna");
 int count_qna = (int)request.getAttribute("qna_count");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -722,7 +723,11 @@ int count_qna = (int)request.getAttribute("qna_count");
 		<!-- 리뷰 패널 이동 -->
 		<div id="review_information">리뷰(<%=count%>)</div>
 		<!-- Q&A패널 이동 -->
+<<<<<<< HEAD
 		<div id="question_information">Q&A(<%=count_qna%>)</div>
+=======
+		<div id="question_information">Q&A(5)</div>
+>>>>>>> 7d2716a (review DAO 수정, Cart controller,DAO,Mybaits준비, detail.jsp 수정)
 		<!-- 배송/교환/상품 패널 이동 -->
 		<div id="deliver_information">배송/교환/반품</div>
 	</div>
@@ -796,14 +801,21 @@ int count_qna = (int)request.getAttribute("qna_count");
 	<!-- Q&A에 대한 패널출력  -->
 	<!-- Q&A 에 대한 패널 출력 -->
 	<div id="question_section">
+<<<<<<< HEAD
 		<h2>Q&A (<%=count_qna %>)</h2>
 		<p>구매하시려는 상품에 대해 궁금한 점이 있으신 경우 문의해주세요.</p>
 
 		<!-- Q&A 버튼 영역 -->
+=======
+		<h2>Q&A (3)</h2>
+		<p>구매하시려는 상품에 대해 궁금한 점이 있으신 경우 문의해주세요.</p>
+
+>>>>>>> 7d2716a (review DAO 수정, Cart controller,DAO,Mybaits준비, detail.jsp 수정)
 		<div class="qna_buttons">
 			<button id="qna_write">상품 Q&A 작성하기</button>
 			<button id="qna_mylist">나의 Q&A 조회</button>
 		</div>
+<<<<<<< HEAD
 		
 		<!-- Q&A 작성 폼: 처음엔 숨김 -->
 		<div id="qna_form" style="display: none; margin-bottom: 30px;">
@@ -818,6 +830,8 @@ int count_qna = (int)request.getAttribute("qna_count");
 				<button type="submit" style="padding: 10px 20px; font-weight: bold;">등록하기</button>
 			</form>
 		</div>
+=======
+>>>>>>> 7d2716a (review DAO 수정, Cart controller,DAO,Mybaits준비, detail.jsp 수정)
 
 		<div class="qna_filter">
 			<label><input type="checkbox"> 비밀글 제외</label> <select>
@@ -828,6 +842,7 @@ int count_qna = (int)request.getAttribute("qna_count");
 		</div>
 
 		<div class="qna_list">
+<<<<<<< HEAD
 		<%
 		    for (Qna q : qnas) {
 		        String maskedId = q.getMember().getId().length() >= 4
@@ -855,6 +870,37 @@ int count_qna = (int)request.getAttribute("qna_count");
 		%>
 		</div>
 
+=======
+			<!-- 질문 1 -->
+			<div class="qna_item">
+				<div class="qna_question">토큰 추가 구매 가능한가요?</div>
+				<div class="qna_meta">
+					<span>답변완료</span> <span>hees******</span> <span>2025.05.29</span>
+					<button class="qna_view">보기</button>
+				</div>
+			</div>
+
+			<!-- 질문 2 -->
+			<div class="qna_item">
+				<div class="qna_question">
+					<span class="lock">🔒</span> 비밀글입니다.
+				</div>
+				<div class="qna_meta">
+					<span>답변완료</span> <span>meey******</span> <span>2025.04.13</span>
+				</div>
+			</div>
+
+			<!-- 질문 3 -->
+			<div class="qna_item">
+				<div class="qna_question">
+					<span class="lock">🔒</span> 비밀글입니다.
+				</div>
+				<div class="qna_meta">
+					<span>답변완료</span> <span>lyew******</span> <span>2025.04.01</span>
+				</div>
+			</div>
+		</div>
+>>>>>>> 7d2716a (review DAO 수정, Cart controller,DAO,Mybaits준비, detail.jsp 수정)
 
 		<!-- 배송/교환/반품 섹션 -->
 		<div id="deliver_section">
@@ -997,6 +1043,7 @@ int count_qna = (int)request.getAttribute("qna_count");
 		  for (let i = 0; i < empty; i++) {
 		    starContainer.innerHTML += '<span class="star empty">★</span>';
 		  }
+<<<<<<< HEAD
 		
 		  $(document).ready(function () {
 		      $(".qna_view").on("click", function () {
@@ -1031,6 +1078,8 @@ int count_qna = (int)request.getAttribute("qna_count");
 
 	
 
+=======
+>>>>>>> 7d2716a (review DAO 수정, Cart controller,DAO,Mybaits준비, detail.jsp 수정)
 	</script>
 </body>
 

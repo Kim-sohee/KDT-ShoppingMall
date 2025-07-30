@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import shoppingmall.domain.Member;
 import shoppingmall.domain.Product;
 import shoppingmall.domain.Qna;
+import shoppingmall.domain.Product;
+import shoppingmall.domain.Review;
 import shoppingmall.model.product.AgeRangeService;
 import shoppingmall.model.product.DifficultyService;
 import shoppingmall.model.product.PlayerRangeService;
@@ -109,9 +111,7 @@ public class ProductController {
 	    List<Qna> qna = qnaService.selectAll();
 	    //Qna 갯수 가져오기
 	    int qna_count= qnaService.count(product_id);
-	    
-	   
-	    
+
 	    mav.addObject("ratingMap", ratingMap);
 	    mav.addObject("product", product); 
 	    mav.addObject("reviews",reviews);
@@ -121,10 +121,9 @@ public class ProductController {
 	    mav.addObject("qna",qna);
 	    mav.addObject("qna_count",qna_count);
 	    mav.setViewName("shop/product/detail");
-
 	    return mav;
 	}
-	
+
 	@PostMapping("/product/qna/regist")
 	public String registQna(Qna qna, HttpSession session, int product_id) {
 	    Member loginMember = (Member) session.getAttribute("member");
@@ -133,4 +132,5 @@ public class ProductController {
 	    qnaService.insert(qna);
 	    return "redirect:/shop/product/detail?product_id=" +product.getProduct_id() ;
 	}
+
 }
