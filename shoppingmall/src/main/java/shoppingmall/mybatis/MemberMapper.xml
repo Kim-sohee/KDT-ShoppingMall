@@ -12,13 +12,13 @@
 		FROM member
 	</select>
 
-	<select id="select" parameterType="String" resultType="Member">
+	<select id="select" parameterType="int" resultType="Member">
 		SELECT
 		<include refid="columns" />
 		FROM member WHERE member_id = #{member_id}
 	</select>
 	
-	<select id="selectById" parameterType="int" resultType="Member">
+	<select id="selectById" parameterType="String" resultType="Member">
 		SELECT
 		<include refid="columns" />
 		FROM member WHERE id = #{id}
@@ -28,6 +28,12 @@
 		SELECT
 		<include refid="columns" />
 		FROM member WHERE email = #{email}
+	</select>
+	
+	<select id="selectByNameAndPhone" parameterType="map" resultType="Member">
+		SELECT
+		<include refid="columns" />
+		FROM member WHERE member_name = #{member_name} AND phone=#{phone}
 	</select>
 
 	<insert id="insert" parameterType="Member">
@@ -50,7 +56,7 @@
 	<select id="login" parameterType="Member" resultType="Member">
 		SELECT
 		<include refid="columns" />
-		FROM member WHERE email = #{email} and password=#{password}
+		FROM member WHERE id = #{id} and password=#{password}
 	</select>
 	
 	<select id="snsLogin" parameterType="Member" resultType="Member">

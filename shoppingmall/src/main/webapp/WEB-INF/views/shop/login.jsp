@@ -108,14 +108,14 @@
         <div class="right">
             <div class="login-title">회원 로그인</div>
             <form id="login-form">
-                <input type="text" name="email" class="input-box" placeholder="이메일을 입력해주세요" required>
+                <input type="text" name="id" class="input-box" placeholder="아이디를 입력해주세요" required>
                 <input type="password" name="password" class="input-box" placeholder="비밀번호를 입력해주세요" required>
 
                 <div class="options">
-                    <label><input type="checkbox" name="saveid"> 이메일 저장</label>
+                    <label><input type="checkbox" name="saveid"> 아이디 저장</label>
                     <div>
-                        <a href="#">이메일 찾기</a> | 
-                        <a href="#">비밀번호 찾기</a>
+                        <a href="/shop/member/findForm">아이디 찾기</a> | 
+                        <a href="/shop/member/findForm">비밀번호 찾기</a>
                     </div>
                 </div>
 
