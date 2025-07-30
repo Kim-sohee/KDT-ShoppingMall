@@ -4,7 +4,7 @@
 	<sql id="columns">
 		qna_id, title, content, comment_member, comment, is_commented, member_id, product_id
 	</sql>
-
+	
 	<!-- join을 이용하여 qna 정보 조회 시작 -->
 	<resultMap id="joinMap" type="Qna">
 		<id column="qna_id" property="qna_id"/>
@@ -17,35 +17,30 @@
 		<association column="member_id" property="member" javaType="Member" 
 					select="Member.select"/>
 	</resultMap>
-
+	
 	<select id="selectAll" resultMap="joinMap">
-		SELECT
-		<include refid="columns" />
-		FROM qna
+		SELECT <include refid="columns"/> FROM qna
 	</select>
-
+	
 	<select id="select" parameterType="int" resultMap="joinMap">
-		SELECT
-		<include refid="columns" />
-		FROM qna WHERE qna_id = #{qna_id}
+		SELECT <include refid="columns"/> FROM qna WHERE qna_id = #{qna_id}	
 	</select>
 	<!-- join을 이용하여 qna 정보 조회 끝 -->
-
+		
 	<insert id="insert" parameterType="Qna">
 		INSERT INTO qna(title, content, comment_member, comment, is_commented, member_id, product_id)
 		VALUES(#{title}, #{content}, #{comment_member}, #{comment}, #{is_commented}, #{member.member_id},#{product.product_id})
 	</insert>
 	<!-- product_id는 추후 추가 예정 -->
-
+	
 	<update id="update" parameterType="Qna">
 		UPDATE qna
 		SET title = #{title},  content = #{content}
 		WHERE qna_id = #{qna_id}
 	</update>
-
+	
 	<delete id="delete" parameterType="int">
-		DELETE FROM qna WHERE qna_id =
-		#{qna_id}
+		DELETE FROM qna WHERE qna_id = #{qna_id}
 	</delete>
 	
 	<select id="countQna" parameterType="int" resultType="int">
@@ -53,4 +48,5 @@
 		from qna
 		where product_id = #{product.product_id}
 	</select>
+	
 </mapper>
