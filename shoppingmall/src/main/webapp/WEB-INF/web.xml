@@ -20,7 +20,7 @@
 	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>mall.spring.config.RootConfig</param-value>
+		<param-value>shoppingmall.config.RootConfig</param-value>
 	</context-param>
 	
 	<!-- 서버가 가동될때를 감지하는 객체 등록 -->

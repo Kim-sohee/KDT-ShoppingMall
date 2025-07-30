@@ -11,7 +11,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-c
 		<typeAlias type="shoppingmall.domain.Member"		alias="Member"/>
 		<typeAlias type="shoppingmall.domain.OrderSummary"	alias="OrderSummary"/>
 		<typeAlias type="shoppingmall.domain.Cart"	alias="Cart"/>
-
+		<typeAlias type="shoppingmall.domain.Product" 		alias="Product"/>
+		<typeAlias type="shoppingmall.domain.AgeRange" 		alias="AgeRange"/>
+		<typeAlias type="shoppingmall.domain.Difficulty" 	alias="Difficulty"/>
+		<typeAlias type="shoppingmall.domain.PlayerRange" 	alias="PlayerRange"/>
+		<typeAlias type="shoppingmall.domain.Theme" 		alias="Theme"/>
+		<typeAlias type="shoppingmall.domain.ProductSnapshot" alias="ProductSnapshot"/>
 	</typeAliases>
 	
 	<environments default="development">
@@ -29,6 +34,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-c
 		<mapper resource="shoppingmall/mybatis/DeliveryMapper.xml" />
 		<mapper resource="shoppingmall/mybatis/MemberMapper.xml" />
 		<mapper resource="shoppingmall/mybatis/OrderSummaryMapper.xml" />
-		<mapper resource="shoppingmall/mybatis/CartMapper.xml" />
+		<mapper resource="shoppingmall/mybatis/CartMapper.xml" />	
+		<mapper resource="shoppingmall/mybatis/ProductMapper.xml" />
+		<mapper resource="shoppingmall/mybatis/AgeRangeMapper.xml" />
+		<mapper resource="shoppingmall/mybatis/DifficultyMapper.xml" />
+		<mapper resource="shoppingmall/mybatis/PlayerRangeMapper.xml" />
+		<mapper resource="shoppingmall/mybatis/ThemeMapper.xml" />
+		<mapper resource="shoppingmall/mybatis/ProductSnapshotMapper.xml" />
+
 	</mappers>
 </configuration>
