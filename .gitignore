@@ -66,3 +66,6 @@ Thumbs.db
 # 기타
 node_modules/
 dist/
+
+# application-oauth 파일
+*application-oauth.properties

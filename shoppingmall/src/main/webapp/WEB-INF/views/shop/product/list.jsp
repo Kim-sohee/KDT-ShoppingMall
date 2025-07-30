@@ -46,7 +46,7 @@
             </div>
 
             <div class="products-header">
-                <h1>필터링된 보드게임 리스트</h1>
+                <h1>보드게임 리스트</h1>
                 <div class="products-count">총 <span><%=productList.size() %></span>개의 상품</div>
             </div>
 
@@ -134,7 +134,6 @@
 					<!-- 상품 항목 카드 형식으로 보이기 시작 -->
                     <div class="products-grid" id="products-container">
                     	<!-- 상품 카드 시작 -->
-                    	<!-- 여기에 for문 시작-->
                     	<% int curPos = paging.getCurPos();
                     		int num = paging.getNum();%>
                     	<% for(int i=0; i<paging.getPageSize(); i++){ 
@@ -157,7 +156,7 @@
                             <div class="product-info">
                                 <h3><a href="product-detail.html"><%=product.getProduct_name() %></a></h3>
                                 <p class="product-price">
-                                    <span class="original-price"><%=product.getPrice() %></span>
+                                    <span class="original-price"><%=PriceFormat.productPriceFormat(product.getPrice()) %></span>
                                     <span class="sale-price"><%= PriceFormat.productPriceFormat(product.getSalePrice()) %>원</span>
                                 </p>
                                 <div class="rating">
@@ -165,12 +164,11 @@
                                     <span class="review-count">(127)</span>
                                 </div>
                             </div>
-                            <% } %>
-                            <!-- 여기에 for문 끝-->
                             <!-- 상품 정보 끝 -->
                         </div>
-                        <!-- 상품 카드 끝 -->
+                        <% } %>
                     </div>
+                    <!-- 상품 카드 끝 -->
 
 					
 					<!-- 페이징 처리 시작 -->
@@ -179,19 +177,20 @@
                     	<%if(paging.getFirstPage()-1 > 0){ %>
                         	<a href="/shop/product/list?currentPage=<%=paging.getFirstPage()-1 %>" class="page-btn prev">이전</a>
                         <% }else{ %>
-                        	<a href="#" class="page-btn prev disabled">이전</a>
+                        	<a href="javascript:alert('이전 페이지가 없습니다.')" class="page-btn prev disabled">이전</a>
                         <% } %>
                         
                         <!-- 페이지 번호 버튼 -->
                         <%for(int i=paging.getFirstPage(); i<=paging.getLastPage(); i++){ %>
+                        	<%if(i>paging.getTotalPage()) break; %>
                         	<a href="/shop/product/list?currentPage=<%=i %>" class="page-btn <%=(paging.getCurrentPage() == i) ? "active" : "" %>"><%=i %></a>
                        	<% } %>
                        	
                        	<!-- 다음 버튼 -->
-                       	<%if(paging.getLastPage() < paging.getTotalPage()) { %>
+                       	<%if(paging.getLastPage() < paging.getTotalPage() && paging.getCurrentPage() <= paging.getTotalPage()) { %>
                         	<a href="/shop/product/list?currentPage=<%=paging.getLastPage()+1 %>" class="page-btn next">다음</a>
                         <% }else{ %>
-                        	<a href="#" class="page-btn next disabled">다음</a>
+                        	<a href="javascript:alert('다음 페이지가 없습니다.')" class="page-btn next disabled">다음</a>
                         <% } %>
                     </div>
                     <!-- 페이징 처리 끝 -->
