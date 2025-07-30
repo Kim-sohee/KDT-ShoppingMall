@@ -31,8 +31,8 @@
 	</select>
 
 	<insert id="insert" parameterType="Member">
-		INSERT INTO member(member_name, id, password, salt, email, phone, default_address)
-		VALUES(#{member_name}, #{id}, #{password}, #{salt}, #{email}, #{phone}, #{default_address})
+		INSERT INTO member(member_name, sns_provider, id, password, salt, email, phone, default_address)
+		VALUES(#{member_name},  #{sns_provider}, #{id}, #{password}, #{salt}, #{email}, #{phone}, #{default_address})
 	</insert>
 
 	<update id="update" parameterType="Member">
@@ -46,4 +46,16 @@
 		DELETE FROM member WHERE
 		member_id = #{member_id}
 	</delete>
+
+	<select id="login" parameterType="Member" resultType="Member">
+		SELECT
+		<include refid="columns" />
+		FROM member WHERE email = #{email} and password=#{password}
+	</select>
+	
+	<select id="snsLogin" parameterType="Member" resultType="Member">
+		SELECT
+		<include refid="columns" />
+		FROM member WHERE sns_provider=#{sns_provider} AND id = #{id}  
+	</select>
 </mapper>

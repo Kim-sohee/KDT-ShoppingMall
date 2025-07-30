@@ -28,17 +28,23 @@ public class MybatisMemberDAO implements MemberDAO{
 	}
 	
 	@Override
-	public Member selectByEmail(String email) throws MemberNotFoundException {
+	public Member selectByEmail(String email) {
 		Member member = sqlSessionTemplate.selectOne("Member.selectByEmail", email);
-		if(member==null) {
-			throw new MemberNotFoundException("입력하신 정보와 일치하는 회원이 없습니다."); 
-		}
 		return member;
 	}
 	
 	@Override
-	public Member login(Member member) {
-		// TODO Auto-generated method stub
-		return null;
+	public Member login(Member member) throws MemberNotFoundException {
+		Member loginMember = sqlSessionTemplate.selectOne("Member.login", member);
+		if(loginMember == null) {
+			throw new MemberNotFoundException("입력하신 정보와 일치하는 회원이 없습니다."); 
+		}
+		return loginMember;
+	}
+	
+	@Override
+	public Member snsLogin(Member member) {
+		Member loginMember = sqlSessionTemplate.selectOne("Member.snsLogin", member);
+		return loginMember;
 	}
 }

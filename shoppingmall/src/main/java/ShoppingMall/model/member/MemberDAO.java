@@ -7,4 +7,5 @@ public interface MemberDAO {
 	public void insert(Member member);
 	public Member selectByEmail(String email);
 	public Member login(Member member);
+	public Member snsLogin(Member member);
 }

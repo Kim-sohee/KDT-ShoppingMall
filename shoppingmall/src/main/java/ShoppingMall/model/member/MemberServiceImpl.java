@@ -3,10 +3,13 @@ package shoppingmall.model.member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
 import shoppingmall.domain.Member;
+import shoppingmall.exception.MemberNotFoundException;
 import shoppingmall.exception.MemberRegistException;
 import shoppingmall.util.PasswordUtil;
 
+@Slf4j
 @Service
 public class MemberServiceImpl implements MemberService {
 	
@@ -20,9 +23,14 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void regist(Member member) throws MemberRegistException {
-
-		/* 홈페이지 회원인 경우 */
-		if(member.getSns_provider()==null) { 
+		
+		//가입 폼에 입력한 이메일을 통해 회원을 조회하여 이미 가입되어 있는지 체크
+		Member existingMember = memberDAO.selectByEmail(member.getEmail());
+		
+		if(existingMember != null) {
+			//이미 가입된 회원이라면 가입 실패
+			throw new MemberRegistException("이미 등록된 회원입니다.");
+		} else {
 			String salt = PasswordUtil.generateSalt();
 			
 			//전송된 파라미터와 salt를 섞어 password의 hash값 만들기
@@ -34,12 +42,46 @@ public class MemberServiceImpl implements MemberService {
 		}
 		memberDAO.insert(member);
 		
-		/* 가입 완료 후 이메일 발송하기 */
-		
+		//가입 완료 후 이메일 발송하기
+	
 	}
 	
 	@Override
-	public Member login(Member member) {
-		return null;
+	public Member login(Member member) throws MemberNotFoundException, MemberRegistException {
+		Member existingMember = memberDAO.selectByEmail(member.getEmail());
+		
+		//홈페이지 회원이라면...
+		if(member.getSns_provider() == null) {
+			
+			String existingSalt = existingMember.getSalt(); //회원의 salt
+			String forLoginPassword = PasswordUtil.hashPassword(member.getPassword(), existingSalt); //로그인 시도 비밀번호와 기존 salt 조합
+			member.setPassword(forLoginPassword);
+			
+			log.debug("로그인 성공, 접속한 회원 메일은 "+member.getEmail());
+			
+			return memberDAO.login(member);
+			
+		} else {
+			//SNS 회원이라면...
+			log.debug("sns_provider: " + member.getSns_provider() + ", id: " + member.getId());
+			
+			if(member.getId() == existingMember.getId()) {
+				//기존 sns 로그인을 했던 회원은 바로 로그인
+				return memberDAO.snsLogin(member);
+				
+			} else {
+				log.debug("login() 메서드 진입, member info: " + member);
+				
+				//최초 로그인 시 회원가입
+				memberDAO.insert(member);
+				log.debug("sns회원 가입 성공했니? 회원 메일 = " + member.getEmail());
+				log.debug("회원 id는 " + member.getId());
+				
+				return member; //가입 후 로그인 처리
+				
+				//가입 완료 후 이메일 발송하기
+			}
+			
+		}
 	}
 }

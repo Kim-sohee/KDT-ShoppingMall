@@ -33,7 +33,7 @@ public class UserConfig {
 	private String naver_clientSecret;
 	
 	@Value("${naver.redirect-uri}")
-	private String naver_redirct_uri;
+	private String naver_redirect_uri;
 	
 	//구글 id, secret, uri
 	@Value("${google.client-id}")
@@ -43,7 +43,7 @@ public class UserConfig {
 	private String google_clientSecret;
 	
 	@Value("${google.redirect-uri}")
-	private String google_redirct_uri;
+	private String google_redirect_uri;
 	
 	
 	
@@ -65,7 +65,7 @@ public class UserConfig {
 		ServiceBuilder builder = new ServiceBuilder(google_clientId);
 		builder.apiSecret(google_clientSecret);
 		builder.defaultScope("email profile openid");
-		builder.callback(google_redirct_uri);
+		builder.callback(google_redirect_uri);
 		return builder.build(GoogleApi20.instance());
 	}
 	
@@ -76,7 +76,7 @@ public class UserConfig {
 		ServiceBuilder builder = new ServiceBuilder(naver_clientId);
 		builder.apiSecret(naver_clientSecret);
 		builder.defaultScope("name email");
-		builder.callback(naver_redirct_uri);
+		builder.callback(naver_redirect_uri);
 		return builder.build(NaverApi20.instance());
 	}
 }
