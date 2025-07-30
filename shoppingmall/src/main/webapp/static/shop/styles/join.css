@@ -89,6 +89,7 @@ body {
 	display: inline-block;
 }
 
+.fill-content input[type="password"],
 .fill-content input[type="text"] {
 	width: 70%;
 	padding: 0.6rem;
@@ -120,7 +121,7 @@ body {
 }
 
 .email-box span {
-	padding: 0;
+	padding: 0 0.3rem;
 	font-weight: bold;
 }
 

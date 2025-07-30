@@ -4,11 +4,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-c
 
 <configuration>
 	<typeAliases>
-		<typeAlias type="shoppingmall.domain.Status"		alias="Status"/>
-		<typeAlias type="shoppingmall.domain.Qna"			alias="Qna"/>
-		<typeAlias type="shoppingmall.domain.Returns"		alias="Returns"/>
-		<typeAlias type="shoppingmall.domain.Delivery"		alias="Delivery"/>
-		<typeAlias type="shoppingmall.domain.Member"		alias="Member"/>
+		<typeAlias type="shoppingmall.domain.Status"					alias="Status"/>
+		<typeAlias type="shoppingmall.domain.Qna"						alias="Qna"/>
+		<typeAlias type="shoppingmall.domain.Returns"					alias="Returns"/>
+		<typeAlias type="shoppingmall.domain.Delivery"					alias="Delivery"/>
+		<typeAlias type="shoppingmall.domain.Member"				alias="Member"/>
 		<typeAlias type="shoppingmall.domain.OrderSummary"	alias="OrderSummary"/>
 		<typeAlias type="shoppingmall.domain.Cart"	alias="Cart"/>
 		<typeAlias type="shoppingmall.domain.Product" 		alias="Product"/>
@@ -19,12 +19,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-c
 		<typeAlias type="shoppingmall.domain.ProductSnapshot" alias="ProductSnapshot"/>
 		<typeAlias type="shoppingmall.domain.Review" alias="Review"/>
 	</typeAliases>
-	
+
 	<environments default="development">
 		<environment id="development">
 			<transactionManager type="JDBC" />
 			<dataSource type="JNDI">
-				<property name="data_source" value="java:comp/env/jndi/mysql" />
+				<property name="data_source"
+					value="java:comp/env/jndi/mysql" />
 			</dataSource>
 		</environment>
 	</environments>

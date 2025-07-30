@@ -67,8 +67,8 @@
 
                 <!-- 버튼 시작 -->
                 <div class="button-container">
-                    <button type="button">로그인 하기</button>
-                    <button type="button">홈으로</button>
+                    <button type="button" id="bt_login">로그인 하기</button>
+                    <button type="button" id="bt_home">홈으로</button>
                 </div>
                 <!-- 버튼 끝 -->
               
@@ -80,4 +80,20 @@
     <%@ include file="./inc/footer.jsp" %>
     <!-- footer 끝 -->  
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+	$(()=>{
+		//로그인 하기
+		$("#bt_login").click(()=>{
+			location.href="/shop/member/loginform";
+		});
+
+		//홈으로 이동
+		$("#bt_home").click(()=>{
+			location.href="/shop/main";
+		});
+			
+		
+	});
+</script>
 </html>

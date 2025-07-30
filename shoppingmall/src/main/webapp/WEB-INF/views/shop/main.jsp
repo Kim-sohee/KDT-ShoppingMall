@@ -222,7 +222,6 @@ body {
 			</div>
 		</div>
 		<!-- 베스트 셀러 -->
-		<!-- 베스트 셀러 -->
 		<div class="best_seller" id="best_seller">
 			<h2 class="best_seller_title">베스트 셀러</h2>
 			<div class="best_seller_card_wrap">

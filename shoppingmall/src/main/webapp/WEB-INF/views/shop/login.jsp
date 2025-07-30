@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>회원 로그인</title>
+    <link rel="stylesheet" href="/static/shop/styles/footer.css">
     <style>
         body {
             margin: 0;
@@ -106,21 +107,21 @@
         </div>
         <div class="right">
             <div class="login-title">회원 로그인</div>
-            <form action="loginProcess.jsp" method="post">
-                <input type="text" name="userid" class="input-box" placeholder="아이디를 입력해주세요" required>
+            <form action="/shop/member/login" method="post">
+                <input type="text" name="email" class="input-box" placeholder="이메일을 입력해주세요" required>
                 <input type="password" name="password" class="input-box" placeholder="비밀번호를 입력해주세요" required>
 
                 <div class="options">
-                    <label><input type="checkbox" name="saveid"> 아이디 저장</label>
+                    <label><input type="checkbox" name="saveid"> 이메일 저장</label>
                     <div>
-                        <a href="#">아이디 찾기</a> | 
+                        <a href="#">이메일 찾기</a> | 
                         <a href="#">비밀번호 찾기</a>
                     </div>
                 </div>
 
                 <button type="submit" class="btn-login">로그인</button>
             </form>
-            <button onclick="location.href='join.jsp'" class="btn-join">회원가입</button>
+            <button onclick="location.href='/shop/member/join'" class="btn-join">회원가입</button>
 
             <div class="sns-login">SNS 로그인</div>
             <div class="sns-icons">
@@ -129,5 +130,6 @@
             </div>
         </div>
     </div>
+	<%@include file = "./inc/footer.jsp" %>
 </body>
 </html>
