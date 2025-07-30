@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Difficulty">
+	
+	<!-- 모두 가져오기 -->
+	<select id="selectAll" resultType="Difficulty">
+		select * from difficulty
+	</select>
+	
+	<!-- 한 건 가져오기 -->
+	<select id="select" parameterType="int" resultType="Difficulty">
+		select * from difficulty where difficulty_id=#{difficulty_id}	
+	</select>
+	
+	<!-- 한 건 등록하기 -->
+	<insert id="insert" parameterType="Difficulty">
+		insert into difficulty(game_level) values(#{game_level})
+	</insert>
+	
+	<!-- 한 건 수정하기 -->
+	<update id="update" parameterType="Difficulty">
+		update difficulty set game_level=#{game_level} where difficulty_id=#{difficulty_id}
+	</update>
+	
+	<!-- 한 건 삭제하기 -->
+	<delete id="delete" parameterType="int">
+		delete from difficulty where difficulty_id=#{difficulty_id}
+	</delete>
+	
+</mapper>

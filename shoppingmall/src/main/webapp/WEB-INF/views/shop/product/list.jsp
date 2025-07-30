@@ -1,5 +1,28 @@
+<%@page import="org.apache.jasper.runtime.PageContextImpl"%>
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="shoppingmall.domain.AgeRange"%>
+<%@page import="shoppingmall.domain.Difficulty"%>
+<%@page import="shoppingmall.domain.PlayerRange"%>
+<%@page import="shoppingmall.domain.Theme"%>
+<%@page import="shoppingmall.util.Paging"%>
+<%@page import="shoppingmall.domain.Product"%>
+<%@page import="java.util.List"%>
+<%@page import="shoppingmall.util.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% 
+
+	//상품 리스트 모두 가져오기
+	List<Product> productList = (List)request.getAttribute("productList"); 
+	
+	//상품의 필터를 걸 카테고리 항목 가져오기
+	List<Theme> themeList = (List)request.getAttribute("themeList");	//게임종류
+	List<PlayerRange> playerRangeList = (List)request.getAttribute("playerRangeList");	//인원수
+	List<Difficulty> difficultyList = (List)request.getAttribute("difficultyList");		//난이도
+	List<AgeRange> ageRangeList = (List)request.getAttribute("ageRangeList");		//연령대
+	
+	Paging paging = (Paging)request.getAttribute("paging");	//페이징처리
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,12 +42,12 @@
             <div class="breadcrumb">
                 <a href="index.html">홈</a>
                 <span>></span>
-                <span>전략게임</span>
+                <span>상품리스트</span>
             </div>
 
             <div class="products-header">
-                <h1>전략게임</h1>
-                <div class="products-count">총 <span>247</span>개의 상품</div>
+                <h1>필터링된 보드게임 리스트</h1>
+                <div class="products-count">총 <span><%=productList.size() %></span>개의 상품</div>
             </div>
 
             <div class="products-layout">
@@ -36,7 +59,10 @@
                             <li><label><input type="checkbox" checked> 전체</label></li>
                             
                             <!-- 여기에 for문 시작-->
-                            <li><label><input type="checkbox"> 전략게임 (247)</label></li>
+                            <% for(int i=0; i<themeList.size(); i++){ %>
+                            <% Theme theme = themeList.get(i); %>
+                            <li><label><input type="checkbox"><%=theme.getTheme_name() %></label></li>
+                            <% } %>
                             <!-- 여기에 for문 끝-->
                             
                         </ul>
@@ -46,7 +72,10 @@
                         <h3>플레이어 수</h3>
                         <ul class="filter-list">
                         	<!-- 여기에 for문 시작-->
-                            <li><label><input type="checkbox"> 1명</label></li>
+                        	<% for(int i=0; i<playerRangeList.size(); i++){ %>
+							<% PlayerRange range = playerRangeList.get(i);%>
+							<li><label><input type="checkbox" id="player<%=i%>"><%= range.getPlayer_min() %> ~ <%= range.getPlayer_max() %> 명</label></li>
+							<% } %>
                             <!-- 여기에 for문 끝-->
                         </ul>
                     </div>
@@ -64,7 +93,10 @@
                         <h3>난이도</h3>
                         <ul class="filter-list">
                         	<!-- 여기에 for문 시작-->
-                            <li><label><input type="checkbox"> 코스모스</label></li>
+                        	<% for(int i=0; i<difficultyList.size(); i++){ %>
+                        	<% Difficulty difficulty = difficultyList.get(i); %>
+                            <li><label><input type="checkbox"> <%=difficulty.getGame_level() %></label></li>
+                            <% } %>
                             <!-- 여기에 for문 끝-->
                         </ul>
                     </div>
@@ -73,7 +105,10 @@
                         <h3>연령대</h3>
                         <ul class="filter-list">
                         	<!-- 여기에 for문 시작-->
-                            <li><label><input type="checkbox"> 3~8세</label></li>
+                        	<% for(int i=0; i<ageRangeList.size(); i++){ %>
+                        	<% AgeRange ageRange = ageRangeList.get(i); %>
+                            <li><label><input type="checkbox"> <%=ageRange.getAge_min() %>세 이상</label></li>
+                            <% } %>
                             <!-- 여기에 for문 끝-->
                         </ul>
                     </div>
@@ -100,9 +135,15 @@
                     <div class="products-grid" id="products-container">
                     	<!-- 상품 카드 시작 -->
                     	<!-- 여기에 for문 시작-->
+                    	<% int curPos = paging.getCurPos();
+                    		int num = paging.getNum();%>
+                    	<% for(int i=0; i<paging.getPageSize(); i++){ 
+                    		 if (curPos >= productList.size()) break;
+                    	%>
+                    	<% Product product = productList.get(curPos++); %>
                         <div class="product-card">
                             <div class="product-image">
-                                <img src="images/agricola.jpg" alt="아그리콜라">
+                                <img src="<%=product.getImage() %>>" alt="상품이미지">
                                 <div class="product-overlay">
                                     <button class="btn btn-wishlist">♡</button>
                                     <button class="btn btn-cart">장바구니</button>
@@ -114,16 +155,17 @@
                             </div>
                             <!-- 상품 정보 시작 -->
                             <div class="product-info">
-                                <h3><a href="product-detail.html">아그리콜라</a></h3>
+                                <h3><a href="product-detail.html"><%=product.getProduct_name() %></a></h3>
                                 <p class="product-price">
-                                    <span class="original-price">50,000원</span>
-                                    <span class="sale-price">45,000원</span>
+                                    <span class="original-price"><%=product.getPrice() %></span>
+                                    <span class="sale-price"><%= PriceFormat.productPriceFormat(product.getSalePrice()) %>원</span>
                                 </p>
                                 <div class="rating">
                                     <span class="stars">★★★★★</span>
                                     <span class="review-count">(127)</span>
                                 </div>
                             </div>
+                            <% } %>
                             <!-- 여기에 for문 끝-->
                             <!-- 상품 정보 끝 -->
                         </div>
@@ -133,17 +175,24 @@
 					
 					<!-- 페이징 처리 시작 -->
                     <div class="pagination">
-                        <button class="page-btn prev" disabled>이전</button>
-                        <!-- 여기에 for문 시작-->
-                        <button class="page-btn active">1</button>
-                        <button class="page-btn">2</button>
-                        <button class="page-btn">3</button>
-                        <button class="page-btn">4</button>
-                        <button class="page-btn">5</button>
-                        <span class="page-dots">...</span>
-                        <button class="page-btn">25</button>
-                        <!-- 여기에 for문 끝-->
-                        <button class="page-btn next">다음</button>
+                    	<!-- 이전 버튼 -->
+                    	<%if(paging.getFirstPage()-1 > 0){ %>
+                        	<a href="/shop/product/list?currentPage=<%=paging.getFirstPage()-1 %>" class="page-btn prev">이전</a>
+                        <% }else{ %>
+                        	<a href="#" class="page-btn prev disabled">이전</a>
+                        <% } %>
+                        
+                        <!-- 페이지 번호 버튼 -->
+                        <%for(int i=paging.getFirstPage(); i<=paging.getLastPage(); i++){ %>
+                        	<a href="/shop/product/list?currentPage=<%=i %>" class="page-btn <%=(paging.getCurrentPage() == i) ? "active" : "" %>"><%=i %></a>
+                       	<% } %>
+                       	
+                       	<!-- 다음 버튼 -->
+                       	<%if(paging.getLastPage() < paging.getTotalPage()) { %>
+                        	<a href="/shop/product/list?currentPage=<%=paging.getLastPage()+1 %>" class="page-btn next">다음</a>
+                        <% }else{ %>
+                        	<a href="#" class="page-btn next disabled">다음</a>
+                        <% } %>
                     </div>
                     <!-- 페이징 처리 끝 -->
                 </div>
