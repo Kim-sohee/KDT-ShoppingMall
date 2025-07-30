@@ -1,3 +1,4 @@
+<%@page import="shoppingmall.domain.Qna"%>
 <%@page import="shoppingmall.domain.Member"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Map"%>
@@ -12,7 +13,8 @@ double rating = (double)request.getAttribute("rating");
 int count = (int)request.getAttribute("count");
 Map<Integer, Integer> ratingMap = (Map<Integer, Integer>) request.getAttribute("ratingMap");
 int totalCount = (int) request.getAttribute("count");
-
+List<Qna> qnas = (List<Qna>)request.getAttribute("qna");
+int count_qna = (int)request.getAttribute("qna_count");
 %>
 <!DOCTYPE html>
 <html>
@@ -720,7 +722,7 @@ int totalCount = (int) request.getAttribute("count");
 		<!-- 리뷰 패널 이동 -->
 		<div id="review_information">리뷰(<%=count%>)</div>
 		<!-- Q&A패널 이동 -->
-		<div id="question_information">Q&A(5)</div>
+		<div id="question_information">Q&A(<%=count_qna%>)</div>
 		<!-- 배송/교환/상품 패널 이동 -->
 		<div id="deliver_information">배송/교환/반품</div>
 	</div>
@@ -794,12 +796,27 @@ int totalCount = (int) request.getAttribute("count");
 	<!-- Q&A에 대한 패널출력  -->
 	<!-- Q&A 에 대한 패널 출력 -->
 	<div id="question_section">
-		<h2>Q&A (3)</h2>
+		<h2>Q&A (<%=count_qna %>)</h2>
 		<p>구매하시려는 상품에 대해 궁금한 점이 있으신 경우 문의해주세요.</p>
 
+		<!-- Q&A 버튼 영역 -->
 		<div class="qna_buttons">
 			<button id="qna_write">상품 Q&A 작성하기</button>
 			<button id="qna_mylist">나의 Q&A 조회</button>
+		</div>
+		
+		<!-- Q&A 작성 폼: 처음엔 숨김 -->
+		<div id="qna_form" style="display: none; margin-bottom: 30px;">
+			<form action="qna/regist"" method="post">
+				<input type="hidden" name="product_id" value="${product.product_id}">
+				<div style="margin-bottom: 10px;">
+					<input type="text" name="title" placeholder="제목을 입력하세요" required style="width: 100%; padding: 10px;">
+				</div>
+				<div style="margin-bottom: 10px;">
+					<textarea name="content" placeholder="내용을 입력하세요" required style="width: 100%; height: 120px; padding: 10px;"></textarea>
+				</div>
+				<button type="submit" style="padding: 10px 20px; font-weight: bold;">등록하기</button>
+			</form>
 		</div>
 
 		<div class="qna_filter">
@@ -811,35 +828,33 @@ int totalCount = (int) request.getAttribute("count");
 		</div>
 
 		<div class="qna_list">
-			<!-- 질문 1 -->
-			<div class="qna_item">
-				<div class="qna_question">토큰 추가 구매 가능한가요?</div>
-				<div class="qna_meta">
-					<span>답변완료</span> <span>hees******</span> <span>2025.05.29</span>
-					<button class="qna_view">보기</button>
-				</div>
-			</div>
-
-			<!-- 질문 2 -->
-			<div class="qna_item">
-				<div class="qna_question">
-					<span class="lock">🔒</span> 비밀글입니다.
-				</div>
-				<div class="qna_meta">
-					<span>답변완료</span> <span>meey******</span> <span>2025.04.13</span>
-				</div>
-			</div>
-
-			<!-- 질문 3 -->
-			<div class="qna_item">
-				<div class="qna_question">
-					<span class="lock">🔒</span> 비밀글입니다.
-				</div>
-				<div class="qna_meta">
-					<span>답변완료</span> <span>lyew******</span> <span>2025.04.01</span>
-				</div>
-			</div>
+		<%
+		    for (Qna q : qnas) {
+		        String maskedId = q.getMember().getId().length() >= 4
+		                        ? q.getMember().getId().substring(0, 4) + "******"
+		                        : q.getMember().getId() + "******";
+		%>
+		    <div class="qna_item">
+		        <div class="qna_question"><%= q.getTitle()%></div>
+		        <div class="qna_meta">
+		            <span><%= q.getIs_commented() == 1 ? "답변완료" : "미답변" %></span>
+		            <span><%= maskedId %></span>
+		            <button class="qna_view" data-qna-id="<%= q.getQna_id() %>">보기</button>
+		        </div>
+		
+		        <% if (q.getIs_commented() == 1) { %>
+		        <!-- 답변 내용은 처음엔 숨겨둠 -->
+		        <div class="qna_answer" id="answer_<%= q.getQna_id() %>" style="display: none; background: #f9f9f9; border: 1px solid #ddd; padding: 10px; border-radius: 6px; margin-top: 10px;">
+		            <strong><%= q.getComment_member() %>님의 답변:</strong>
+		            <p><%= q.getComment() %></p>
+		        </div>
+		        <% } %>
+		    </div>
+		<%
+		    }
+		%>
 		</div>
+
 
 		<!-- 배송/교환/반품 섹션 -->
 		<div id="deliver_section">
@@ -982,6 +997,40 @@ int totalCount = (int) request.getAttribute("count");
 		  for (let i = 0; i < empty; i++) {
 		    starContainer.innerHTML += '<span class="star empty">★</span>';
 		  }
+		
+		  $(document).ready(function () {
+		      $(".qna_view").on("click", function () {
+		          const qnaId = $(this).data("qna-id");
+		          const answerDiv = $("#answer_" + qnaId);
+		          
+		          // toggle 방식
+		          if (answerDiv.length) {
+		              answerDiv.slideToggle(200);
+		          } else {
+		              alert("아직 답변이 등록되지 않았습니다.");
+		          }
+		      });
+		  });
+		// Q&A 작성하기 폼 토글
+		  $("#qna_write").on("click", function () {
+		  	$("#qna_form").slideToggle(200);
+		  });
+
+		  // 나의 Q&A 필터링 (로그인한 사용자 기준)
+		  $("#qna_mylist").on("click", function () {
+		  	const myId = "${sessionScope.member.id}";
+		  	$(".qna_item").each(function () {
+		  		const text = $(this).find(".qna_meta span:nth-child(2)").text();
+		  		if (text.startsWith(myId.substring(0, 4))) {
+		  			$(this).show();
+		  		} else {
+		  			$(this).hide();
+		  		}
+		  	});
+		  });
+
+	
+
 	</script>
 </body>
 
