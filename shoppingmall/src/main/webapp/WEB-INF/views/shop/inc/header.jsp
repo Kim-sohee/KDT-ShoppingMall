@@ -1,4 +1,6 @@
+<%@page import="shoppingmall.domain.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<% Member loginMember = (Member)session.getAttribute("member");%>
 <style>
 body{
 	margin: 0;
@@ -100,9 +102,13 @@ body{
 			<!--  필요시 type을 버튼으로 교체 가능합니다. -->
 			<button class="search-btn" type="submit">검색</button>
 		</form>
-
+		
 		<!-- 로그인 / 장바구니 / 마이페이지 -->
-		<label class="login" id="login">로그인</label>
+		<%if (loginMember == null){ %>
+		<label class="login"><a href="/shop/member/loginform">로그인</a></label>
+		<%} else{%>
+		<label class="login"><a href="/shop/member/logout">로그아웃</a></label>
+		<%} %>
 		<label class="cart" id="cart">장바구니</label>
 		<label class="mypage" id="mypage">마이페이지</label>
 	</div>
