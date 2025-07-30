@@ -48,38 +48,35 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public Member login(Member member) throws MemberNotFoundException, MemberRegistException {
-		Member existingMember = memberDAO.selectByEmail(member.getEmail());
+		Member existingMember = memberDAO.selectById(member.getId()); 
 		
-		//홈페이지 회원이라면...
+		//홈페이지 회원 로그인 시도
 		if(member.getSns_provider() == null) {
-			
 			String existingSalt = existingMember.getSalt(); //회원의 salt
 			String forLoginPassword = PasswordUtil.hashPassword(member.getPassword(), existingSalt); //로그인 시도 비밀번호와 기존 salt 조합
 			member.setPassword(forLoginPassword);
 			
-			log.debug("로그인 성공, 접속한 회원 메일은 "+member.getEmail());
-			
+			log.debug("로그인 성공, 접속한 회원은 "+member);
 			return memberDAO.login(member);
 			
-		} else {
-			//SNS 회원이라면...
+		} else { 
+			//SNS 회원 로그인 시도
 			log.debug("sns_provider: " + member.getSns_provider() + ", id: " + member.getId());
 			
-			if(member.getId() == existingMember.getId()) {
-				//기존 sns 로그인을 했던 회원은 바로 로그인
-				return memberDAO.snsLogin(member);
-				
-			} else {
-				log.debug("login() 메서드 진입, member info: " + member);
-				
-				//최초 로그인 시 회원가입
+			if(existingMember == null) {
+				//SNS로 최초 로그인 시 회원가입 후
 				memberDAO.insert(member);
-				log.debug("sns회원 가입 성공했니? 회원 메일 = " + member.getEmail());
+				log.debug("sns회원 가입 성공!");
 				log.debug("회원 id는 " + member.getId());
 				
-				return member; //가입 후 로그인 처리
+				//로그인 시도
+				return member;
 				
 				//가입 완료 후 이메일 발송하기
+				
+			} else {
+				//기존 sns 로그인을 했던 회원은 바로 로그인 시도
+				return memberDAO.snsLogin(member);
 			}
 			
 		}
