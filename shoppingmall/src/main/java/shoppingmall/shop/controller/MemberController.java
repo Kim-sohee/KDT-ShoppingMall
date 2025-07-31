@@ -26,7 +26,6 @@ import com.google.gson.JsonParser;
 
 import lombok.extern.slf4j.Slf4j;
 import shoppingmall.domain.Member;
-import shoppingmall.exception.MemberRegistException;
 import shoppingmall.model.member.MailService;
 import shoppingmall.model.member.MemberService;
 
@@ -78,7 +77,7 @@ public class MemberController {
 	
 	//회원가입 요청 처리
 	@PostMapping("/member/join")
-	public String regist(Member member) throws MemberRegistException {
+	public String regist(Member member) {
 		memberService.regist(member);
 		mailService.sendJoinMail(member);
 		return "redirect:/shop/member/joinCompleteForm";
@@ -113,13 +112,6 @@ public class MemberController {
 		mailService.sendFindMail(member, type);
 		
 		return new ModelAndView("shop/getInfo");
-	}
-	
-	//이메일&비밀번호 찾기 완료 폼 처리 테스트용... 찾기 요청 처리 끝나면 없애자
-	@GetMapping("/member/infoForm")
-	public ModelAndView getInfoForm() {
-		ModelAndView mav = new ModelAndView("shop/getInfo");
-		return mav;
 	}
 	
 	/*-------------------------------------------------
