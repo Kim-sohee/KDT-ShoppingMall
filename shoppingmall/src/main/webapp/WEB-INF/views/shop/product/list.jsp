@@ -70,6 +70,7 @@
                     <div class="filter-section">
                         <h3>플레이어 수</h3>
                         <ul class="filter-list">
+                        	<li><label><input type="checkbox" name="playerRangeCheck" value="" onclick="checkOnlyOne(this, 'playerRangeCheck', '')" checked> 전체</label></li>
                         	<!-- 여기에 for문 시작-->
                         	<% for(int i=0; i<playerRangeList.size(); i++){ %>
 							<% PlayerRange range = playerRangeList.get(i);%>
@@ -82,6 +83,7 @@
                     <div class="filter-section">
                         <h3>난이도</h3>
                         <ul class="filter-list">
+                        	<li><label><input type="checkbox" name="difficultyCheck" value="" onclick="checkOnlyOne(this, 'difficultyCheck', '')" checked> 전체</label></li>
                         	<!-- 여기에 for문 시작-->
                         	<% for(int i=0; i<difficultyList.size(); i++){ %>
                         	<% Difficulty difficulty = difficultyList.get(i); %>
@@ -94,6 +96,7 @@
                     <div class="filter-section">
                         <h3>연령대</h3>
                         <ul class="filter-list">
+                        	<li><label><input type="checkbox" name="ageRangeCheck" value="" onclick="checkOnlyOne(this, 'ageRangeCheck', '')" checked> 전체</label></li>
                         	<!-- 여기에 for문 시작-->
                         	<% for(int i=0; i<ageRangeList.size(); i++){ %>
                         	<% AgeRange ageRange = ageRangeList.get(i); %>
