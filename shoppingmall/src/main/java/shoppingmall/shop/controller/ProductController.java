@@ -84,6 +84,7 @@ public class ProductController {
 			avgRatingMap.put(productId, avgRating);
 			reviewCountMap.put(productId, reviewCount);
 		}
+		
 		mav.addObject("avgRatingMap", avgRatingMap);
 		mav.addObject("reviewCountMap", reviewCountMap);
 		

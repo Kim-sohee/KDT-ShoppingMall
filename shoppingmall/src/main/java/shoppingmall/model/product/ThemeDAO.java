@@ -2,6 +2,8 @@ package shoppingmall.model.product;
 
 import java.util.List;
 
+import shoppingmall.domain.Theme;
+
 public interface ThemeDAO {
-	public List selectAll();
+	public List<Theme> selectAll();
 }

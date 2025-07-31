@@ -13,7 +13,7 @@
     pageEncoding="UTF-8"%>
 <% 
 	//상품의 필터를 걸 카테고리 항목 가져오기
-	List<Theme> themeList = (List)request.getAttribute("themeList");	//게임종류
+	//List<Theme> themeList = (List)request.getAttribute("themeList");	//게임종류
 	List<PlayerRange> playerRangeList = (List)request.getAttribute("playerRangeList");	//인원수
 	List<Difficulty> difficultyList = (List)request.getAttribute("difficultyList");		//난이도
 	List<AgeRange> ageRangeList = (List)request.getAttribute("ageRangeList");		//연령대
