@@ -7,28 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-<<<<<<< HEAD
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
-import lombok.extern.slf4j.Slf4j;
-import shoppingmall.domain.AgeRange;
-import shoppingmall.domain.Difficulty;
-import shoppingmall.domain.PlayerRange;
-import shoppingmall.domain.Product;
-import shoppingmall.domain.Theme;
-=======
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
 import shoppingmall.domain.Member;
 import shoppingmall.domain.Product;
 import shoppingmall.domain.Qna;
->>>>>>> 82f020f8a1582715e2a763f2fd1b3cf72f1130ed
 import shoppingmall.model.product.AgeRangeService;
 import shoppingmall.model.product.DifficultyService;
 import shoppingmall.model.product.PlayerRangeService;
