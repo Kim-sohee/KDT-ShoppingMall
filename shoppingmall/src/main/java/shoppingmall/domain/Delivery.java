@@ -2,6 +2,9 @@ package shoppingmall.domain;
 
 import javax.persistence.OneToOne;
 
+import lombok.Data;
+
+@Data
 public class Delivery {
 	private int delivery_id;
 	private String address;

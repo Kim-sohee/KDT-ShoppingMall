@@ -2,6 +2,9 @@ package shoppingmall.domain;
 
 import javax.persistence.ManyToOne;
 
+import lombok.Data;
+
+@Data
 public class OrderSummary {
 	private int order_summary_id;
 	private String ordered_at; 		//주문일자, 구매일자

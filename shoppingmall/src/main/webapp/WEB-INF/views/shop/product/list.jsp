@@ -147,7 +147,7 @@
                                 <div class="product-overlay">
                                     <button class="btn btn-wishlist">♡</button>
                                     <button class="btn btn-cart">장바구니</button>
-                                    <button class="btn btn-detail">상세보기</button>
+                                    <button class="btn btn-detail" data-id="<%=product.getProduct_id()%>">상세보기</button>
                                 </div>
                                 <!--<div class="product-badges">
                                     <span class="badge new">NEW</span>
@@ -155,7 +155,7 @@
                             </div>
                             <!-- 상품 정보 시작 -->
                             <div class="product-info">
-                                <h3><a href="product-detail.html"><%=product.getProduct_name() %></a></h3>
+                                <h3><a href="/shop/product/detail?product_id=<%=product.getProduct_id()%>"><%=product.getProduct_name()%></a></h3>
                                 <p class="product-price">
                                     <span class="original-price"><%=product.getPrice() %></span>
                                     <span class="sale-price"><%= PriceFormat.productPriceFormat(product.getSalePrice()) %>원</span>
@@ -200,5 +200,13 @@
         </div>
     </main>
     <%@ include file="../inc/footer.jsp"%>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $(".btn.btn-detail").on("click", function () {
+            const productId = $(this).data("id");
+            window.location.href = "/shop/product/detail?product_id=" + productId;
+        });
+    });
+    </script>
 </body>
 </html>
