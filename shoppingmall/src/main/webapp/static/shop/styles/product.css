@@ -288,6 +288,10 @@
     align-items: center;
     gap: 0.5rem;
     margin-top: 3rem;
+    
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .page-btn {
