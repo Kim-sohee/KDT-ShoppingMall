@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@page import="org.apache.jasper.runtime.PageContextImpl"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="shoppingmall.domain.AgeRange"%>
@@ -20,6 +21,11 @@
 	//상품 리스트 모두 가져오기
 	List<Product> productList = (List)request.getAttribute("productList"); 
 	Paging paging = (Paging)request.getAttribute("paging");	//페이징처리
+	
+	//상품에 대한 별점과 리뷰수 가져오기
+	Map<Integer, Double> avgRatingMap = (Map<Integer, Double>) request.getAttribute("avgRatingMap");
+	Map<Integer, Integer> reviewCountMap = (Map<Integer, Integer>) request.getAttribute("reviewCountMap");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -133,6 +139,13 @@
 						<% for(int i=0; i<paging.getPageSize(); i++){
 						     if (curPos >= productList.size()) break;
 						     Product product = productList.get(curPos++);
+						     
+						     //별점을 위한 처리
+						     int productId = product.getProduct_id();
+							 double avgRating = avgRatingMap.containsKey(productId) ? avgRatingMap.get(productId) : 0.0;
+							 int reviewCount = reviewCountMap.containsKey(productId) ? reviewCountMap.get(productId) : 0;
+							 int stars = (int)Math.round(avgRating);
+
 						%>
 						<div class="product-card">
 						  <div class="product-image">
@@ -140,19 +153,22 @@
 						    <div class="product-overlay">
 						      <button class="btn btn-wishlist">♡</button>
 						      <button class="btn btn-cart">장바구니</button>
-						      <button class="btn btn-detail" data-id="<%=product.getProduct_id()%>">상세보기</button>
+						      <button class="btn btn-detail" data-id="<%=productId%>">상세보기</button>
 						    </div>
 						    <!--<div class="product-badges">
 	                                  <span class="badge new">NEW</span>
 	                              </div>-->
 						  </div>
 						  <div class="product-info">
-						    <h3><a href="/shop/product/detail?product_id=<%=product.getProduct_id()%>"><%=product.getProduct_name()%></a></h3>
+						    <h3><a href="/shop/product/detail?product_id=<%=productId%>"><%=product.getProduct_name()%></a></h3>
 						    <p class="product-price">
 						      <span class="original-price"><%=PriceFormat.productPriceFormat(product.getPrice())%></span>
 						      <span class="sale-price"><%=PriceFormat.productPriceFormat(product.getSalePrice())%>원</span>
 						    </p>
-						    <div class="rating"><span class="stars">★★★★★</span><span class="review-count">(127)</span></div>
+						    <div class="rating"><span class="stars" id="critic">
+						    	<% for (int s = 0; s < stars; s++) { %>★<% } %>
+    							<% for (int s = stars; s < 5; s++) { %>☆<% } %>
+						    </span><span class="review-count">(<%=reviewCount %>)</span></div>
 						  </div>
 						</div>
 						<% } %>

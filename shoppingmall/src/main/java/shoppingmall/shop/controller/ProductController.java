@@ -1,5 +1,6 @@
 package shoppingmall.shop.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +52,7 @@ public class ProductController {
 	//상품 필터링 목록 조회
 	@GetMapping("/product/list")
 	public ModelAndView getList(HttpServletRequest request, Product product) {
-		List productList = productService.selectProductByFilter(product);
+		List<Product> productList = productService.selectProductByFilter(product);
 		
 		//페이징 처리
 		Paging paging = new Paging();
@@ -67,6 +68,24 @@ public class ProductController {
 		mav.addObject("playerRangeList", playerRangeService.selectAll());
 		mav.addObject("difficultyList", difficultyService.selectAll());
 		mav.addObject("ageRangeList", ageRangeService.selectAll());
+		
+		//각 상품의 별점과 리뷰 수
+		Map<Integer, Double> avgRatingMap = new HashMap<>();	//평균 별점
+		Map<Integer, Integer> reviewCountMap = new HashMap<>();		//리뷰 개수
+		for(int p=0; p<productList.size(); p++) {
+			Product pd = productList.get(p);
+			int productId = pd.getProduct_id();
+			double avgRating = 0.0;
+			int reviewCount = 0;
+			
+			avgRating = reviewService.AvgRating(productId);
+			reviewCount = reviewService.CountReview(productId);
+			
+			avgRatingMap.put(productId, avgRating);
+			reviewCountMap.put(productId, reviewCount);
+		}
+		mav.addObject("avgRatingMap", avgRatingMap);
+		mav.addObject("reviewCountMap", reviewCountMap);
 		
 		return mav;
 	}
