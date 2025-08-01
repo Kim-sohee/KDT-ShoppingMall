@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.slf4j.Slf4j;
 import shoppingmall.domain.Member;
@@ -98,6 +100,20 @@ public class ProductController {
 	public List selectProductSearchName(String product_name) {
 		List searchProductList = productService.selectProductSearchName(product_name);
 		return searchProductList;
+	}
+	@GetMapping("/product/search/go")
+	public String goToProductDetail(@RequestParam("product_name") String product_name, RedirectAttributes redirectAttributes) {
+	    List<Product> products = productService.selectProductSearchName(product_name);
+
+	    if (products != null && !products.isEmpty()) {
+	        // 검색어와 일치하는 첫 번째 상품으로 이동
+	        int productId = products.get(0).getProduct_id(); // 혹은 getProductId() 등
+	        return "redirect:/shop/product/detail?product_id=" + productId;
+	    } else {
+	        // 검색 결과가 없을 경우 검색 페이지로 다시 이동 또는 알림 처리
+	        redirectAttributes.addFlashAttribute("error", "검색 결과가 없습니다.");
+	        return "redirect:/product/search/list";
+	    }
 	}
 	
 	
