@@ -1,10 +1,19 @@
+<%@page import="shoppingmall.domain.Theme"%>
+<%@page import="shoppingmall.util.Paging"%>
+<%@page import="shoppingmall.domain.ProductImage"%>
+<%@page import="shoppingmall.domain.Product"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<% List<Theme> themes = (List<Theme>)request.getAttribute("themes"); %>
+<% List<Product> products = (List<Product>) request.getAttribute("products"); %>
+<% Paging paging = (Paging) request.getAttribute("paging"); %>
+<% String themeId = (String) request.getAttribute("currentThemeId"); %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>상품 관리</title>
+<title>상품관리</title>
 <%@ include file="../inc/head_link.jsp"%>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -24,13 +33,13 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0">상품 등록</h1>
+							<h1 class="m-0">상품관리</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
-								<li class="breadcrumb-item active">상품관리>상품등록</li>
+								<li class="breadcrumb-item active">상품관리</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -84,14 +93,15 @@
 					<div class="row p-4">
 						<div class="card w-100">
 							<div class="card-body">
-								<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
-									<ul class="nav nav-tabs">
-										<li class="nav-item"><a class="nav-link active" aria-current="page" href="#">전체</a></li>
-										<li class="nav-item"><a class="nav-link" href="#">퍼즐</a></li>
-										<li class="nav-item"><a class="nav-link" href="#">액션</a></li>
-										<li class="nav-item"><a class="nav-link" href="#">가족</a></li>
-										<li class="nav-item"><a class="nav-link" href="#">추리</a></li>
+							<ul class="nav nav-tabs">
+										<li class="nav-item"><a class="nav-link <% if(themeId == null) {out.print("active");} %>" aria-current="page" href="<%= contextPath%>/admin/product/listpage">전체</a></li>
+										<% for(int i = 0; i < themes.size(); i++) {
+												Theme theme = themes.get(i);
+											%>
+										<li class="nav-item"><a class="nav-link <% if(String.valueOf(theme.getTheme_id()).equals(themeId)) {out.print("active");} %>" href="<%= contextPath%>/admin/product/listpage?theme_id=<%= theme.getTheme_id()%>"><%= theme.getTheme_name() %></a></li>
+										<% } %>
 									</ul>	 
+								<div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
 									<div class="row">
 										<div class="col-sm-12 col-md-6"></div>
 										<div class="col-sm-12 col-md-6"></div>
@@ -109,6 +119,7 @@
 														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">재고</th>
 														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">카테고리</th>
 														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">연령</th>
+														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">난이도</th>
 														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">등록일자</th>
 														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">비고</th>
 													</tr>
@@ -116,25 +127,38 @@
 												<!-- 테이블 헤더 끝 -->
 												<!-- 테이블 바디 시작 -->
 												<tbody>
+													<%
+													for (int i = 0; i < products.size(); i++) {
+														Product product = products.get(i);
+														List<ProductImage> productImages = product.getProductImages();
+														String imageUrl = "";
+														if(!productImages.isEmpty()){
+															imageUrl = contextPath+"/data/p_"+product.getProduct_id()+"/"+productImages.get(0).getFileName();
+														}
+													%>
 													<!-- 테이블 아이템 시작 -->
 													<tr class="odd">
 														<td class="dtr-control sorting_1 text-right align-middle" tabindex="0">
-															<img src="./상품이미지.png" alt="상품이미지" width="120px" height="120px" />
+															<img src="<%= imageUrl%>" alt="상품이미지" width="120px" height="120px" />
 														</td>
 														<td class="text-right align-middle">
-															<p class="font-weight-bold">사보타지</p>
+															<p class="font-weight-bold"><%= product.getProduct_name() %></p>
 														</td>
-														<td class="text-right align-middle">20,000원</td>
-														<td class="text-right align-middle">0%</td>
-														<td class="text-right align-middle">200개</td>
-														<td class="text-right align-middle">퍼즐게임</td>
-														<td class="text-right align-middle">12세+</td>
-														<td class="text-right align-middle">2025-06-17 20:23:17</td>
+														<td class="text-right align-middle"><%= product.getPrice() %></td>
+														<td class="text-right align-middle"><%= product.getDiscount_rate()%>%</td>
+														<td class="text-right align-middle <% if(product.getProduct_quantity() <= 0) { out.print("text-danger");} %>"><%= product.getProduct_quantity()%></td>
+														<td class="text-right align-middle"><%= product.getTheme().getTheme_name() %></td>
+														<td class="text-right align-middle"><%= product.getAgeRange().getAge_min() %></td>
+														<td class="text-right align-middle"><%= product.getDifficulty().getGame_level() %></td>
+														<td class="text-right align-middle"><%= product.getRegdate() %></td>
 														<td class="text-right align-middle">
-															<a href="<%=contextPath%>/admin/product/detail"><button type="button" class="btn btn-block btn-primary btn-sm">상세보기</button></a>
+															<a href="<%=contextPath%>/admin/product/detail?product_id=<%= product.getProduct_id()%>"><button type="button" class="btn btn-block btn-primary btn-sm">상세보기</button></a>
 														</td>
 													</tr>
 													<!-- 테이블 아이템 끝 -->
+													<%
+													}
+													%>
 												</tbody>
 												<!-- 테이블 바디 끝 -->
 											</table>
@@ -142,19 +166,36 @@
 									</div>
 									<div class="row justify-content-between">
 										<div class="col-sm-12 col-md-auto">
-											<div class="dataTables_info" id="example2_info" role="status" aria-live="polite">총 57 페이지</div>
+											<div class="dataTables_info" id="example2_info" role="status" aria-live="polite">총 <%= paging.getTotalPage() %> 페이지</div>
 										</div>
 										<div class="col-sm-12 col-md-auto">
 											<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
 												<ul class="pagination">
+													<%
+													if (paging.getFirstPage() - 1 > 0) {
+													%>
+													<li class="paginate_button page-item previous" id="example2_previous"><a href="<%= contextPath %>/admin/product/listpage?pagenum=<%= paging.getCurPos() - 1 %>" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+													<%
+													} else {
+													%>
 													<li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-													<li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-													<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-													<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-													<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-													<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-													<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
-													<li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+													<% } %>
+													
+													<% for(int i = paging.getFirstPage(); i <= paging.getLastPage(); i++) { 
+														if(i > paging.getTotalPage()) break;
+													%>
+														<li class="paginate_button page-item <% if(i == paging.getCurrentPage()) { out.print("active"); } %>"><a href="<%= contextPath %>/admin/product/listpage?pagenum=<%=i%>" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link"><%= i %></a></li>
+													<% } %>
+													<%
+													if (paging.getLastPage() < paging.getTotalPage()) {
+													%>
+													<li class="paginate_button page-item next" id="example2_next"><a href="<%= contextPath %>/admin/product/listpage?pagenum=<%= paging.getCurPos() + 1 %>" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+													<%
+													} else {
+													%>
+													<li class="paginate_button page-item next disabled" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+													<% } %>
+													
 												</ul>
 											</div>
 										</div>

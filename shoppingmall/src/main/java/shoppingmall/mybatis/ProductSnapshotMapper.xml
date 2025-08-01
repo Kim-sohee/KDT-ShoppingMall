@@ -10,7 +10,6 @@
 		<result column="description" property="description"/>
 		<result column="regdate" property="regdate"/>
 		<result column="play_time" property="play_time"/>
-		<result column="image" property="image"/>
 		
 		<!-- 1:1 관계인 부모 연계 -->
 		<association column="theme_id" property="theme" javaType="Theme" select="Theme.select"/>

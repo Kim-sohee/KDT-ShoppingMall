@@ -18,6 +18,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-c
 		<typeAlias type="shoppingmall.domain.Theme" 		alias="Theme"/>
 		<typeAlias type="shoppingmall.domain.ProductSnapshot" alias="ProductSnapshot"/>
 		<typeAlias type="shoppingmall.domain.Review" alias="Review"/>
+		<typeAlias type="shoppingmall.domain.ProductImage" 	alias="ProductImage"/>
 	</typeAliases>
 
 	<environments default="development">
@@ -44,6 +45,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-c
 		<mapper resource="shoppingmall/mybatis/ThemeMapper.xml" />
 		<mapper resource="shoppingmall/mybatis/ProductSnapshotMapper.xml" />
 		<mapper resource="shoppingmall/mybatis/ReviewMapper.xml" />
+		<mapper resource="shoppingmall/mybatis/ProductImageMapper.xml" />
 
 		<mapper resource="shoppingmall/mybatis/CartMapper.xml" />
 	</mappers>
