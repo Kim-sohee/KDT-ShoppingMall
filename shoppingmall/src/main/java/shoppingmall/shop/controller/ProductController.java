@@ -119,7 +119,7 @@ public class ProductController {
 	
 	//상품 하나 detail 페이지로 들어가기
 	@GetMapping("/product/detail")
-	public ModelAndView getDetail(int product_id) {
+	public ModelAndView getDetail(@RequestParam(value="product_id", required=false) int product_id) {
 	    ModelAndView mav = new ModelAndView();
 
 	    // 상품 1개 가져오기

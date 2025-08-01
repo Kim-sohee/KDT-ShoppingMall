@@ -152,8 +152,8 @@ body{
 		<%} else{%>
 		<label class="login"><a href="/shop/member/logout">로그아웃</a></label>
 		<%} %>
-		<label class="cart" id="cart"><a href="/shop/cart/list">장바구니</a></label>
-		<label class="mypage" id="mypage">마이페이지</label>
+		<label class="cart" id="cart">장바구니</label>
+		<label class="mypage" id="mypage"><a href="/shop/mypage/order/list">마이페이지</a></label>
 	</div>
 	
 	<script type="text/javascript">

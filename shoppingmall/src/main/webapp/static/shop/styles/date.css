@@ -32,12 +32,16 @@
     color: black;
 }
 
+#date_form{
+	width: 50%;
+}
+
 .date2 {
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
 	text-align: center;
-	width: 50%;
+	width: 100%;
 	margin: 0;
 }
 
