@@ -23,5 +23,29 @@ public class CartServiceImpl implements CartService{
 		List<Cart> result = cartDAO.selectByMemeber(product_id);
 		return result;
 	}
+	@Override
+	public void deleteCartItem(int cartId) {
+	   cartDAO.deleteCartItem(cartId);
+	}
+
+	@Override
+    public void updateQuantity(int cart_id, int quantity, int member_id) {
+        Cart cart = cartDAO.select(cart_id);
+        if (cart != null && cart.getMember().getMember_id() == member_id) {
+            cart.setQuantity(quantity);
+            cartDAO.updateQuantity(cart); // DAO에서 실제 update 실행
+        }
+    }
+
+	@Override
+	public void deleteSelectedItems(List cartIds) {
+		cartDAO.deleteSelectedItems(cartIds);
+	}
+
+	@Override
+	public List<Cart> getCartItemsByIds(List<Integer> ids) {
+		List<Cart> result = cartDAO.getCartItemsByIds(ids);
+		return result;
+	}
 	
 }

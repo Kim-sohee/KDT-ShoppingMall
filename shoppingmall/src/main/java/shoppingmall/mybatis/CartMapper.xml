@@ -2,7 +2,63 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Cart">
 	<insert id="insert" parameterType="Cart">
-		insert into Cart(cart_id,quantity,product_id,member_id)
-		values(#{cart_id},#{quantity}, #{product.product_id},#{member.member_id})
+		insert into
+		cart(cart_id,quantity,product_id,member_id)
+		values(#{cart_id},#{quantity},
+		#{product.product_id},#{member.member_id})
 	</insert>
+
+
+	<!-- 장바구니 전용 selectByMember member_id 를 기준으로 장바구니에 해당하는 cart 와 product 테이블을 
+		조인해야한다. member id 의 경우 cart 페이지로 넘어갈 때 자동으로 이를 session에서 넘겨줄 예정 -->
+	<resultMap type="Cart" id="CartJoinWithProduct">
+		<id column="cart_id" property="cart_id" />
+		<result column="quantity" property="quantity" />
+		<association column="product_id" property="product"
+			javaType="shoppingmall.domain.Product" select="Product.select"></association>
+
+	</resultMap>
+
+
+	<sql id="columns_with_product"> cart_id, quantity, product_id</sql>
+
+	<select id="selectByMember" parameterType="int"
+		resultMap="CartJoinWithProduct">
+		select
+		<include refid="columns_with_product"></include>
+		from cart
+		where member_id = #{member_id};
+	</select>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM cart WHERE cart_id = #{cart_id}
+	</delete>
+
+	<update id="updateQuantity"
+		parameterType="shoppingmall.domain.Cart">
+		UPDATE cart SET quantity = #{quantity}
+		WHERE cart_id = #{cart_id}
+	</update>
+
+
+	<select id="selectById" parameterType="int" resultType="cart">
+		SELECT * FROM cart WHERE cart_id = #{cart_id}
+	</select>
+	
+	<delete id="deleteSelectedItems" parameterType="list">
+	  DELETE FROM cart
+	  WHERE cart_id IN
+	  <foreach item="id" collection="list" open="(" separator="," close=")">
+	    #{id}
+	  </foreach>
+	</delete>
+	
+	
+	<select id="selectByIds" parameterType="list" resultType="Cart">
+	  SELECT * FROM cart
+	  WHERE cart_id IN
+	  <foreach item="id" collection="list" open="(" separator="," close=")">
+	    #{id}
+	  </foreach>
+	</select>
 </mapper>
