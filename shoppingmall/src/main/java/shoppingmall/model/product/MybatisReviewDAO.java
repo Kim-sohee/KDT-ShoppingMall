@@ -20,11 +20,11 @@ public class MybatisReviewDAO implements ReviewDAO {
 	
 	//product_id에 해당하는 전페 리뷰 객체를 불러옵니다.
 	@Override
-	public List<Review> selectByProductId(int product_id) throws ReviewNullException{
+	public List<Review> selectByProductId(int product_id) /*throws ReviewNullException*/{
 		List list = sqlSessionTemplate.selectList("Review.selectByProductId",product_id);
-		if(list.size()<1) {
-			throw new ReviewNullException("상품에 해당하는 리뷰가 존재하지 않습니다.");
-		}
+//		if(list.size()<1) {
+//			throw new ReviewNullException("상품에 해당하는 리뷰가 존재하지 않습니다.");
+//		}
 		return list;
 	}
 	

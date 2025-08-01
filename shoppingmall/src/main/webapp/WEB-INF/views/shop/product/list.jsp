@@ -28,6 +28,8 @@
 	Map<Integer, Integer> reviewCountMap = (Map<Integer, Integer>) request.getAttribute("reviewCountMap");
 
 	String contextPath = request.getContextPath();
+	
+	String selectedThemeId = request.getParameter("theme.theme_id");
 %>
 <!DOCTYPE html>
 <html>
@@ -63,12 +65,35 @@
                     <div class="filter-section">
                         <h3>카테고리</h3>
                         <ul class="filter-list">
-                            <li><label><input type="checkbox" name="themeCheck" value="" onclick="checkOnlyOne(this, 'themeCheck', 'theme')" checked> 전체</label></li>
+                            <!-- <li><label><input type="checkbox" name="themeCheck" value="" onclick="checkOnlyOne(this, 'themeCheck', 'theme')"> 전체</label></li> -->
+                            <li>
+							    <label>
+							        <input 
+							            type="checkbox" 
+							            name="themeCheck" 
+							            value="" 
+							            onclick="checkOnlyOne(this, 'themeCheck', 'theme')" 
+							            <%= (selectedThemeId == null || selectedThemeId.equals("")) ? "checked" : "" %>>
+							        전체
+							    </label>
+							</li>
+                            
                             
                             <!-- 여기에 for문 시작-->
                             <% for(int i=0; i<themeList.size(); i++){ %>
                             <% Theme theme = themeList.get(i); %>
-                            <li><label><input type="checkbox" name="themeCheck" value="<%=theme.getTheme_id() %>"  onclick="checkOnlyOne(this, 'themeCheck', 'theme.theme_id')"><%=theme.getTheme_name() %></label></li>
+                            <!-- <li><label><input type="checkbox" name="themeCheck" value="<%=theme.getTheme_id() %>"  onclick="checkOnlyOne(this, 'themeCheck', 'theme.theme_id')"><%=theme.getTheme_name() %></label></li>  -->
+                            <li>
+						        <label>
+						            <input 
+						                type="checkbox" 
+						                name="themeCheck" 
+						                value="<%=theme.getTheme_id() %>"  
+						                onclick="checkOnlyOne(this, 'themeCheck', 'theme.theme_id')"
+						                <%= String.valueOf(theme.getTheme_id()).equals(selectedThemeId) ? "checked" : "" %>>
+						            <%=theme.getTheme_name() %>
+						        </label>
+						    </li>
                             <% } %>
                             <!-- 여기에 for문 끝-->
                             
@@ -157,6 +182,13 @@
 						<div class="product-card">
 						  <div class="product-image">
 						    <img src="<%=imageUrl%>" alt="상품이미지">
+						    
+						    <!-- sold out 처리 -->
+						    <% if(product.getProduct_quantity() == 0){ %>
+						    	<div class="sold-out-overlay">
+						    		<label>SOLD OUT</label>
+						    	</div>
+						    <% } %>
 						    <div class="product-overlay">
 						      <button class="btn btn-wishlist">♡</button>
 						      <button class="btn btn-cart">장바구니</button>

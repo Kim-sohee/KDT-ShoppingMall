@@ -216,6 +216,16 @@ if(!product.getProductImages().isEmpty()){
 	text-align: center;
 }
 
+#bt_cart_soldout {
+	padding: 6px 16px;
+	border-radius: 4px;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	background-color: #ccc;
+	color: black;
+}
+
 #bt_cart {
 	background-color: #ff9800;
 	color: white;
@@ -695,10 +705,14 @@ if(!product.getProductImages().isEmpty()){
 						<input type="text" id="quantity" value="1" readonly>
 						<button>+</button>
 					</div>
+					<%if(product.getProduct_quantity()==0){ %>
+						<div id="bt_cart_soldout" disabled>품절되었습니다.</div> 
+					<%} else { %>
 					<!-- 장바구니 담기 버튼 -->
 					<div id="bt_cart">장바구니 담기</div>
 					<!-- 구매 버튼 -->
 					<div id="bt_but">구매하기</div>
+					<% } %>
 					<!--  찜 버튼 -->
 					<div id="bt_favorite">찜</div>
 				</div>
