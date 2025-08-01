@@ -1,10 +1,24 @@
+<%@page import="shoppingmall.domain.ProductImage"%>
+<%@page import="shoppingmall.domain.Product"%>
+<%@page import="shoppingmall.domain.PlayerRange"%>
+<%@page import="shoppingmall.domain.AgeRange"%>
+<%@page import="shoppingmall.domain.Difficulty"%>
+<%@page import="shoppingmall.domain.Theme"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%
+List<Theme> themes = (List<Theme>) request.getAttribute("themes");
+List<Difficulty> difficulties = (List<Difficulty>) request.getAttribute("difficulties");
+List<AgeRange> ageRanges = (List<AgeRange>) request.getAttribute("ageRanges");
+List<PlayerRange> playerRanges = (List<PlayerRange>) request.getAttribute("playerRanges");
+Product product = (Product) request.getAttribute("product");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>상품 관리</title>
+<title>상품 상세</title>
 <%@ include file="../inc/head_link.jsp"%>
 <style>
 .search-btn {
@@ -94,12 +108,13 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1>상품등록</h1>
+							<h1>상품상세</h1>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
-								<li class="breadcrumb-item active">상품등록</li>
+								<li class="breadcrumb-item">상품관리</li>
+								<li class="breadcrumb-item active">상품상세</li>
 							</ol>
 						</div>
 					</div>
@@ -108,109 +123,140 @@
 			</section>
 			<section class="content">
 				<div class="d-flex flex-row justify-content-end p-4">
-					<button class="btn btn-primary">상품등록</button>
+					<button id="btn-submit" class="btn btn-primary">수정하기</button>
 				</div>
 				<div class="row p-4">
 					<div class="card w-100">
 						<div class="card-body">
 							<div class="d-flex flex-column">
-								<div class="d-flex flex-row">
-									<div class="d-flex flex-column">
-										<div>
-											<div id="mainImageContainer" class="image-container main-image-container" style="position: relative; display: inline-block">
-												<div class="add-image-btn" onclick="document.getElementById('mainImageInput').click()" style="width: 100%; height: 100%;">
-													<i class="fa fa-plus"></i>
-													<p>메인 이미지</p>
+								<form id="product-form">
+									<div class="d-flex flex-row">
+										<div class="d-flex flex-column">
+											<div>
+												<div id="mainImageContainer" class="image-container main-image-container" style="position: relative; display: inline-block">
+											
+													<div class="add-image-btn" style="width: 100%; height: 100%;">
+														<i class="fa fa-plus"></i>
+														<p>메인 이미지</p>
+													</div>
 												</div>
+											</div>
+											<div class="d-flex flex-row mt-2">
+												<div id="subImage1" class="image-container ml-1 sub-image-container" style="position: relative; display: inline-block">
+													<div class="add-image-btn">
+														<i class="fa fa-plus"></i>
+													</div>
+												</div>
+												<div id="subImage2" class="image-container ml-1 sub-image-container" style="position: relative; display: inline-block">
+													<div class="add-image-btn">
+														<i class="fa fa-plus"></i>
+													</div>
+												</div>
+												<div id="subImage3" class="image-container ml-1 sub-image-container" style="position: relative; display: inline-block">
+													<div class="add-image-btn">
+														<i class="fa fa-plus"></i>
+													</div>
+												</div>
+												<div id="subImage4" class="image-container ml-1 sub-image-container" style="position: relative; display: inline-block">
+													<div class="add-image-btn">
+														<i class="fa fa-plus"></i>
+													</div>
+												</div>
+												<div id="subImage5" class="image-container ml-1 sub-image-container" style="position: relative; display: inline-block">
+													<div class="add-image-btn">
+														<i class="fa fa-plus"></i>
+													</div>
+												</div>
+												<input type="file" id="mainImageInput" name="files" accept="image/*" style="display: none;">
+												<input type="file" id="subImageInput1" name="files" accept="image/*" style="display: none;">
+												<input type="file" id="subImageInput2" name="files" accept="image/*" style="display: none;">
+												<input type="file" id="subImageInput3" name="files" accept="image/*" style="display: none;">
+												<input type="file" id="subImageInput4" name="files" accept="image/*" style="display: none;">
+												<input type="file" id="subImageInput5" name="files" accept="image/*" style="display: none;">
 											</div>
 										</div>
-										<div class="d-flex flex-row mt-2">
-											<div id="subImage1" class="image-container ml-1 sub-image-container" style="position: relative; display: inline-block">
-												<div class="add-image-btn" onclick="document.getElementById('subImageInput1').click()">
-													<i class="fa fa-plus"></i>
-												</div>
+										<div class="d-flex flex-column flex-grow-1">
+											<div class="d-flex flex-row align-items-center">
+												<p class="w-25 mb-0 text-right mr-3">상품명 :</p>
+												<input type="text" class="form-control" id="product_name" name="product_name" placeholder="상품명" value="<%= product.getProduct_name()%>"/>
 											</div>
-											<div id="subImage2" class="image-container ml-1 sub-image-container" style="position: relative; display: inline-block">
-												<div class="add-image-btn" onclick="document.getElementById('subImageInput2').click()">
-													<i class="fa fa-plus"></i>
-												</div>
+											<div class="d-flex flex-row align-items-center mt-2">
+												<p class="w-25 mb-0 text-right mr-3">가격 :</p>
+												<input type="number" class="form-control" id="price" name="price" placeholder="가격" value="<%= product.getPrice()%>"/>
 											</div>
-											<div id="subImage3" class="image-container ml-1 sub-image-container" style="position: relative; display: inline-block">
-												<div class="add-image-btn" onclick="document.getElementById('subImageInput3').click()">
-													<i class="fa fa-plus"></i>
-												</div>
+											<div class="d-flex flex-row align-items-center mt-2">
+												<p class="w-25 mb-0 text-right mr-3">할인율 :</p>
+												<input type="number" class="form-control" id="discount_rate" name="discount_rate" placeholder="할인율" value="<%= product.getDiscount_rate()%>"/>
 											</div>
-											<div id="subImage4" class="image-container ml-1 sub-image-container" style="position: relative; display: inline-block">
-												<div class="add-image-btn" onclick="document.getElementById('subImageInput4').click()">
-													<i class="fa fa-plus"></i>
-												</div>
+											<div class="d-flex flex-row align-items-center mt-2">
+												<p class="w-25 mb-0 text-right mr-3">플레이시간 :</p>
+												<input type="number" class="form-control" id="play_time" name="play_time" placeholder="플레이시간" value="<%=product.getPlay_time()%>"/>
 											</div>
-											<div id="subImage5" class="image-container ml-1 sub-image-container" style="position: relative; display: inline-block">
-												<div class="add-image-btn" onclick="document.getElementById('subImageInput5').click()">
-													<i class="fa fa-plus"></i>
-												</div>
+											<div class="d-flex flex-row align-items-center mt-2">
+												<p class="w-25 mb-0 text-right mr-3">카테고리 :</p>
+												<select id="theme-select" class="custom-select" name="theme.theme_id">
+													<option>테마를 선택해주세요.</option>
+													<%
+													for (int i = 0; i < themes.size(); i++) {
+														Theme theme = themes.get(i);
+													%>
+													<option value="<%=theme.getTheme_id()%>"><%=theme.getTheme_name()%></option>
+													<%
+													}
+													%>
+												</select>
 											</div>
-											<input type="file" id="mainImageInput" style="display: none" accept="image/*" onchange="addMainImage(this)" />
-											<input type="file" id="subImageInput1" style="display: none" accept="image/*" onchange="addSubImage(this, 'subImage1')" />
-											<input type="file" id="subImageInput2" style="display: none" accept="image/*" onchange="addSubImage(this, 'subImage2')" />
-											<input type="file" id="subImageInput3" style="display: none" accept="image/*" onchange="addSubImage(this, 'subImage3')" />
-											<input type="file" id="subImageInput4" style="display: none" accept="image/*" onchange="addSubImage(this, 'subImage4')" />
-											<input type="file" id="subImageInput5" style="display: none" accept="image/*" onchange="addSubImage(this, 'subImage5')" />
+											<div class="d-flex flex-row align-items-center mt-2">
+												<p class="w-25 mb-0 text-right mr-3">난이도 :</p>
+												<select id="geme-level-select" class="custom-select" name="difficulty.difficulty_id">
+													<option>난이도를 선택해주세요.</option>
+													<%
+													for (int i = 0; i < difficulties.size(); i++) {
+														Difficulty difficulty = difficulties.get(i);
+													%>
+													<option value="<%=difficulty.getDifficulty_id()%>"><%=difficulty.getGame_level()%></option>
+													<%
+													}
+													%>
+												</select>
+											</div>
+											<div class="d-flex flex-row align-items-center mt-2">
+												<p class="w-25 mb-0 text-right mr-3">연령대 :</p>
+												<select id="age-range-select" class="custom-select" name="ageRange.age_range_id">
+													<option>연령대를 선택해주세요.</option>
+													<%
+													for (int i = 0; i < ageRanges.size(); i++) {
+														AgeRange ageRange = ageRanges.get(i);
+													%>
+													<option value="<%=ageRange.getAge_range_id()%>"><%=ageRange.getAge_min()%></option>
+													<%
+													}
+													%>
+												</select>
+											</div>
+											<div class="d-flex flex-row align-items-center mt-2">
+												<p class="w-25 mb-0 text-right mr-3">인원수 :</p>
+												<select id="player-select" class="custom-select" name="playerRange.player_range_id">
+													<option>플레이 인원수를 선택해주세요.</option>
+													<%
+													for (int i = 0; i < playerRanges.size(); i++) {
+														PlayerRange playerRange = playerRanges.get(i);
+													%>
+													<option value="<%=playerRange.getPlayer_range_id()%>"><%=playerRange.getPlayer_min()%> ~
+														<%=playerRange.getPlayer_max()%>명
+													</option>
+													<%
+													}
+													%>
+												</select>
+											</div>
+											<div class="d-flex flex-row align-items-center mt-2">
+												<p class="w-25 mb-0 text-right mr-3">재고수량 :</p>
+												<input type="number" class="form-control" id="product_quantity" name="product_quantity" placeholder="재고수량" value="<%= product.getProduct_quantity()%>"/>
+											</div>
 										</div>
 									</div>
-									<div class="d-flex flex-column flex-grow-1">
-										<div class="d-flex flex-row align-items-center">
-											<p class="w-25 mb-0 text-right mr-3">상품명 :</p>
-											<input type="text" class="form-control" id="exampleInputEmail1" placeholder="상품명" />
-										</div>
-										<div class="d-flex flex-row align-items-center mt-2">
-											<p class="w-25 mb-0 text-right mr-3">가격 :</p>
-											<input type="number" class="form-control" id="exampleInputEmail1" placeholder="가격" />
-										</div>
-										<div class="d-flex flex-row align-items-center mt-2">
-											<p class="w-25 mb-0 text-right mr-3">할인율 :</p>
-											<input type="number" class="form-control" id="exampleInputEmail1" placeholder="할인율" />
-										</div>
-										<div class="d-flex flex-row align-items-center mt-2">
-											<p class="w-25 mb-0 text-right mr-3">플레이시간 :</p>
-											<input type="text" class="form-control" id="exampleInputEmail1" placeholder="플레이시간" />
-										</div>
-										<div class="d-flex flex-row align-items-center mt-2">
-											<p class="w-25 mb-0 text-right mr-3">난이도 :</p>
-											<input type="text" class="form-control" id="exampleInputEmail1" placeholder="난이도" />
-										</div>
-										<div class="d-flex flex-row align-items-center mt-2">
-											<p class="w-25 mb-0 text-right mr-3">연령대 :</p>
-											<input type="text" class="form-control" id="exampleInputEmail1" placeholder="연령대" />
-										</div>
-										<div class="d-flex flex-row align-items-center mt-2">
-											<p class="w-25 mb-0 text-right mr-3">인원수 :</p>
-											<div class="d-flex align-items-center w-100">
-												<div class="form-group d-flex align-items-center mb-0 mr-4">
-													<label class="mb-0 mr-2">최소:</label>
-													<input type="number" class="form-control" style="width: 80px" min="0" placeholder="최소" />
-													<span class="ml-1">명</span>
-												</div>
-
-												<span class="mx-2 text-muted">~</span>
-
-												<div class="form-group d-flex align-items-center mb-0">
-													<label class="mb-0 mr-2">최대:</label>
-													<input type="number" class="form-control" style="width: 80px" min="0" placeholder="최대" />
-													<span class="ml-1">명</span>
-												</div>
-											</div>
-										</div>
-										<div class="d-flex flex-column ml-4 mt-4">
-											<p class="mb-0 text-left h5 mb-3">상품소개</p>
-											<div class="card">
-												<div class="card-body">
-													<textarea class="form-control" rows="8" placeholder="내용을 입력해주세요"></textarea>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+								</form>
 							</div>
 						</div>
 						<!-- /.card-body -->
@@ -228,100 +274,211 @@
 		</div>
 		<!-- /.content-wrapper -->
 		<%@ include file="../inc/footer.jsp"%>
-
-		<!-- Control Sidebar -->
-		<%//@ include file="../inc/right_bar.jsp" %>
-		<!-- /.control-sidebar -->
 	</div>
 	<!-- ./wrapper -->
 	<%@ include file="../inc/footer_link.jsp"%>
-	<script src="/static/admin/custom/ProductImg.js"></script>
+
 	<script>
-    //Date picker
-    $("#reservationdate").datetimepicker({
-      format: "YYYY-MM-DD",
-      defaultDate: moment(),
-    });
+        //Date picker
+        $("#reservationdate").datetimepicker({
+            format : "YYYY-MM-DD",
+            defaultDate : moment(),
+        });
 
-    $("#summernote").summernote({
-      placeholder: "내용을 입력해주세요",
-      height: 500,
-    });
+        $("#summernote").summernote({
+            placeholder : "내용을 입력해주세요",
+            height : 1000,
+        });
+        
+        <% if(product.getDescription() != null && !product.getDescription().isEmpty()) { %>
+        $("#summernote").summernote('code', '<%= product.getDescription().replace("'", "\\'").replace("\n", "\\n") %>');
+        <% } %>
+        
+        $("#btn-submit").click(()=>{
+        	// 폼 데이터를 JSON 객체로 변환
+        	const form = document.querySelector('#product-form');
+        	const formData = new FormData(form);
+        	
+        	// Summernote 내용 가져오기 (editordata)
+        	const summernoteContent = $('#summernote').summernote('code');
+        	
+        	// JSON 객체 생성
+        	const jsonData = {
+				product_id: <%= product.getProduct_id()%>,
+        		product_name: formData.get('product_name'),
+        		price: parseInt(formData.get('price')) || 0,
+        		discount_rate: parseInt(formData.get('discount_rate')) || 0,
+        		play_time: parseInt(formData.get('play_time')) || 0,
+        		product_quantity: parseInt(formData.get('product_quantity')) || 0,
+        		description: summernoteContent,
+        		theme: {
+        			theme_id: parseInt(formData.get('theme.theme_id')) || null
+        		},
+        		difficulty: {
+        			difficulty_id: parseInt(formData.get('difficulty.difficulty_id')) || null
+        		},
+        		ageRange: {
+        			age_range_id: parseInt(formData.get('ageRange.age_range_id')) || null
+        		},
+        		playerRange: {
+        			player_range_id: parseInt(formData.get('playerRange.player_range_id')) || null
+        		},
+        		regdate: '<%= product.getRegdate()%>'
+        	};
+        	
+        	console.log('JSON Data:', jsonData);
+        	
+        	// multipart/form-data로 전송 (파일 유무 관계없이)
+        	const submitFormData = new FormData();
+        	const jsonString = JSON.stringify(jsonData);
+        	console.log('JSON String length:', jsonString.length);
+        	console.log('JSON String:', jsonString);
+        	
+        	submitFormData.append('productData', jsonString);
+        	
+        	// 파일들 추가 (빈 파일이라도 추가)
+        	const files = formData.getAll('files');
+        	console.log('Files to submit:', files.length);
+        	files.forEach((file, index) => {
+        		console.log(`File ${index}:`, file.name, file.size);
+        		submitFormData.append('files', file);
+        	});
+        	
+        	// FormData 내용 확인
+        	console.log('FormData contents:');
+        	for (const pair of submitFormData.entries()) {
+        		console.log(pair[0], pair[1]);
+        	}
+        	
+        	$.ajax({
+        		url: "<%=contextPath%>/admin/product/update",
+        		type: "post",
+        		data: submitFormData,
+        		processData: false,
+        		contentType: false,
+        		success:(result, status, xhr)=>{
+        			console.log(result);
+        			alert('상품이 업데이트되었습니다.');
+        			// 성공 후 폼 초기화 또는 리다이렉트
+        			// window.location.href = "<%=contextPath%>/admin/product/list";
+        		},
+        		error:(xhr, status, error)=>{
+        			console.log('Error:', xhr.responseText);
+        			alert('업데이트 중 오류가 발생했습니다.');
+        		}
+        	});
+        })
 
-    function addMainImage(input) {
-      const container = document.getElementById("mainImageContainer");
-      const file = input.files[0];
+        // Image upload functionality
+        function setupImageUpload(containerId, inputId) {
+            const container = document.getElementById(containerId);
+            const input = document.getElementById(inputId);
+            const addButton = container.querySelector('.add-image-btn');
 
-      if (file && file.type.startsWith("image/")) {
-        const reader = new FileReader();
+            // Click event for add button
+            addButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                input.click();
+            });
 
-        reader.onload = function (e) {
-          container.innerHTML = `
-              <img src="${e.target.result}" alt="메인 이미지" style="width: 100%; height: 100%; object-fit: cover;">
-              <button type="button" class="btn btn-block btn-light btn-sm image-delete-btn" onclick="deleteMainImage(this)">
-                <i class="fa fa-times"></i>
-              </button>
-            `;
-        };
+            // File input change event
+            input.addEventListener('change',function(e) {
+				const file = e.target.files[0];
+				if (file) {
+				    const reader = new FileReader();
+				    reader.onload = function(e) {
+				        // Create image element
+				        const img = document
+				                .createElement('img');
+				        img.src = e.target.result;
+				        img.style.width = '100%';
+				        img.style.height = '100%';
+				        img.style.objectFit = 'cover';
+				        img.style.display = 'block';
+				
+				        // Create delete button
+				        const deleteBtn = document
+				                .createElement('button');
+				        deleteBtn.className = 'btn btn-danger image-delete-btn';
+				        deleteBtn.innerHTML = '<i class="fa fa-times"></i>';
+				        deleteBtn.type = 'button';
+				
+				        // Delete button click event
+				        deleteBtn.addEventListener('click', function(e) {
+				                            e.preventDefault();
+				                            // Remove image and delete button
+				                            container
+				                                    .removeChild(img);
+				                            container
+				                                    .removeChild(deleteBtn);
+				                            // Show add button again
+				                            addButton.style.display = 'flex';
+				                            // Clear input
+				                            input.value = '';
+				                        });
+				
+				        // Hide add button and add image and delete button
+				        addButton.style.display = 'none';
+				        container.appendChild(img);
+				        container.appendChild(deleteBtn);
+				    };
+				    reader.readAsDataURL(file);
+				}
+			});
+        }
+        
+       async function setFileFromUrl(url, inputElement) {
+            try {
 
-        reader.readAsDataURL(file);
-      }
+                const element = inputElement.jquery ? inputElement[0] : inputElement;
+                // URL에서 이미지 fetch
+                const response = await fetch(url);
+                const blob = await response.blob();
+                
+                // File 객체 생성
+                const fileName = url.split('/').pop() || 'image.jpg';
+                const file = new File([blob], fileName, { type: blob.type });
+                
+                // DataTransfer를 사용해서 파일 설정
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                element.files = dataTransfer.files;
+                
+                // change 이벤트 발생
+                element.dispatchEvent(new Event('change', { bubbles: true }));
+                
+            } catch (error) {
+                console.error('파일 설정 실패:', error);
+            }
+        }
 
-      input.value = "";
-    }
-
-    function addSubImage(input, containerId) {
-      const container = document.getElementById(containerId);
-      const file = input.files[0];
-
-      if (file && file.type.startsWith("image/")) {
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-          container.innerHTML = `
-              <img src="${e.target.result}" alt="서브 이미지" width="100%" height="100%" style="object-fit: cover;">
-              <button type="button" class="btn btn-block btn-light btn-sm image-delete-btn" onclick="deleteSubImage(this, '${containerId}')">
-                <i class="fa fa-times"></i>
-              </button>
-            `;
-        };
-
-        reader.readAsDataURL(file);
-      }
-
-      input.value = "";
-    }
-
-    function deleteMainImage(button) {
-      if (confirm("메인 이미지를 삭제하시겠습니까?")) {
-        button.parentElement.innerHTML = `
-            <div
-              class="add-image-btn"
-              onclick="document.getElementById('mainImageInput').click()"
-              style="width: 100%; height: 100%;"
-            >
-              <i class="fa fa-plus"></i>
-              <p>메인 이미지</p>
-            </div>
-          `;
-      }
-    }
-
-    function deleteSubImage(button, containerId) {
-      if (confirm("이미지를 삭제하시겠습니까?")) {
-        const inputId = containerId.replace('subImage', 'subImageInput');
-        button.parentElement.innerHTML = `
-            <div
-              class="add-image-btn"
-              onclick="document.getElementById('${inputId}').click()"
-            >
-              <i class="fa fa-plus"></i>
-            </div>
-          `;
-      }
-    }
-
-  </script>
+        // Setup image upload for all containers
+        setupImageUpload('mainImageContainer', 'mainImageInput');
+        setupImageUpload('subImage1', 'subImageInput1');
+        setupImageUpload('subImage2', 'subImageInput2');
+        setupImageUpload('subImage3', 'subImageInput3');
+        setupImageUpload('subImage4', 'subImageInput4');
+        setupImageUpload('subImage5', 'subImageInput5');
+        
+        
+        $(()=>{
+			$('#theme-select').val('<%=product.getTheme().getTheme_id()%>');
+			$('#geme-level-select').val('<%=product.getDifficulty().getDifficulty_id()%>');
+			$('#age-range-select').val('<%=product.getAgeRange().getAge_range_id()%>');
+			$('#player-select').val('<%=product.getPlayerRange().getPlayer_range_id()%>');
+			<%for (int i = 0; i < product.getProductImages().size(); i++) {
+					ProductImage productImage = product.getProductImages().get(i);
+					String url = contextPath + "/data/" + "p_" + product.getProduct_id() + "/" + productImage.getFileName();
+					String inputname = "mainImageInput";
+					if (i != 0) {
+						inputname = "subImageInput" + i;
+					}
+			%>
+			
+				setFileFromUrl('<%=url%>',$('#<%= inputname%>'));
+			<%}%>
+        });
+    </script>
 
 </body>
 </html>

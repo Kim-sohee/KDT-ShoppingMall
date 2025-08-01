@@ -1,6 +1,8 @@
 package shoppingmall.domain;
 
 import java.beans.Transient;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Data;
 
@@ -11,11 +13,11 @@ public class Product {
 	private String product_name;
 	private int price;
 	private int discount_rate;
-	private int product_quantity;
+	private int product_quantity = 0;
 	private String description;
 	private String regdate;
 	private int play_time;
-	private String image;
+	private List<ProductImage> productImages = new ArrayList<>();
 	
 	private Theme theme;
 	private PlayerRange playerRange;

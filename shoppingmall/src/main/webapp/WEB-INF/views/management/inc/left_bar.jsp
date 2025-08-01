@@ -59,7 +59,7 @@
       
           <!-- 상품관리 메뉴 시작-->
           <li class="nav-item">
-            <a href="<%=contextPath %>/admin/product/list" class="nav-link <%= (navMaenu != null && navMaenu.startsWith("productList")) ? "active" : "" %>">
+            <a href="<%=contextPath %>/admin/product/listpage" class="nav-link <%= (navMaenu != null && navMaenu.startsWith("productList")) ? "active" : "" %>">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 상품관리

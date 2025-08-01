@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProductImage">
+	<resultMap type="ProductImage" id="product_image_map">
+		<id property="productImageId" column="product_image_id"/>
+		<result property="fileName" column="file_name"/>
+		<association column="product_id" property="product" javaType="Product" select="Product.selectOnlyProduct"/>
+	</resultMap>
+	
+	<insert id="insert" parameterType="ProductImage">
+		INSERT INTO product_image(file_name, product_id) 
+		values (#{fileName}, #{product.product_id})
+	</insert>
+
+	<select id="select" parameterType="int" resultMap="product_image_map">
+		SELECT product_image_id, file_name, product_id, regdate FROM product_image WHERE product_id=#{product_id};
+	</select>
+	
+	<delete id="deleteByProductId" parameterType="int">
+		DELETE FROM product_image WHERE product_id=#{product_id}
+	</delete>
+</mapper>
