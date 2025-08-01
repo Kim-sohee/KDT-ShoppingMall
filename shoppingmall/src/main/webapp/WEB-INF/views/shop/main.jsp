@@ -259,6 +259,30 @@ body {
 		<!-- 뉴스 레터 -->
 		<%@ include file="./inc/footer2.jsp"%>
 		<%@ include file="./inc/footer.jsp"%>
+		
+		<script type="text/javascript">
+			$(()=>{
+				//전략 게임으로 넘어가기
+				$("#popular_category_items_button_1").click(()=>{
+					location.href = "/shop/theme/selectname?theme_name=전략";
+				});
+				
+				//가족 게임으로 넘어가기
+				$("#popular_category_items_button_2").click(()=>{
+					location.href = "/shop/theme/selectname?theme_name=가족";
+				});
+				
+				//파티 게임으로 넘어가기
+				$("#popular_category_items_button_3").click(()=>{
+					location.href = "/shop/theme/selectname?theme_name=파티";
+				});
+				
+				//퍼즐 게임으로 넘어가기
+				$("#popular_category_items_button_4").click(()=>{
+					location.href = "/shop/theme/selectname?theme_name=퍼즐";
+				});
+			});
+		</script>
 	</div>
 </body>
 </html>

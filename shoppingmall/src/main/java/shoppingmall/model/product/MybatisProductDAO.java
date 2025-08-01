@@ -28,4 +28,9 @@ public class MybatisProductDAO implements ProductDAO{
 		return sqlSessionTemplate.selectList("Product.selectProductByFilter", product);
 	}
 	
+	@Override
+	public List selectProductSearchName(String product_name) {
+		return sqlSessionTemplate.selectList("Product.selectProductSearchName", product_name);
+	}
+	
 }

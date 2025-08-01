@@ -22,7 +22,7 @@ import shoppingmall.model.member.NaverApi20;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"shoppingmall.shop.controller","shoppingmall.util"}) //이후 로그인 체크 필요하다면 이곳에 추가해주세요.
+@ComponentScan(basePackages = {"shoppingmall.shop.controller","shoppingmall.util", "shoppingmall.shop.advice"}) //이후 로그인 체크 필요하다면 이곳에 추가해주세요.
 @PropertySource("classpath:application-oauth.properties")
 public class UserConfig {
 	//네이버 id, secret, uri
