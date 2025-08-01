@@ -1,5 +1,18 @@
+<%@page import="shoppingmall.domain.Cart"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	//배송관련 , 포인트 얻어오기 용 Member
+	Member member = (Member)request.getAttribute("member");
+	if (member == null) {
+	    response.sendRedirect("/shop/member/loginform"); // 로그인 페이지로 리디렉션
+	    return;
+	}	
+
+//장바구니에 담긴상품 목록
+	List<Cart> cart_items = (List)request.getAttribute("orderItems");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +20,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   	<title>보드게임</title>
   	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-  	<link rel="stylesheet" href="/static/shop/styles/main.css">
   	<link rel="stylesheet" href="/static/shop/styles/order.css">
   	<link rel="stylesheet" href="/static/shop/styles/footer.css">
 </head>
@@ -49,10 +61,10 @@
 						<div class="order-delivery">
 							<label>배송지</label>
 							<div class="delivery-info">
-								<h3>홍길동 님</h3>
-                                <p class="delivery-info-tel">010-1234-1234</p>
+								<h3><%=member.getMember_name() %>님</h3>
+                                <p class="delivery-info-tel"><%=member.getPhone()%></p>
                                 <div class="delivery-info-adress">
-                                    <span class="adress-value">서울 강남구 삼성로 534 SAC아트홀 6층(삼성동)</span>
+                                    <span class="adress-value"><%=member.getDefault_address()%></span>
                                     <span class="adress-port">(우편번호: 12345)</span>
                                 </div>
                                 <div class="delivery-actions">
@@ -77,6 +89,13 @@
 	                    	<label>주문 상품</label>
 	                    
 	                    	<!-- for문 시작 -->
+	                    	<% 
+	                    		for (Cart cart : cart_items) {
+								String title = cart.getProduct().getProduct_name();
+								int price = cart.getProduct().getPrice();
+								String thumbnail = cart.getProduct().getImage();
+								int quantity = cart.getQuantity(); 
+							%>
 	                        <div class="order-item">
 	                            <!-- 상품 이미지 -->
 	                            <div class="item-image">
@@ -84,23 +103,24 @@
 	                            </div>
 	                            <!-- 상품 정보 -->
 	                            <div class="item-info">
-	                                <h3><a href="product-detail.html">아그리콜라</a></h3>
-	                                <p class="item-brand">에이스</p>
+	                                <h3><a href="product-detail.html"><%=title %>></a></h3>
+	                                <!-- <p class="item-brand">에이스</p> -->
 	                                <div class="item-options">
-	                                    <span class="option-label">옵션:</span>
-	                                    <span class="option-value">기본판</span>
+	                                    <span class="option-label">테마:</span>
+	                                    <span class="option-value"><%=cart.getProduct().getTheme() %></span>
 	                                </div>
 	                            </div>
 	                            <!-- 상품 수량 -->
 	                            <div class="item-quantity">
-                                    <span class="quantity-value"> 1개</span>
+                                    <span class="quantity-value"> <%=cart.getQuantity() %>개</span>
 	                            </div>
 	                            <!-- 상품 가격 -->
 	                            <div class="item-price">
-	                                <div class="price">45,000원</div>
+	                                <div class="price"><%=cart.getProduct().getPrice() %>></div>
 	                            </div>
 	                        </div>
 							<!-- for문 끝 -->
+							<%} %>
 	                	</div>
 	            	</div>
 	            	<!-- 주문 상품 리스트 끝 -->

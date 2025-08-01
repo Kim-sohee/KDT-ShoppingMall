@@ -30,14 +30,11 @@ public class MybatisReviewDAO implements ReviewDAO {
 	
 	//특정 제품의 평균을 구해옵니다.
 	@Override
-	public double AvgRating(int product_id) throws ReviewAvgNullException{
-		double rating = sqlSessionTemplate.selectOne("Review.selectAvgRating",product_id);
-		
-		if(rating < 0 ) {
-			throw new ReviewAvgNullException("해당하는 리뷰의 평균을 구할 수 없습니다.");
-		}
-		return rating;
+	public double AvgRating(int product_id) {
+	    Double rating = sqlSessionTemplate.selectOne("Review.selectAvgRating", product_id);
+	    return rating != null ? rating : 0.0;
 	}
+	
 
 	//특정 제품의 리뷰의 개수를 구해옵니다.
 	@Override
