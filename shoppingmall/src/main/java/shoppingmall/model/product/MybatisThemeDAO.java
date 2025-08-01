@@ -17,5 +17,10 @@ public class MybatisThemeDAO implements ThemeDAO{
 	public List<Theme> selectAll() {
 		return sqlSessionTemplate.selectList("Theme.selectAll");
 	}
+	
+	@Override
+	public Theme selectThemeByName(String theme_name) {
+		return sqlSessionTemplate.selectOne("Theme.selectThemeByName", theme_name);
+	}
 
 }

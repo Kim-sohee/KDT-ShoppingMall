@@ -59,20 +59,4 @@ body {
 			</div>
 		<% } %>
 	</div>
-	
-	<script>
-		function getTheme(){
-			$.ajax({
-				url: "/shop/theme/list",
-				type: "get",
-				success: function(result, status, xhr){
-					console.log("서버로부터 받은 결과는", result);
-					//화면에 출력
-				},
-				error: function(xhr, status, err){
-					console.log(err);
-				}
-			});
-		}
-	</script>
 </body>
