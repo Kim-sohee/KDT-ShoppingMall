@@ -1,7 +1,5 @@
 package shoppingmall.domain;
 
-import javax.persistence.OneToOne;
-
 import lombok.Data;
 
 @Data
@@ -11,6 +9,5 @@ public class Delivery {
 	private String address_alias;
 	private String receiver_name;
 	private String receiver_phone;
-	@OneToOne
 	private Member member;
 }

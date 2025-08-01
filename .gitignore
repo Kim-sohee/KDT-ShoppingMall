@@ -69,3 +69,4 @@ dist/
 
 # application-oauth 파일
 *application-oauth.properties
+*application-mail.properties

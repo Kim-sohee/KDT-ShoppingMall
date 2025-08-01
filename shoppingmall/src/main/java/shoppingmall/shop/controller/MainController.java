@@ -1,20 +1,16 @@
 package shoppingmall.shop.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import lombok.extern.slf4j.Slf4j;
-
-
-
-@Slf4j
 @Controller
 public class MainController {
-	@GetMapping("/main")
+	
+	@RequestMapping(value="/main", method=RequestMethod.GET)
 	public ModelAndView getMain() {
-		ModelAndView mav= new ModelAndView("shop/main");
+		ModelAndView mav = new ModelAndView("shop/main"); // mav.setViewName(""); 과 동일한 효과
 		return mav;
 	}
-	
 }

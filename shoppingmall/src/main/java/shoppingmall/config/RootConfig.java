@@ -1,18 +1,24 @@
 package shoppingmall.config;
 
+import java.util.Properties;
+
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jndi.JndiTemplate;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -25,6 +31,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration  
 @EnableTransactionManagement
+@PropertySource("classpath:application-mail.properties")
 @ComponentScan(basePackages = {"shoppingmall.model","shoppingmall.util"})
 public class RootConfig {
 	
@@ -59,6 +66,50 @@ public class RootConfig {
 	}
 	
 
+	/*--------------------------------------------------------------
+	이메일 전송 관련 
+	--------------------------------------------------------------*/
+	@Value("${spring.mail.host}")
+	private String mailHost;
+	
+	@Value("${spring.mail.port}")
+	private int mailPort;
+	
+	@Value("${spring.mail.username}")
+	private String username;
+	
+	@Value("${spring.mail.password}")
+	private String password;
+	
+	@Value("${spring.mail.properties.mail.transport.protocol}")
+	private String protocol;
+	
+	@Value("${spring.mail.properties.mail.smtp.auth}")
+	private String auth;
+	
+	@Value("${spring.mail.properties.mail.smtp.starttls.enable}")
+	private String starttlsEnable;
+	
+	@Bean
+	public JavaMailSender setComponent() {
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		
+		mailSender.setHost(mailHost);
+		mailSender.setPort(mailPort);
+		mailSender.setUsername(username);
+		mailSender.setPassword(password);
+		mailSender.setJavaMailProperties(getMailProperties());
+		mailSender.setDefaultEncoding("UTF-8");
+		return mailSender;
+	}
+	
+	private Properties getMailProperties() {
+		Properties properties = new Properties();
+		properties.setProperty("mail.transport.protocol", protocol);
+		properties.setProperty("mail.smtp.auth", auth);
+		properties.setProperty("mail.smtp.starttls.enable", starttlsEnable);
+		return properties;
+	}
 }
 
 
