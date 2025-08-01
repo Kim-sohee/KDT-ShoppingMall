@@ -12,6 +12,8 @@
 
 //장바구니에 담긴상품 목록
 	List<Cart> cart_items = (List)request.getAttribute("orderItems");
+
+	String contextPath = request.getContextPath();
 %>
 <!DOCTYPE html>
 <html>
@@ -93,7 +95,12 @@
 	                    		for (Cart cart : cart_items) {
 								String title = cart.getProduct().getProduct_name();
 								int price = cart.getProduct().getPrice();
-								String thumbnail = cart.getProduct().getImage();
+								
+								String imageUrl = "";
+								if(!cart.getProduct().getProductImages().isEmpty()){
+									imageUrl = contextPath+"/data/p_"+cart.getProduct().getProduct_id()+"/"+cart.getProduct().getProductImages().get(0).getFileName();
+								}
+								String thumbnail = imageUrl;
 								int quantity = cart.getQuantity(); 
 							%>
 	                        <div class="order-item">
