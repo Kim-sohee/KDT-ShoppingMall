@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>회원 로그인</title>
+    <link rel="stylesheet" href="/static/shop/styles/footer.css">
     <style>
         body {
             margin: 0;
@@ -106,28 +107,56 @@
         </div>
         <div class="right">
             <div class="login-title">회원 로그인</div>
-            <form action="loginProcess.jsp" method="post">
-                <input type="text" name="userid" class="input-box" placeholder="아이디를 입력해주세요" required>
+            <form id="login-form">
+                <input type="text" name="id" class="input-box" placeholder="아이디를 입력해주세요" required>
                 <input type="password" name="password" class="input-box" placeholder="비밀번호를 입력해주세요" required>
 
                 <div class="options">
                     <label><input type="checkbox" name="saveid"> 아이디 저장</label>
                     <div>
-                        <a href="#">아이디 찾기</a> | 
-                        <a href="#">비밀번호 찾기</a>
+                        <a href="/shop/member/findForm">아이디 찾기</a> | 
+                        <a href="/shop/member/findForm">비밀번호 찾기</a>
                     </div>
                 </div>
 
-                <button type="submit" class="btn-login">로그인</button>
+                <button type="button" class="btn-login" id="bt_login">로그인</button>
             </form>
-            <button onclick="location.href='join.jsp'" class="btn-join">회원가입</button>
+            <button onclick="location.href='/shop/member/joinform'" class="btn-join">회원가입</button>
 
             <div class="sns-login">SNS 로그인</div>
             <div class="sns-icons">
-                <img src="/static/img/naver.png" alt="네이버 로그인">
-                <img src="/static/img/kakao.png" alt="카카오 로그인">
+                <a href="javascript:login('naver')" ><img src="/img/login/naver_login.png" alt="네이버 로그인"></a>
+                <a href="javascript:login('google')"><img src="/img/login/google_login.png"  alt="구글 로그인"></a>
             </div>
         </div>
     </div>
+	<%@include file = "./inc/footer.jsp" %>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+	function login(sns){
+		$.ajax({
+			url:"/shop/member/"+sns+"/authurl",
+			type:"get",
+			success:function(result, status, xhr){
+				alert(result);
+				location.href=result;
+			}
+		});
+	}
+	
+	function homeLogin(){
+		$("#login-form").attr({
+			action:"/shop/member/login",
+			method:"post"
+		});
+		$("#login-form").submit();
+	}
+	
+	$(()=>{
+		$("#bt_login").click(()=>{
+			homeLogin();
+		});
+	});
+</script>
 </html>

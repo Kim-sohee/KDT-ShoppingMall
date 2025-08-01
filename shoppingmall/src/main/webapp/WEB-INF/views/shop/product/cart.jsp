@@ -28,6 +28,7 @@
 	<%@ include file="../../shop/inc/header.jsp"%>
 	<%@ include file="../../shop/inc/nav.jsp"%>
 	<main class="main-content">
+<<<<<<< HEAD
 		<div class="container">
 			<div class="breadcrumb">
 				<a href="index.html">홈</a> <span>></span> <span>장바구린</span>
