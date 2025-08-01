@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PlayerRange">
+	
+	<!-- 모두 가져오기 -->
+	<select id="selectAll" resultType="PlayerRange">
+		select * from player_range
+	</select>
+	
+	<!-- 한 건 가져오기 -->
+	<select id="select" parameterType="int" resultType="PlayerRange">
+		select * from player_range where player_range_id=#{player_range_id}
+	</select>
+	
+	<!-- 한 건 등록하기 -->
+	<insert id="insert" parameterType="PlayerRange">
+		insert into player_range(player_min, player_max) values(#{player_min}, #{player_max})
+	</insert>
+	
+	<!-- 한 건 수정하기 -->
+	<update id="update" parameterType="PlayerRange">
+	 	update player_range set player_min=#{player_min}, player_max=#{player_max}
+	 	where player_range_id=#{player_range_id}
+	</update>
+	
+	<!-- 한 건 삭제하기 -->
+	<delete id="delete" parameterType="int">
+		delete from player_range where player_range_id=#{player_range_id}
+	</delete>
+	
+</mapper>

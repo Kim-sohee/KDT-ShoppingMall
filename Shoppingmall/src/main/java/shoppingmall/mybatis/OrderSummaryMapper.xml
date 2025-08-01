@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderSummary">
+	<sql id="columns">
+		order_summary_id, ordered_at, total_price, final_price,
+		payment_type, point_used, member_id, status_id, delivery_id
+	</sql>
+
+	<!-- join을 통한 주문 요약 조회 시작 -->
+	<resultMap id="joinMap" type="OrderSummary">
+		<id column="order_summary_id" property="order_summary_id" />
+		<result column="ordered_at" property="ordered_at" />
+		<result column="total_price" property="total_price" />
+		<result column="final_price" property="final_price" />
+		<result column="payment_type" property="payment_type" />
+		<result column="point_used" property="point_used" />
+
+		<association column="member_id" property="member"
+			javaType="Member" select="Member.select" />
+		<association column="status_id" property="status"
+			javaType="Status" select="Status.select" />
+		<association column="delivery_id" property="delivery"
+			javaType="Delivery" select="Delivery.select" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="joinMap">
+		SELECT
+		<include refid="columns" />
+		FROM order_summary
+	</select>
+
+	<select id="select" parameterType="int" resultMap="joinMap">
+		SELECT
+		<include refid="columns" />
+		FROM order_summary WHERE order_summary_id = #{order_summary_id}
+	</select>
+	<!-- join을 통한 주문 요약 조회 끝 -->
+
+	<insert id="insert" parameterType="OrderSummary">
+		INSERT INTO
+		order_summary(total_price, final_price, payment_type, point_used,
+		member_id, status_id, delivery_id)
+
+		VALUES(#{total_price}, #{final_price}, #{payment_type}, #{point_used},
+		#{member.member_id}, #{status.status_id}, #{delivery.delivery_id})
+	</insert>
+
+	<update id="update" parameterType="OrderSummary">
+		UPDATE order_summary
+		SET
+		total_price = #{total_price}, final_price = #{final_price},
+		payment_type = #{payment_type},
+		point_used = #{point_used}, status_id = #{status.status_id}, delivery_id =
+		#{delivery.delivery_id}
+		WHERE order_summary_id = #{order_summary_id};
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM order_summary
+		WHERE order_summary_id = #{order_summary_id}
+	</delete>
+
+</mapper>

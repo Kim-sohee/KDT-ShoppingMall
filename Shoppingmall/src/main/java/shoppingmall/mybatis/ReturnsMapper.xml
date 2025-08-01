@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Returns">
+	<sql id="columns">
+		return_id, courier, delivery_fee, return_address,
+		order_summary_id
+	</sql>
+
+	<!-- join을 이용하여 Returns 정보 조회 시작 -->
+	<resultMap id="joinMap" type="Returns">
+		<id column="return_id" property="return_id" />
+		<result column="courier" property="courier" />
+		<result column="delivery_fee" property="delivery_fee" />
+		<result column="return_address" property="return_address" />
+
+		<association column="order_summary_id"
+			property="orderSummary" javaType="OrderSummary"
+			select="OrderSummary.select" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="joinMap">
+		SELECT
+		<include refid="columns" />
+		FROM returns
+	</select>
+
+	<select id="select" parameterType="int" resultMap="joinMap">
+		SELECT
+		<include refid="columns" />
+		FROM returns WHERE return_id = #{return_id}
+	</select>
+	<!-- join을 이용하여 Returns 정보 조회 끝 -->
+
+	<insert id="insert" parameterType="Returns">
+		INSERT INTO returns(return_id,
+		courier, delivery_fee, return_address, order_summary_id)
+		VALUES(#{return_id}, #{courier}, #{delivery_fee}, #{return_address},
+		#{order_summary.order_summary_id})
+	</insert>
+
+	<update id="update" parameterType="Returns">
+		UPDATE returns
+		SET courier =
+		#{courier}, delivery_fee = #{delivery_fee}, return_address =
+		#{return_address},
+		order_summary_id = #{order_summary.order_summary_id}
+		WHERE return_id = #{return_id};
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM returns WHERE
+		return_id = #{return_id}
+	</delete>
+</mapper>

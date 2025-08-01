@@ -1,0 +1,115 @@
+/* Join */
+body {
+	margin: 0px;
+}
+
+.join {
+	width: 90%;
+	margin: 0 auto;
+	padding: 2rem;
+}
+
+.join-content {
+	width: 70%;
+	min-width: 70%;
+	
+}
+
+.join-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/* 회원가입 영역 */
+.join-process h2 {
+	text-align: center;
+	margin-bottom: 3rem;
+	font-size: 2rem;
+}
+
+.process-steps {
+	display: flex;
+	justify-content: center;	/* 중앙 정렬 */
+	gap: 3rem; 					/* 간격 확보 */
+}
+
+.img_container {
+	width: 85px;
+	height: 85px;
+	border-radius: 50%;
+	background-color: red;
+}
+
+.join-process img {
+	width: 80px;
+	height: auto;
+}
+
+.steps {
+	margin: 0 1.5rem;
+	text-align: center;
+}
+
+
+/* 회원가입 완료 */
+.join-complete {
+	text-align: center;
+}
+
+.join-complete h2 {
+	text-align: center;
+	margin-bottom: 3rem;
+	font-size: 2rem;
+}
+
+.join-complete img {
+	width: 200px;
+	height: auto;
+	margin-bottom: 2rem;
+}
+
+.info p:nth-child(1) {
+	text-align: center;
+	margin-bottom: 1rem;
+	font-size: 16px;
+}
+
+.info p:nth-child(2) {
+	text-align: center;
+	margin-bottom: 2rem;
+	font-size: 12px;
+}
+
+/* 가입 버튼 */
+.button-container button {
+	display: block;
+	margin: 2rem auto 0;
+	padding: 0.75rem 2rem;
+	color: white;
+	border: none;
+	font-size: 1rem;
+	border-radius: 6px;
+	cursor: pointer;
+	font-weight: bold;
+	width: 30%;
+}
+
+.button-container button:nth-child(1) {
+	background-color: #d60000;
+	transition: background-color 0.3s;
+}
+
+.button-container button:nth-child(2) {
+	background-color: #ccc;
+	transition: background-color 0.3s;
+	margin-bottom: 10rem;
+}
+
+.join-container button:nth-child(1):hover {
+	background-color: #a50000;
+}
+
+.join-container button:nth-child(2):hover {
+	background-color: grey;
+}
