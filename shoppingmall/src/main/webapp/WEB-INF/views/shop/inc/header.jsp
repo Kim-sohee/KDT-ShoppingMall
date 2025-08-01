@@ -84,10 +84,10 @@ body{
     max-height: 300px;
     overflow-y: auto;
     position: absolute;
-	top:110px;
+	top:100%;
     left: 0;
     z-index: 1000;
-    width: 100%;
+    width: 740px;
     border-radius: 0 0 10px 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -101,6 +101,14 @@ body{
 .search-results li {
     padding: 10px;
     cursor: pointer;
+}
+
+.search-results li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-decoration: none;
+	color: inherit;
 }
 
 .search-results li:hover {
@@ -133,9 +141,10 @@ body{
 			
 			<!--  필요시 type을 버튼으로 교체 가능합니다. -->
 			<button class="search-btn" type="submit">검색</button>
+			
+			<!-- 검색 결과 미리보기 영역 -->
+			<div id="search-results" class="search-results"></div>
 		</form>
-		<!-- 검색 결과 미리보기 영역 -->
-		<div id="search-results" class="search-results"></div>
 		
 		<!-- 로그인 / 장바구니 / 마이페이지 -->
 		<%if (loginMember == null){ %>

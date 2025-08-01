@@ -15,6 +15,12 @@ Map<Integer, Integer> ratingMap = (Map<Integer, Integer>) request.getAttribute("
 int totalCount = (int) request.getAttribute("count");
 List<Qna> qnas = (List<Qna>)request.getAttribute("qna");
 int count_qna = (int)request.getAttribute("qna_count");
+
+String contextPath = request.getContextPath();
+String imageUrl = "";
+if(!product.getProductImages().isEmpty()){
+	imageUrl = contextPath+"/data/p_"+product.getProduct_id()+"/"+product.getProductImages().get(0).getFileName();
+}
 %>
 <!DOCTYPE html>
 <html>
@@ -622,11 +628,11 @@ int count_qna = (int)request.getAttribute("qna_count");
 			<div id="upper_left_side">
 				<!-- 대표 이미지 영역  -->
 				<div id="main_image">
-					<img alt="메인 이미지" src="${product.image}">
+					<img alt="메인 이미지" src="${imageUrl}">
 				</div>
 				<!-- 이미지 갤러리 영역 -->
 				<div id="gallery">
-					<img alt="메인 이미지" src="${product.image}">
+					<img alt="메인 이미지" src="${imageUrl}">
 					<!-- 필요 시 추가 이미지 반복문 처리 가능 -->
 				</div>
 			</div>

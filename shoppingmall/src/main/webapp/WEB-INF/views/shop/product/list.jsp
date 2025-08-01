@@ -27,6 +27,7 @@
 	Map<Integer, Double> avgRatingMap = (Map<Integer, Double>) request.getAttribute("avgRatingMap");
 	Map<Integer, Integer> reviewCountMap = (Map<Integer, Integer>) request.getAttribute("reviewCountMap");
 
+	String contextPath = request.getContextPath();
 %>
 <!DOCTYPE html>
 <html>
@@ -146,11 +147,16 @@
 							 double avgRating = avgRatingMap.containsKey(productId) ? avgRatingMap.get(productId) : 0.0;
 							 int reviewCount = reviewCountMap.containsKey(productId) ? reviewCountMap.get(productId) : 0;
 							 int stars = (int)Math.round(avgRating);
-
+							 
+							 //상품 이미지 경로 가져오기
+							 String imageUrl = "";
+							 if(!product.getProductImages().isEmpty()){
+								imageUrl = contextPath+"/data/p_"+product.getProduct_id()+"/"+product.getProductImages().get(0).getFileName();
+							 }
 						%>
 						<div class="product-card">
 						  <div class="product-image">
-						    <img src="<%=product.getImage()%>" alt="상품이미지">
+						    <img src="<%=imageUrl%>" alt="상품이미지">
 						    <div class="product-overlay">
 						      <button class="btn btn-wishlist">♡</button>
 						      <button class="btn btn-cart">장바구니</button>
@@ -178,7 +184,7 @@
 					<!-- 페이징 영역 -->
 					<div class="pagination">
 					  <% if(paging.getFirstPage()-1 > 0){ %>
-					    <a href="#" class="page-btn prev" data-page="<%=paging.getFirstPage()-1%>">이전</a>
+					    <a href="/shop/product/list?currentPage=<%=paging.getCurPos()-1 %>" class="page-btn prev" data-page="<%=paging.getFirstPage()-1%>">이전</a>
 					  <% } else { %>
 					    <a href="#" class="page-btn prev disabled">이전</a>
 					  <% } %>
@@ -186,11 +192,11 @@
 					  <% for(int i=paging.getFirstPage(); i<=paging.getLastPage(); i++){
 					       if(i > paging.getTotalPage()) break;
 					  %>
-					    <a href="#" class="page-btn <%=paging.getCurrentPage() == i ? "active" : "" %>" data-page="<%=i%>"><%=i%></a>
+					    <a href="/shop/product/list?currentPage=<%=i %>" class="page-btn <%=paging.getCurrentPage() == i ? "active" : "" %>" data-page="<%=i%>"><%=i%></a>
 					  <% } %>
 					
 					  <% if(paging.getLastPage() < paging.getTotalPage()) { %>
-					    <a href="#" class="page-btn next" data-page="<%=paging.getLastPage()+1%>">다음</a>
+					    <a href="/shop/product/list?currentPage=<%=paging.getCurPos()+1 %>" class="page-btn next" data-page="<%=paging.getLastPage()+1%>">다음</a>
 					  <% } else { %>
 					    <a href="#" class="page-btn next disabled">다음</a>
 					  <% } %>
@@ -251,10 +257,11 @@
         });
     }
 
+    //상세보기 버튼 누를 시 디테일 페이지로 이동
     $(document).ready(function () {
         $(".btn.btn-detail").on("click", function () {
             const productId = $(this).data("id");
-            window.location.href = "/shop/product/detail?product_id=" + productId;
+            location.href = "/shop/product/detail?product_id=" + productId;
         });
     });
     </script>
