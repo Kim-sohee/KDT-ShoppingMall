@@ -32,7 +32,7 @@ public class CartController {
     	member.setMember_id(1);
     	member.setMember_name("홍길동");
     	
-    	// 필요한 다른 필드도 있으면 채워줘
+    
     	
     	session.setAttribute("member", member);
     	return "redirect:/shop/cart/list"; // 장바구니 목록 테스트용

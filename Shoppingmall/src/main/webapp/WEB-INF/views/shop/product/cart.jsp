@@ -301,25 +301,25 @@
 		        return;
 		    }
 
-		    // 경로 수정됨: /product/order
-		    fetch("/product/order", {
-		        method: "POST",
-		        headers: {
-		            "Content-Type": "application/json"
-		        },
-		        body: JSON.stringify(cartIds)
-		    })
-		    .then(response => {
-		    	if (response.redirected) {
-		    		window.location.href = response.url;
-		    	} /* else {
-		    		alert("주문 페이지로 이동 중 오류가 발생했습니다.");
-		    	} */
-		    })
-		    .catch(err => {
-		        console.error(err);
-		        alert("서버 통신 중 에러 발생");
-		    });
+		    fetch("/shop/product/order", {
+		    	  method: "POST",
+		    	  headers: { "Content-Type": "application/json" },
+		    	  credentials: "include",
+		    	  body: JSON.stringify(cartIds)
+		    	})
+		    	.then(res => res.json()) // ← JSON으로 받아야 하고,
+		    	.then(data => {
+		    	  if (data.url) {
+		    	    location.href = data.url;
+		    	  } else {
+		    	    alert("이동할 URL이 없습니다.");
+		    	  }
+		    	})
+		    	.catch(err => {
+		    	  console.error(err);
+		    	  alert("서버 통신 중 에러 발생");
+		    	});
+
 		});
 		</script>
 
