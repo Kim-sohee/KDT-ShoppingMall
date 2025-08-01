@@ -92,7 +92,7 @@ body{
 		<img alt="logo_image" id = "logo_image" src="/img/sinsegae_games.png">
 		<!-- 쇼핑몰 이름 라벨 --> 
 		<div id="shoppingMallName_box">
-			<label id="shoppingMallName">보드 게임 </label>
+			<label id="shoppingMallName"><a href="/shop/main">보드 게임 </a></label>
 		</div>
 
 		<!-- 검색 창 구현 class-name : search-form -->
@@ -110,7 +110,7 @@ body{
 		<%} else{%>
 		<label class="login"><a href="/shop/member/logout">로그아웃</a></label>
 		<%} %>
-		<label class="cart" id="cart">장바구니</label>
+		<label class="cart" id="cart"><a href="/shop/cart/list">장바구니</a></label>
 		<label class="mypage" id="mypage">마이페이지</label>
 	</div>
 </body>

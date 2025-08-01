@@ -20,7 +20,6 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
 	rel="stylesheet">
-<link rel="stylesheet" href="/static/shop/styles/main.css">
 <link rel="stylesheet" href="/static/shop/styles/cart.css">
 <link rel="stylesheet" href="/static/shop/styles/footer.css">
 </head>
@@ -28,10 +27,9 @@
 	<%@ include file="../../shop/inc/header.jsp"%>
 	<%@ include file="../../shop/inc/nav.jsp"%>
 	<main class="main-content">
-<<<<<<< HEAD
 		<div class="container">
 			<div class="breadcrumb">
-				<a href="index.html">홈</a> <span>></span> <span>장바구린</span>
+				<a href="index.html">홈</a> <span>></span> <span>장바구니</span>
 			</div>
 
 			<!-- 장바구린 페이지 제목 시작 -->
@@ -39,7 +37,7 @@
 				<h1>장바구린</h1>
 				<div class="cart-steps">
 					<div class="step active">
-						<span class="step-number">1</span> <span class="step-text">장바구린</span>
+						<span class="step-number">1</span> <span class="step-text">장바구니</span>
 					</div>
 					<div class="step">
 						<span class="step-number">2</span> <span class="step-text">주문/결제</span>
@@ -287,6 +285,36 @@
 		        } else {
 		            alert("이동할 URL이 없습니다.");
 		        }
+		    })
+		    .catch(err => {
+		        console.error(err);
+		        alert("서버 통신 중 에러 발생");
+		    });
+		});
+
+		document.getElementById("bt_order").addEventListener("click", function () {
+		    const checkedBoxes = document.querySelectorAll(".item-checkbox:checked");
+		    const cartIds = Array.from(checkedBoxes).map(cb => cb.dataset.cartId);
+
+		    if (cartIds.length === 0) {
+		        alert("주문할 상품을 선택해주세요.");
+		        return;
+		    }
+
+		    // 경로 수정됨: /product/order
+		    fetch("/product/order", {
+		        method: "POST",
+		        headers: {
+		            "Content-Type": "application/json"
+		        },
+		        body: JSON.stringify(cartIds)
+		    })
+		    .then(response => {
+		    	if (response.redirected) {
+		    		window.location.href = response.url;
+		    	} /* else {
+		    		alert("주문 페이지로 이동 중 오류가 발생했습니다.");
+		    	} */
 		    })
 		    .catch(err => {
 		        console.error(err);

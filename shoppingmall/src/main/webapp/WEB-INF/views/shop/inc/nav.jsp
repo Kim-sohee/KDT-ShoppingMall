@@ -47,7 +47,7 @@ body {
 	<div class="nav-box" id="nav">
 		<!-- 각 항목은 게임 카테고리를 의미 -->
 		<div class="nav-items">
-			<div class="items-label">전체 게임</div>
+			<div class="items-label"><a href="/shop/product/list">전체 게임</a></div>
 		</div>
 		<div class="nav-items">
 			<div class="items-label">전략 게임</div>

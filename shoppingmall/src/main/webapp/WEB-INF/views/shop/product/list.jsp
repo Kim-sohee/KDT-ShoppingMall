@@ -1,4 +1,5 @@
 <%@page import="java.util.Map"%>
+<!--아래 imoport 작성 하신 분 왜 사용하신건지 알려주세요~! -->
 <%@page import="org.apache.jasper.runtime.PageContextImpl"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="shoppingmall.domain.AgeRange"%>
