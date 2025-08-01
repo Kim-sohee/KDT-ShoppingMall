@@ -1,5 +1,7 @@
+<%@page import="shoppingmall.domain.Theme"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<% List<Theme> themeList = (List)request.getAttribute("themeList");%>
 <style>
 /* 기본적으로 body에 여백 제거 (페이지 전체 레이아웃을 꽉 차게 하기 위함) */
 body {
@@ -47,19 +49,14 @@ body {
 	<div class="nav-box" id="nav">
 		<!-- 각 항목은 게임 카테고리를 의미 -->
 		<div class="nav-items">
-			<div class="items-label"><a href="/shop/product/list">전체 게임</a></div>
+			<div class="items-label">
+				<a href="/shop/product/list" >전체 게임</a></div>
 		</div>
-		<div class="nav-items">
-			<div class="items-label">전략 게임</div>
-		</div>
-		<div class="nav-items">
-			<div class="items-label">가족 게임</div>
-		</div>
-		<div class="nav-items">
-			<div class="items-label">퍼즐 게임</div>
-		</div>
-		<div class="nav-items">
-			<div class="items-label">슈팅 게임</div>
-		</div>
+		<% for(Theme theme: themeList){ %>
+			<div class="nav-items">
+				<div class="items-label">
+				<a href="/shop/product/list?theme.theme_id=<%=theme.getTheme_id() %>" ><%=theme.getTheme_name() %> 게임</a></div>
+			</div>
+		<% } %>
 	</div>
 </body>

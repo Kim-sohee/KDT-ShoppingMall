@@ -77,6 +77,37 @@ body{
 	cursor: pointer;
 }
 
+/*검색 결과 창*/
+.search-results {
+    /*border: 1px solid #ccc;*/
+    background: white;
+    max-height: 300px;
+    overflow-y: auto;
+    position: absolute;
+	top:110px;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-results ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.search-results li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search-results li:hover {
+    background-color: #f0f0f0;
+}
+
+
 /* 로그인/장바구니/마이페이지 라벨 */
 .login, .cart, .mypage {
 	margin-left: 10px;
@@ -96,13 +127,15 @@ body{
 		</div>
 
 		<!-- 검색 창 구현 class-name : search-form -->
-		<form class="search-box" action="" method="GET">
+		<form class="search-box" action="/shop/product/search/go" method="GET">
 			<!-- 검색어 입력창 -->
-			<input class="search-text" id="search-text" type="text" name="" placeholder="검색어를 입력해주세요.">
+			<input class="search-text" id="search-text" type="text" name="product_name" placeholder="검색어를 입력해주세요.">
 			
 			<!--  필요시 type을 버튼으로 교체 가능합니다. -->
 			<button class="search-btn" type="submit">검색</button>
 		</form>
+		<!-- 검색 결과 미리보기 영역 -->
+		<div id="search-results" class="search-results"></div>
 		
 		<!-- 로그인 / 장바구니 / 마이페이지 -->
 		<%if (loginMember == null){ %>
@@ -113,4 +146,46 @@ body{
 		<label class="cart" id="cart"><a href="/shop/cart/list">장바구니</a></label>
 		<label class="mypage" id="mypage">마이페이지</label>
 	</div>
+	
+	<script type="text/javascript">
+		//검색 창 관련 메소드
+		$(()=>{			
+			$('#search-text').on('keyup', function(){
+				let keyword = $(this).val().trim();
+				if (keyword.length < 1) {
+					$('#search-results').empty();
+		            return;
+	            }
+				
+				//비동기로 가져오기
+				$.ajax({
+					url:'/shop/product/search/list',
+					type: 'GET',
+					data: {product_name: keyword},
+					success: function(result, status, xhr){
+						let resultHtml = '';
+						
+						if(result.length>0){
+							resultHtml = '<ul>';
+							result.forEach(function(product){
+								resultHtml += '<li>';
+								resultHtml += '<a href=';
+								resultHtml += "/shop/product/detail?product_id=" + product.product_id; 
+								resultHtml += '>';
+								resultHtml += product.product_name;
+								resultHtml += '</a></li>';
+							});
+							resultHtml += '</ul>';
+						}else{
+							resultHtml = '<p>검색 결과가 없습니다.</p>';
+						}
+						$('#search-results').html(resultHtml);
+					},
+					error: function(xhr, status, err){
+						 $('#search-results').html('<p>검색 중 오류가 발생했습니다.</p>');
+					}
+				});
+			});
+		});
+	</script>
 </body>

@@ -5,7 +5,12 @@
 <%
 	//배송관련 , 포인트 얻어오기 용 Member
 	Member member = (Member)request.getAttribute("member");
-	//장바구니에 담긴상품 목록
+	if (member == null) {
+	    response.sendRedirect("/shop/member/loginform"); // 로그인 페이지로 리디렉션
+	    return;
+	}	
+
+//장바구니에 담긴상품 목록
 	List<Cart> cart_items = (List)request.getAttribute("orderItems");
 %>
 <!DOCTYPE html>

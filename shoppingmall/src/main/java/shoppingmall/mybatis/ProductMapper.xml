@@ -43,6 +43,11 @@
 		</if>
 	</select>
 	
+	<!-- 이름으로 검색한 상품 가져오기 -->
+	<select id="selectProductSearchName" parameterType="String" resultMap="productMap">
+		select * from product where product_name like concat('%', #{product_name}, '%')
+	</select>
+	
 	<!-- 한 건 가져오기 -->
 	<select id="select" parameterType="int" resultMap="productMap">
 		select * from product where product_id=#{product_id}

@@ -12,6 +12,11 @@
 		select * from theme where theme_id=#{theme_id}
 	</select>
 	
+	<!-- 이름으로 한 건 가져오기 -->
+	<select id="selectThemeByName" parameterType="String" resultType="Theme">
+		select * from theme where theme_name=#{theme_name}
+	</select>
+	
 	<!-- 한 건 등록하기 -->
 	<insert id="insert" parameterType="Theme">
 		insert into theme(theme_name) values(#{theme_name})
