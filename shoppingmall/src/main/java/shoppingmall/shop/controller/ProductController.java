@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
@@ -90,6 +91,15 @@ public class ProductController {
 		
 		return mav;
 	}
+	
+	//검색을 통한 상품 리스트 가져오기
+	@GetMapping("/product/search/list")
+	@ResponseBody
+	public List selectProductSearchName(String product_name) {
+		List searchProductList = productService.selectProductSearchName(product_name);
+		return searchProductList;
+	}
+	
 	
 	//상품 하나 detail 페이지로 들어가기
 	@GetMapping("/product/detail")
