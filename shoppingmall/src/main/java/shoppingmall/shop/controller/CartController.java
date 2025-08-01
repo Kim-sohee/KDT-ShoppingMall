@@ -77,7 +77,7 @@ public class CartController {
         model.addAttribute("discount", discount);
         model.addAttribute("deliveryFee", deliveryFee);
 
-        return "shop/product/cart"; // /WEB-INF/views/cart/list.jsp
+        return "shop/product/cart"; 
     }
     
     @GetMapping("/cart/delete")
