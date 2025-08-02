@@ -42,6 +42,10 @@ body {
 	font-weight: bold;
 	line-height:50px;
 }
+
+.items-label a:hover {
+	color: #D70C19;
+}
 </style>
 
 <body>
