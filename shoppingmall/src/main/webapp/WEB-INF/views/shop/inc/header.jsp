@@ -122,6 +122,63 @@ body{
 	cursor: pointer;
 	font-weight: bold;
 }
+
+/* 반응형 UI 처리 */
+@media (max-width: 1024px) {
+	#shoppingMallName {
+		font-size: 2rem;
+	}
+
+	.search-box {
+		width: 100%;
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+@media (max-width: 768px) {
+	#wrapper {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	#logo_image {
+		width: 100px;
+	}
+
+	#shoppingMallName {
+		font-size: 1.8rem;
+	}
+
+	.search-box {
+		width: 100%;
+	}
+
+	.login, .cart, .mypage {
+		font-size: 0.9rem;
+		margin-top: 10px;
+	}
+}
+
+@media (max-width: 480px) {
+	#shoppingMallName {
+		font-size: 1rem;
+	}
+
+	.search-text {
+		font-size: 14px;
+		padding: 0 80px 0 15px;
+	}
+
+	.search-btn {
+		padding: 0 15px;
+		font-size: 14px;
+	}
+
+	.login, .cart, .mypage {
+		display: block;
+		margin: 5px 0;
+	}
 </style>
 </head>
 <body>

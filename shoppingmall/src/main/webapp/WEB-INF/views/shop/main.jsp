@@ -19,7 +19,7 @@ body {
 /* 전체 페이지 크기 설정 height: 1900px  */
 #container {
 	width: 100%;
-	height: 1900px;
+	height: auto;
 }
 
 /* 베너 관련한 스타일 */
@@ -28,10 +28,18 @@ body {
 	height: 400px;
 	background-color: green;
 }
+#banner img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
 /* 인기 카테고리 범위 */
 #popular_category {
 	width: 100%;
-	height: 600px;
+	height: auto;
+	padding: 20px 0;
 }
 
 #popular_category_id {
@@ -109,6 +117,7 @@ body {
     width: 100%;
     padding: 40px 0;
     background-color: #f8f8f8;
+    margin-top: 40px;
 }
 
 .best_seller_title {
@@ -159,7 +168,91 @@ body {
     color: #555;
 }
 
+/*반응형 UI 처리*/
+@media (max-width: 768px) {
+	/* 베너 높이 줄이기 */
+	#banner {
+		height: 300px;
+	}
 
+	/* 인기 카테고리 제목 크기 */
+	#recommend_category {
+		font-size: 28px;
+	}
+
+	/* 카드 크기 및 텍스트 크기 줄이기 */
+	.popular_category_items {
+		width: 180px;
+		height: 280px;
+		padding: 15px;
+	}
+
+	.popular_category_items_label {
+		font-size: 16px;
+	}
+
+	.popular_category_items_detail {
+		font-size: 12px;
+	}
+
+	.best_seller_title {
+		font-size: 24px;
+	}
+
+	.best_seller_card {
+		width: 180px;
+	}
+
+	.product_name {
+		font-size: 14px;
+	}
+
+	.product_price {
+		font-size: 16px;
+	}
+}
+
+@media (max-width: 480px) {
+	#banner {
+		height: 250px;
+	}
+
+	/* 인기 카테고리 제목 크기 */
+	#recommend_category {
+		font-size: 22px;
+	}
+
+	/* 카드 크기 및 텍스트 크기 줄이기 */
+	.popular_category_items {
+		width: 150px;
+		height: 240px;
+		padding: 10px;
+	}
+
+	.popular_category_items_label {
+		font-size: 14px;
+	}
+
+	.popular_category_items_detail {
+		font-size: 10px;
+	}
+
+	.best_seller_title {
+		font-size: 20px;
+	}
+
+	.best_seller_card {
+		width: 150px;
+	}
+
+	.product_name {
+		font-size: 12px;
+	}
+
+	.product_price {
+		font-size: 14px;
+	}
+}
 </style>
 <body>
 	<!-- 메인 페이지 구현  -->
