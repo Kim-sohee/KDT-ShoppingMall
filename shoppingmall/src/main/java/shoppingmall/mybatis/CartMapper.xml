@@ -79,5 +79,8 @@
             #{id}
         </foreach>
     </select>
-
+	<delete id="deleteByMemberId" parameterType="int">
+    DELETE FROM cart WHERE member_id = #{member_id}
+</delete>
+	
 </mapper>

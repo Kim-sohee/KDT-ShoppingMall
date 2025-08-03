@@ -57,5 +57,10 @@ public class MybatisCartDAO implements CartDAO{
 			List<Cart> result = sqlSessionTemplate.selectList("Cart.selectByIds",ids);
 			return result;
 		}
+
+		@Override
+		public void deleteByMemberId(int member_id) {
+			sqlSessionTemplate.delete("Cart.deleteByMemberId",member_id);
+		}
 	
 }

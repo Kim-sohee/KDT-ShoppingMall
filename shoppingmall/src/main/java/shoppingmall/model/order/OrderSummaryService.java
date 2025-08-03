@@ -13,4 +13,7 @@ public interface OrderSummaryService {
 	public OrderSummary selectByStatusList(int order_summary_id, Member member, List<Integer> statusList);
 	public List<Integer> getStatusListByType(String statusType);
 	public List<Status> selectStatusAll();
+
+
+	public void insert(OrderSummary orderSummary);
 }

@@ -9,8 +9,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import shoppingmall.domain.Delivery;
 import shoppingmall.domain.Member;
 import shoppingmall.domain.OrderSummary;
+import shoppingmall.domain.Status;
 import shoppingmall.exception.OrderSummaryNotFoundException;
 
 @Repository
@@ -62,6 +64,12 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
 		}
 		
 		return orderSummary;
+	}
+
+	@Override
+	public void Insert(OrderSummary ordersummary) {
+		sqlSessionTemplate.insert("OrderSummary.insert",ordersummary);
+		
 	}
 	
 }

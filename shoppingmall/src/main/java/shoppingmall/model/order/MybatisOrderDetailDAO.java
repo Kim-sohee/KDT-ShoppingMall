@@ -24,4 +24,10 @@ public class MybatisOrderDetailDAO implements OrderDetailDAO {
 		return orderDetailList;
 	}
 
+	@Override
+	public void insert(OrderDetail orderDetail) {
+		sqlSessionTemplate.insert("OrderDetail.insert",orderDetail);
+		
+	}
+
 }

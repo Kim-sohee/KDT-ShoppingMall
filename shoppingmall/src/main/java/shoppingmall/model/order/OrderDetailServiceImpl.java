@@ -18,4 +18,10 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	public List<OrderDetail> selectAll() throws OrderDetailNotFoundException {
 		return orderDetailDAO.selectAll();
 	}
+
+	@Override
+	public void insert(OrderDetail orderDetail) {
+		orderDetailDAO.insert(orderDetail);
+		
+	}
 }

@@ -16,6 +16,8 @@ public class ProductSnapshot {
 	private String description;
 	private String regdate;
 	private int play_time;
+	
+	private String image;
 	private List<ProductImage> productImages = new ArrayList<>();
 	
 	private Theme theme;
