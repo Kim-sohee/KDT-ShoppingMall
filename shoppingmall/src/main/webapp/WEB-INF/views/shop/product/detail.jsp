@@ -15,6 +15,12 @@ Map<Integer, Integer> ratingMap = (Map<Integer, Integer>) request.getAttribute("
 int totalCount = (int) request.getAttribute("count");
 List<Qna> qnas = (List<Qna>)request.getAttribute("qna");
 int count_qna = (int)request.getAttribute("qna_count");
+
+String contextPath = request.getContextPath();
+String imageUrl = "";
+if(!product.getProductImages().isEmpty()){
+	imageUrl = contextPath+"/data/p_"+product.getProduct_id()+"/"+product.getProductImages().get(0).getFileName();
+}
 %>
 <!DOCTYPE html>
 <html>
@@ -208,6 +214,16 @@ int count_qna = (int)request.getAttribute("qna_count");
 	font-weight: bold;
 	cursor: pointer;
 	text-align: center;
+}
+
+#bt_cart_soldout {
+	padding: 6px 16px;
+	border-radius: 4px;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	background-color: #ccc;
+	color: black;
 }
 
 #bt_cart {
@@ -622,11 +638,11 @@ int count_qna = (int)request.getAttribute("qna_count");
 			<div id="upper_left_side">
 				<!-- 대표 이미지 영역  -->
 				<div id="main_image">
-					<img alt="메인 이미지" src="${product.image}">
+					<img alt="메인 이미지" src="${imageUrl}">
 				</div>
 				<!-- 이미지 갤러리 영역 -->
 				<div id="gallery">
-					<img alt="메인 이미지" src="${product.image}">
+					<img alt="메인 이미지" src="${imageUrl}">
 					<!-- 필요 시 추가 이미지 반복문 처리 가능 -->
 				</div>
 			</div>
@@ -689,10 +705,14 @@ int count_qna = (int)request.getAttribute("qna_count");
 						<input type="text" id="quantity" value="1" readonly>
 						<button>+</button>
 					</div>
+					<%if(product.getProduct_quantity()==0){ %>
+						<div id="bt_cart_soldout" disabled>품절되었습니다.</div> 
+					<%} else { %>
 					<!-- 장바구니 담기 버튼 -->
 					<div id="bt_cart">장바구니 담기</div>
 					<!-- 구매 버튼 -->
 					<div id="bt_but">구매하기</div>
+					<% } %>
 					<!--  찜 버튼 -->
 					<div id="bt_favorite">찜</div>
 				</div>

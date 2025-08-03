@@ -42,4 +42,22 @@ public class Paging {
 		log.debug("curPos="+curPos);
 		log.debug("num="+num);
 	}
+	
+	public void init(int totalRecord, int currentPage) {
+		this.totalRecord = totalRecord;
+		totalPage = (int) Math.ceil((float) totalRecord / pageSize);
+		this.currentPage = currentPage;
+		firstPage = currentPage - (currentPage - 1) % blockSize;
+		lastPage = firstPage + (blockSize - 1);
+		curPos = (currentPage - 1) * pageSize;
+		num = totalRecord - curPos;
+
+		log.debug("totalRecord=" + totalRecord);
+		log.debug("totalPage=" + totalPage);
+		log.debug("currentPage=" + currentPage);
+		log.debug("firstPage=" + firstPage);
+		log.debug("lastPage=" + lastPage);
+		log.debug("curPos=" + curPos);
+		log.debug("num=" + num);
+	}
 }

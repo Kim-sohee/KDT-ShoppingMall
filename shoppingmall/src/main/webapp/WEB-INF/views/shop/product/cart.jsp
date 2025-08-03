@@ -9,6 +9,8 @@
 	int totalPrice = request.getAttribute("totalPrice") != null ? (int) request.getAttribute("totalPrice") : 0;
 	int discount = request.getAttribute("discount") != null ? (int) request.getAttribute("discount") : 0;
 	int deliveryFee = request.getAttribute("deliveryFee") != null ? (int) request.getAttribute("deliveryFee") : 0;
+	
+	String contextPath = request.getContextPath();
 %>
 
 <!DOCTYPE html>
@@ -70,7 +72,11 @@
 							for (Cart cart : cart_list) {
 								String title = cart.getProduct().getProduct_name();
 								int price = cart.getProduct().getPrice();
-								String thumbnail = cart.getProduct().getImage();
+								String imageUrl = "";
+								if(!cart.getProduct().getProductImages().isEmpty()){
+									imageUrl = contextPath+"/data/p_"+cart.getProduct().getProduct_id()+"/"+cart.getProduct().getProductImages().get(0).getFileName();
+								}
+								String thumbnail = imageUrl;
 								int quantity = cart.getQuantity();
 						%>
 						<div class="cart-item">

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ProductSnapshot">
-	<resultMap type="Product" id="productMap">
-		<id column="product_id" property="product_id"/>
+	<resultMap type="ProductSnapshot" id="productMap">
+		<id column="product_snapshot_id" property="product_snapshot_id"/>
 		<result column="product_name" property="product_name"/>
 		<result column="price" property="price"/>
 		<result column="discount_rate" property="discount_rate"/>
@@ -10,7 +10,6 @@
 		<result column="description" property="description"/>
 		<result column="regdate" property="regdate"/>
 		<result column="play_time" property="play_time"/>
-		<result column="image" property="image"/>
 		
 		<!-- 1:1 관계인 부모 연계 -->
 		<association column="theme_id" property="theme" javaType="Theme" select="Theme.select"/>
@@ -22,11 +21,11 @@
 
 	<!-- 모두 가져오기 -->
 	<select id="selectAll" resultMap="productMap">
-		select * from product
+		select * from product_snapshot
 	</select>
 	
 	<!-- 한 건 가져오기 -->
 	<select id="select" parameterType="int" resultMap="productMap">
-		select * from product where product_id=#{product_id}
+		select * from product_snapshot where product_snapshot_id=#{product_snapshot_id}
 	</select>
 </mapper>

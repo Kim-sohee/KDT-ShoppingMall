@@ -1,11 +1,6 @@
 <%@page import="shoppingmall.util.Paging"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@include file="../inc/init.jsp" %>
-<%
-	Paging paging = new Paging(); 
-	//productController 생기면 paging productController에서 request에 담아 넘기겠습니다.
-	pageParam = "cancel";
-%>
+<%@ include file="../inc/init.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en">

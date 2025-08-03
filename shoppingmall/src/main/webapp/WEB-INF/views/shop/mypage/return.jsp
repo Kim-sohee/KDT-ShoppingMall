@@ -1,11 +1,7 @@
+<%@page import="shoppingmall.util.PriceFormat"%>
 <%@page import="shoppingmall.util.Paging"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@include file="../inc/init.jsp"%>
-<%
-	Paging paging = new Paging(); 
-	//productController 생기면 paging productController에서 request에 담아 넘기겠습니다.
-	pageParam = "return";
-%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -60,104 +56,108 @@
 					<div class="mypage-product">
 
 						<%
-						String activeTab = request.getParameter("tab");
-						if (activeTab == null) activeTab = "all"; // 기본 탭은 전체
+						String status_type = request.getParameter("status_type");
+						if (status_type == null) status_type = "problematic"; // 기본 탭은 전체
 						%>
 
 						<div class="mypage-product-header">
 							<div
-								class="header-item <%= "all".equals(activeTab) ? "selected" : "" %>">
-								<a href="?tab=all">전체</a>
+								class="header-item <%= "problematic".equals(status_type) ? "selected" : "" %>">
+								<a href="/shop/mypage/order/list?page=<%= pageParam %>&status_type=problematic">전체</a>
 							</div>
 							<div
-								class="header-item <%= "cancel".equals(activeTab) ? "selected" : "" %>">
-								<a href="?tab=cancel">취소/반품</a>
+								class="header-item <%= "returns".equals(status_type) ? "selected" : "" %>">
+								<a href="/shop/mypage/order/list?page=<%= pageParam %>&status_type=returns">취소/반품</a>
 							</div>
 							<div
-								class="header-item <%= "exchange".equals(activeTab) ? "selected" : "" %>">
-								<a href="?tab=exchange">교환</a>
+								class="header-item <%= "exchanges".equals(status_type) ? "selected" : "" %>">
+								<a href="/shop/mypage/order/list?page=<%= pageParam %>&status_type=exchanges">교환</a>
 							</div>
 						</div>
 						<%
-						    // 예시: 실제로는 request 속성에서 주문 리스트를 가져와서 size 확인
-						    // List<Order> cancelList = (List<Cancel>) request.getAttribute("orderList");
-						    // int orderCount = (orderList != null) ? orderList.size() : 0;
-						    int orderCount = 0;
-						%>
-						
-						<% if (orderCount == 0) { %>
-						    <div class="no-orders">
-						        <% if ("cancel".equals(activeTab)) { %> 취소/반품 내역이 없습니다.
-						        <% } else if ("exchange".equals(activeTab)) { %> 교환 내역이 없습니다.
+					        int curPos = paging.getCurPos();
+					        int num = paging.getNum();
+					        
+					        if(orderSummaryList.size() == 0) {
+					    %>
+					        <div class="no-orders">
+					            <% if ("returns".equals(status_type)) { %> 취소/반품 내역이 없습니다.
+						        <% } else if ("exchanges".equals(status_type)) { %> 교환 내역이 없습니다.
 						        <% } else { %> 나의 취소/반품/교환 내역이 없습니다.
 						        <% } %>
-						    </div>
-						<% } else { %>
+					        </div>
+					    <%
+					        } else {
+					    %>
 						
-						<div class="product-item-list">
-							<%for(int i = 0; i < orderCount; i++ ){ %>
-							<div class="product-item">
-								<div class="item-main-header">
-									<span><%="2025. 8. 1." %> <%="반품" %></span> <span><a
-										href="#">주문 상세보기></a></span>
-								</div>
-								<div class="product-card">
-									<div class="product-item-main">
-										<div class="item-image">
-											<img src="/img/Welcome.png" alt="아그리콜라">
-										</div>
-										<div class="item-info">
-											<!-- <h3><a href="product-detail.jsp"> 입력해주어야 함 -->
-											<h3>
-												<a href="#"><%="아그리콜라" %></a>
-											</h3>
-											<p class="item-brand"><%="에이스" %></p>
-											<div class="item-specs">
-												<span class="option-label">인원:</span> <span
-													class="option-value"><%=2 %>-<%=4 %>명</span>
-											</div>
-											<div class="item-specs">
-												<span class="option-label">연령:</span> <span
-													class="option-value"><%=14 %>세 이상</span>
-											</div>
-											<div class="item-specs">
-												<span class="option-label">수량:</span> <span
-													class="option-value"><%=10 %>개</span>
-											</div>
-											<div class="item-options">
-												<span class="option-label">옵션:</span> <span
-													class="option-value">기본판</span>
-											</div>
-										</div>
-										<div class="item-price">
-											<div class="price-original">
-												<span class="discount-rate"><%="10%" %> </span> <span
-													class="original-price"><%="50,000" %>원</span>
-											</div>
-											<div class="price-sale"><%="145,000" %>원
-											</div>
-										</div>
-									</div>
-									<div class="item-actions">
-										<button class="btn-detail">반품 상세 보기</button>
-									</div>
-								</div>
+						<!-- table 영역 시작 -->
+					<div class="mypage-table">
+						<div class="col-12">				
+							<table class="my-hover-table">
+								<thead>
+									<tr>
+										<th>No</th>
+										<th>주문일자</th>
+										<th>전체금액</th>
+										<th>결제금액</th>
+										<th>사용포인트</th>
+										<th>결제수단</th>
+										<th>결제상세</th>
+									</tr>
+								</thead>
+								<tbody>
+								
+									<%	for(int i=0; i<paging.getPageSize(); i++){
+											if(curPos >= orderSummaryList.size()) break;
+											OrderSummary orderSummary = orderSummaryList.get(curPos++);									 		
+									 %>
+									 
+									<tr>
+										<td><%=num-- %></td>
+										<td><%=orderSummary.getOrdered_at() %></td>
+										<td><%=PriceFormat.productPriceFormat(orderSummary.getTotal_price()) %></td>
+										<td><%=PriceFormat.productPriceFormat(orderSummary.getFinal_price()) %></td>
+										<td><%=orderSummary.getPoint_used() %></td>
+										<td><%=orderSummary.getPayment_type() %></td>
+										<td>
+											<button style="border:0; border-radius: 0.5rem; background-color: #D70C19; color:white;">
+												<a href="/shop/mypage/order/detail?page=<%= pageParam %>&order_summary_id=<%= orderSummary.getOrder_summary_id() %>&status_type=<%= status_type %>"
+												  class="detail-link"
+												>
+												상세보기
+												</a>
+											</button>
+										</td>
+									</tr>
+									<%} %>
+									
+								</tbody>
+							</table>
+							<div class="card-footer clearfix">
+								<ul class="mypage-table-paging">
+									<%	if(paging.getFirstPage()-1 > 0){ %>
+									<li><a class="page-link" href="#" data-page="<%=paging.getFirstPage()-1%>">&laquo;</a></li>
+									<%	} else { %>
+									<li><a class="page-link disabled" href="#">&laquo;</a></li>
+									<%	} %>
+									
+									<% for(int i = paging.getFirstPage(); i <= paging.getLastPage(); i++) { %>
+									<% if (i > paging.getTotalPage()) break; //총 페이지 수를 넘으면 반복문 빠져나오기 %>
+									<li><a href=# class="page-link <%=(paging.getCurrentPage() == i) ? "active" : "" %>" data-page="<%=i %>"><%=i %></a></li>
+									<% } %>
+									
+									<% if(paging.getLastPage() < paging.getTotalPage()) {%>
+									<li><a class="page-link" href="#" data-page="<%=paging.getLastPage()+1%>">&raquo;</a></li>
+									<%	} else { %>
+									<li><a class="page-link disabled" href="#">&raquo;</a></li>
+									<%	} %>
+									
+								</ul>
 							</div>
-							<%} %>
-						</div>
-						<%} %>
-						<div class="card-footer clearfix">
-							<ul class="mypage-table-paging">
-								<li><a class="page-link" href="#">&laquo;</a></li>
-								<% for(int i = paging.getFirstPage(); i <= paging.getLastPage(); i++) { %>
-								<% if (i > paging.getTotalPage()) break; //총 페이지 수를 넘으면 반복문 빠져나오기 %>
-								<li><a class="page-link" href="?page=<%='#' %>"><%=i %></a></li>
-								<% } %>
-								<li><a class="page-link" href="#">&raquo;</a></li>
-							</ul>
 						</div>
 					</div>
-					<!-- 상품 항목 card 영역 끝 -->
+					<% } %>
+					<!-- table 영역 끝 -->	
 
 				</section>
 				<!-- 마이페이지 상세내용 끝 -->
@@ -172,6 +172,33 @@
 	<%@ include file="../inc/footer.jsp"%>
 	<!-- footer 끝 -->
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function applyDateFilter() {
+	    const start = document.querySelector('input[name="start_date"]').value;
+	    const end = document.querySelector('input[name="end_date"]').value;
+	
+	    const params = new URLSearchParams(window.location.search);
+	    params.set("start_date", start);
+	    params.set("end_date", end);
+	    params.set("page", "<%= pageParam %>"); // 원래 페이지 유지
+	
+	 	// form 기본 제출 막기
+	    const form = document.getElementById("date_form");
+	    if (form) {
+	      form.onsubmit = (e) => e.preventDefault();
+	    }
+
+	    // 주소로 이동
+	    location.href = "/shop/mypage/order/list?" + params.toString();
+	  }
+  
+	// 버튼 클릭시 폼 제출
+    document.querySelector('#date_form button').addEventListener('click', (e) => {
+	  e.preventDefault(); // 버튼의 submit 막기
+	  applyDateFilter();
+	});
+</script>
 </html>
 
 

@@ -20,9 +20,9 @@ public class MybatisReviewDAO implements ReviewDAO {
 	
 	//product_id에 해당하는 전페 리뷰 객체를 불러옵니다.
 	@Override
-	public List<Review> selectByProductId(int product_id) {
+
+	public List<Review> selectByProductId(int product_id) /*throws ReviewNullException*/{
 		List list = sqlSessionTemplate.selectList("Review.selectByProductId",product_id);
-		
 		return list;
 	}
 	

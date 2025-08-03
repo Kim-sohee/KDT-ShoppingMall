@@ -84,10 +84,10 @@ body{
     max-height: 300px;
     overflow-y: auto;
     position: absolute;
-	top:110px;
+	top:100%;
     left: 0;
     z-index: 1000;
-    width: 100%;
+    width: 740px;
     border-radius: 0 0 10px 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -103,6 +103,14 @@ body{
     cursor: pointer;
 }
 
+.search-results li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-decoration: none;
+	color: inherit;
+}
+
 .search-results li:hover {
     background-color: #f0f0f0;
 }
@@ -114,6 +122,63 @@ body{
 	cursor: pointer;
 	font-weight: bold;
 }
+
+/* 반응형 UI 처리 */
+@media (max-width: 1024px) {
+	#shoppingMallName {
+		font-size: 2rem;
+	}
+
+	.search-box {
+		width: 100%;
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+@media (max-width: 768px) {
+	#wrapper {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	#logo_image {
+		width: 100px;
+	}
+
+	#shoppingMallName {
+		font-size: 1.8rem;
+	}
+
+	.search-box {
+		width: 100%;
+	}
+
+	.login, .cart, .mypage {
+		font-size: 0.9rem;
+		margin-top: 10px;
+	}
+}
+
+@media (max-width: 480px) {
+	#shoppingMallName {
+		font-size: 1rem;
+	}
+
+	.search-text {
+		font-size: 14px;
+		padding: 0 80px 0 15px;
+	}
+
+	.search-btn {
+		padding: 0 15px;
+		font-size: 14px;
+	}
+
+	.login, .cart, .mypage {
+		display: block;
+		margin: 5px 0;
+	}
 </style>
 </head>
 <body>
@@ -133,9 +198,10 @@ body{
 			
 			<!--  필요시 type을 버튼으로 교체 가능합니다. -->
 			<button class="search-btn" type="submit">검색</button>
+			
+			<!-- 검색 결과 미리보기 영역 -->
+			<div id="search-results" class="search-results"></div>
 		</form>
-		<!-- 검색 결과 미리보기 영역 -->
-		<div id="search-results" class="search-results"></div>
 		
 		<!-- 로그인 / 장바구니 / 마이페이지 -->
 		<%if (loginMember == null){ %>
@@ -143,8 +209,8 @@ body{
 		<%} else{%>
 		<label class="login"><a href="/shop/member/logout">로그아웃</a></label>
 		<%} %>
-		<label class="cart" id="cart"><a href="/shop/cart/list">장바구니</a></label>
-		<label class="mypage" id="mypage">마이페이지</label>
+		<label class="cart" id="cart">장바구니</label>
+		<label class="mypage" id="mypage"><a href="/shop/mypage/order/list">마이페이지</a></label>
 	</div>
 	
 	<script type="text/javascript">

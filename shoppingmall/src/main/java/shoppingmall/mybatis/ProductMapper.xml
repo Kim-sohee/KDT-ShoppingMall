@@ -11,15 +11,19 @@
 		<result column="description" property="description"/>
 		<result column="regdate" property="regdate"/>
 		<result column="play_time" property="play_time"/>
-		<result column="image" property="image"/>
 		
 		<!-- 1:1 관계인 부모 연계 -->
 		<association column="theme_id" property="theme" javaType="Theme" select="Theme.select"/>
 		<association column="player_range_id" property="playerRange" javaType="PlayerRange" select="PlayerRange.select"/>
 		<association column="age_range_id" property="ageRange" javaType="AgeRange" select="AgeRange.select"/>
 		<association column="difficulty_id" property="difficulty" javaType="Difficulty" select="Difficulty.select"/>
+		<collection column="product_id" property="productImages" javaType="java.util.List" ofType="ProductImage" select="ProductImage.select"/>
 		
 	</resultMap>
+	
+	<sql id="columns">
+		product_id, product_name, price, discount_rate, product_quantity, description, regdate, play_time, theme_id, player_range_id, age_range_id, difficulty_id
+	</sql>
 
 	<!-- 모두 가져오기 -->
 	<select id="selectAll" resultMap="productMap">
@@ -53,15 +57,23 @@
 		select * from product where product_id=#{product_id}
 	</select>
 	
+	<!-- ResultMap 없 한 건 가져오기 -->
+	<select id="selectOnlyProduct" parameterType="int" resultType="Product">
+		select * from product where product_id=#{product_id}
+	</select>
+	
 	<!-- 한 건 추가하기 -->
 	<insert id="insert" parameterType="Product">
 		insert into product(
-			product_name, price, discount_rate, product_quantity, description, regdate,
-			play_time, image, theme_id, player_range_id, age_range_id, difficulty_id)
-		values(#{product_name}, #{price}, #{discount_rate}, #{product_quantity}, #{description}, #{regdate},
-			#{play_time}, #{image}, #{theme.theme_id}, #{playerRange.player_range_id}, #{ageRange.age_range_id}, #{difficulty.difficulty_id}
-			
+			product_name, price, discount_rate, product_quantity, description,
+			play_time, theme_id, player_range_id, age_range_id, difficulty_id)
+		values(#{product_name}, #{price}, #{discount_rate}, #{product_quantity}, #{description},
+			#{play_time}, #{theme.theme_id}, #{playerRange.player_range_id}, #{ageRange.age_range_id}, #{difficulty.difficulty_id}
 		)
+		<selectKey keyColumn="product_id" keyProperty="product_id"
+			resultType="int" order="AFTER">
+			select last_insert_id() as product_id
+		</selectKey>
 	</insert>
 	
 	<!-- 한 건 수정하기 -->
@@ -74,7 +86,6 @@
 			description=#{description},
 			regdate=#{regdate},
 			play_time=#{play_time},
-			image=#{image},
 			theme_id=#{theme.theme_id},
 			player_range_id=#{playerRange.player_range_id},
 			age_range_id=#{ageRange.age_range_id},
@@ -88,5 +99,24 @@
 	 	delete from product where product_id=#{product_id}
 	</delete>
 	
+	<!--전체 갯수 가져오기 -->
+	<select id="totalCount" resultType="int">
+		SELECT COUNT(product_id) as total_count FROM product
+	</select>
+	
+	<!--카테고리 기준 전체 갯수 가져오기 -->
+	<select id="totalCountByThemeId" parameterType="Theme" resultType="int">
+		SELECT COUNT(product_id) as total_count FROM product WHERE theme_id=#{theme_id}
+	</select>
+	
+	<!-- 페이지 기준으로 가져오기 -->
+	<select id="selectByPage" parameterType="map" resultMap="productMap">
+		SELECT <include refid="columns"/> FROM product LIMIT #{page_size} OFFSET #{offset} 
+	</select>
+	
+	<!-- 카테고리&페이지 기준으로 가져오기 -->
+	<select id="selectByThemeWithPage" parameterType="map" resultMap="productMap">	
+		SELECT <include refid="columns"/> FROM product WHERE theme_id=#{theme_id} LIMIT #{page_size} OFFSET #{offset} 
+	</select>
 	
 </mapper>

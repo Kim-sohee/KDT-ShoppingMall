@@ -168,6 +168,31 @@
     transform: scale(1.05);
 }
 
+/*상품 sold out 처리*/
+.sold-out-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* 반투명 검정 */
+  color: white;
+  font-size: 1.8rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  border-radius: 8px;
+}
+
+.sold-out-overlay label{
+	font-size: 35px;
+	font-style: bold;
+	color: #D70C19;
+}
+
+
 .product-overlay {
     position: absolute;
     top: 0;
