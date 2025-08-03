@@ -1,18 +1,11 @@
+<%@page import="shoppingmall.domain.Qna"%>
 <%@page import="shoppingmall.util.Paging"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@include file="../inc/init.jsp" %>
+<%
+	List<Qna> qnaList = (List)request.getAttribute("qnaList");
+%>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>보드게임</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
-<link rel="stylesheet" href="/static/shop/styles/mypage.css">
-<link rel="stylesheet" href="/static/shop/styles/footer.css">
-<link rel="stylesheet" href="/static/shop/styles/date.css">
-</head>
 <body>
 	<!-- header 시작 -->
 	<%@ include file="../inc/header.jsp"%>
@@ -52,13 +45,11 @@
 					<!-- 기간 조회 끝 -->
 					
 					<%
-					    // 예시: 실제로는 request 속성에서 주문 리스트를 가져와서 size 확인
-					    // List<Order> orderList = (List<Order>) request.getAttribute("orderList");
-					    // int orderCount = (orderList != null) ? orderList.size() : 0;
-					    int orderCount = 0;
-					%>
-					
-					<% if (orderCount == 0) { %>
+				        int curPos = paging.getCurPos();
+				        int num = paging.getNum();
+				        
+				        if(qnaList.size() == 0) {
+				    %>
 					    <div class="no-orders">
 					        나의 문의 내역이 없습니다.
 					    </div>
@@ -66,43 +57,83 @@
 								
 					<!-- table 영역 시작 -->
 					<div class="mypage-table">
-						<div class="col-12">				
+						<div class="col-12">
+										
 							<table class="my-hover-table">
 								<thead>
 									<tr>
 										<th>No</th>
 										<th>제목</th>
+										<th>질문내용</th>
 										<th>답변여부</th>
 										<th>답변자</th>
 									</tr>
 								</thead>
-								<tbody>
 								
-									<%for(int i=0; i<orderCount; i++){ %>
+								<!-- for문 시작 -->
+								<% for(Qna qna : qnaList) { 
+								   String content = qna.getContent().toString();
+								   int isCommented = qna.getIs_commented(); 
+								%>
+								<tbody>
+									
 									<tr>
-										<td><%="1" %></td>
-										<td><%="상품 배송 중 훼손된 것 같은데, 환불 되나요?" %></td>
-										<td><%="답변 대기 중" %></td>
+										<td><%=num-- %></td>
+										<td><%=qna.getTitle() %></td>
+										<td><a href = "/shop/mypage/detail?page=qna&qna_id=<%=qna.getQna_id() %>">
+										<% if(content.length() <= 20) { %>
+											<%=content %>
+										<% } else { %>
+											<%=content.substring(0, 20) + "..." %>
+										<% } %>
+										</a></td>
+										<%if(isCommented == 1){ %>
+										<td>답변완료</td>
+										<%} else{ %>
+										<td>답변대기중</td>
+										<%} %>
+										<% if(qna.getComment_member() == null){ %>
 										<td><%="-" %></td>
+										<% } else { %>
+										<td><%=qna.getComment_member() %></td>
+										<% } %>
 									</tr>
-									<%} %>
 									
 								</tbody>
+								<%} %>
+								<!-- for문 끝 -->
 							</table>
-						<%} %>
+					<%} %>
+					
+							<!-- paging 영역 시작 -->
+							<% if (qnaList.size() > 0) { %>
 							<div class="card-footer clearfix">
 								<ul class="mypage-table-paging">
-									<li><a class="page-link" href="#">&laquo;</a></li>
-									<% for(int i = paging.getFirstPage(); i <= paging.getLastPage(); i++) { %>
-									<% if (i > paging.getTotalPage()) break; //총 페이지 수를 넘으면 반복문 빠져나오기 %>
-									<li><a class="page-link" href="?page=<%='#' %>"><%=i %></a></li>
-									<% } %>
-									<li><a class="page-link" href="#">&raquo;</a></li>
+									<% if(paging.getFirstPage()-1 > 0){ %>
+								<li><a class="page-link" href="#" data-page="<%=paging.getFirstPage()-1%>">&laquo;</a></li>
+								<% } else { %>
+								<li><a class="page-link disabled" href="#">&laquo;</a></li>
+								<% } %>
+							
+								<% for(int i = paging.getFirstPage(); i <= paging.getLastPage(); i++) { %>
+								<% if (i > paging.getTotalPage()) break; %>
+								<li><a href="#" class="page-link <%=(paging.getCurrentPage() == i) ? "active" : "" %>" data-page="<%=i %>"><%=i %></a></li>
+								<% } %>
+							
+								<% if(paging.getLastPage() < paging.getTotalPage()) { %>
+								<li><a class="page-link" href="#" data-page="<%=paging.getLastPage()+1%>">&raquo;</a></li>
+								<% } else { %>
+								<li><a class="page-link disabled" href="#">&raquo;</a></li>
+								<% } %>
 								</ul>
 							</div>
+							<% } %>
+							<!-- paging 영역 끝 -->
+							
 						</div>
 					</div>
 					<!-- table 영역 끝 -->
+					
 				</section>
 				<!-- 마이페이지 상세내용 끝 -->
 			</section>
@@ -115,7 +146,8 @@
 	<%@ include file="../inc/footer.jsp"%>
 	<!-- footer 끝 -->
 </body>
+<script>
+	const pageParam = "<%= pageParam %>";
+</script>
+<script src="/static/mypage.js"></script>
 </html>
-
-
-

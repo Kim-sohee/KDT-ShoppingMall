@@ -47,7 +47,7 @@
 	<select id="selectByMember" parameterType="Member" resultMap="DetailJoin">
 		SELECT <include refid="columns"/> FROM order_summary WHERE member_id = #{member_id}
 	</select>
-
+	
 	<!-- 주문요약 추가 -->
 	<insert id="insert" parameterType="OrderSummary">
 		INSERT INTO order_summary(total_price, final_price, payment_type, point_used, member_id, status_id, delivery_id) 
@@ -63,8 +63,12 @@
 
 	<!-- 주문요약 삭제 -->
 	<delete id="delete" parameterType="int">
-		DELETE FROM order_summary
-		WHERE order_summary_id = #{order_summary_id}
+		DELETE FROM order_summary WHERE order_summary_id = #{order_summary_id}
+	</delete>
+	
+	<!-- 회원FK를 통한 주문요약 삭제 -->
+	<delete id="deleteByMemberId" parameterType="int">
+		DELETE FROM order_summary WHERE member_id = #{member_id}
 	</delete>
 
 </mapper>

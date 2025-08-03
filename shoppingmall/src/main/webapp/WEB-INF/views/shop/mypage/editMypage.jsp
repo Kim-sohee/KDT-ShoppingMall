@@ -1,18 +1,17 @@
 <%@page import="shoppingmall.util.Paging"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@include file="../inc/init.jsp" %>
+<%
+	Member logginedMember = (Member) session.getAttribute("member");
+    String msg = (String) session.getAttribute("msg");
+    if (msg != null) {
+%>
+<script>alert("<%= msg %>");</script>
+<%
+        session.removeAttribute("msg"); // 한 번만 띄우기 위해 제거
+    }
+%>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>보드게임</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
-<link rel="stylesheet" href="/static/shop/styles/mypage.css">
-<link rel="stylesheet" href="/static/shop/styles/footer.css">
-<link rel="stylesheet" href="/static/shop/styles/date.css">
-</head>
 <body>
 	<!-- header 시작 -->
 	<%@ include file="../inc/header.jsp"%>
@@ -57,8 +56,11 @@
 							<span>개인정보를 위해 </span> <br>
 							<span class="chechk-pwd-highlight">비밀번호를 다시 한 번 확인</span><span> 합니다.</span>
 						</div>
-						<input type="text" placeholder="비밀번호 입력">
-						<button class="btn-check-pwd" onclick="location.href='?tab=edit-detail'">확인</button>
+						<form method="post" action="/shop/mypage/check-password">
+							<input type="password" name="password" placeholder="비밀번호 입력">
+							<input type="hidden" name="page" value="cancel" />
+							<button class="btn-check-pwd">확인</button>
+						</form>
 					</div>
 					<!-- 회원정보 수정 안내 항목 입력 끝 -->
 				
@@ -70,27 +72,31 @@
 						
 					<!-- 회원정보 수정 항목 입력 시작 -->
 					<div class="edit-fill-data">
+						<form method="post" action="/shop/mypage/updateInfo">
+						<div class="edit-content">
+							<div><span>닉네임</span></div>
+							<input type="text" 		name="member_name" 	value=<%=logginedMember.getMember_name() %>	readonly style="background:#eee;">
+						</div>
 						<div class="edit-content">
 							<div><span>아이디</span></div>
-							<div><%="sinse01" %></div>
+							<input type="text" 		name="id" 			value=<%=logginedMember.getId() %> 			readonly style="background:#eee;"> 
 						</div>
 						<div class="edit-content">
 							<div><span>비밀번호</span></div>
-							<input type="password" value="12345678">
-							<button>변경</button>
-						</div>
-						<div class="edit-content">
-							<div><span>닉네임</span></div>
-							<input type="text" value=<%="sinse01" %>>
+							<input type="password" 	name="password" 	value="12345678">
 						</div>
 						<div class="edit-content">
 							<div><span>연락처</span></div>
-							<input type="text" value="010-1234-5678">
+							<input type="text" 		name="phone" 		value=<%=logginedMember.getPhone() %>>
 						</div>
 						<div class="edit-content">
 							<div><span>이메일</span></div>
-							<div><%="sinse01@gmail.com" %></div>
+							<input type="text" 		name="email" 		value=<%=logginedMember.getEmail() %> 		readonly style="background:#eee;">
 						</div>
+						<div class="edit-content">
+							<button>수정</button>
+						</div>
+						</form>
 					</div>
 					<!-- 회원정보 수정 항목 입력 끝 -->
 				<%} %>
@@ -99,7 +105,6 @@
 				<!-- 마이페이지 상세내용 끝 -->
 			</section>
 			<!-- 페이지 우측 aside 끝 -->
-
 
 		</div>
 	</main>
@@ -110,6 +115,3 @@
 	<!-- footer 끝 -->
 </body>
 </html>
-
-
-

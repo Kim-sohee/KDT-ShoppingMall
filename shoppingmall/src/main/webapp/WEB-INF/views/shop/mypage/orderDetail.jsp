@@ -114,8 +114,8 @@
 												<a href="/shop/product/detail"><%=product.getProduct_name() %></a>
 											</h3>
 											<div class="item-brand">
-												<span class="option-label">카테고리:</span> <span
-													class="option-value"><%=product.getTheme().getTheme_name() %></span>
+												<span class="option-label">카테고리:</span> 
+												<span class="option-value"><%=product.getTheme().getTheme_name() %></span>
 											</div>
 											<div class="item-specs">
 												<span class="option-label">인원:</span> <span
@@ -168,6 +168,3 @@
 	<!-- footer 끝 -->
 </body>
 </html>
-
-
-

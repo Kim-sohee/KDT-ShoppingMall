@@ -37,25 +37,35 @@ public class MybatisCartDAO implements CartDAO{
 	    sqlSessionTemplate.selectOne("Cart.delete",cartId);
 	   
 	}
-	  @Override
+	@Override
 	    public Cart select(int cart_id) {
 	        return sqlSessionTemplate.selectOne("Cart.selectById", cart_id);
+	}
+	
+	@Override
+	public void updateQuantity(Cart cart) {
+		sqlSessionTemplate.update("Cart.updateQuantity", cart);
+	}
+	
+	@Override
+	public void deleteSelectedItems(List cartIds) {
+		sqlSessionTemplate.delete("Cart.deleteSelectedItems", cartIds);
+	}
+	
+	@Override
+	public List<Cart> getCartItemsByIds(List<Integer> ids) {
+		List<Cart> result = sqlSessionTemplate.selectList("Cart.selectByIds",ids);
+		return result;
+	}
+	
+	@Override
+	public void deleteByMemberId(int member_id) throws CartException {
+		try {
+	        sqlSessionTemplate.delete("Cart.deleteByMemberId", member_id);
+	    } catch (Exception e) {
+	        throw new CartException("장바구니 삭제 중 오류 발생", e);
 	    }
-
-	    @Override
-	    public void updateQuantity(Cart cart) {
-	    	sqlSessionTemplate.update("Cart.updateQuantity", cart);
-	    }
-
-		@Override
-		public void deleteSelectedItems(List cartIds) {
-			sqlSessionTemplate.delete("Cart.deleteSelectedItems", cartIds);
-		}
-
-		@Override
-		public List<Cart> getCartItemsByIds(List<Integer> ids) {
-			List<Cart> result = sqlSessionTemplate.selectList("Cart.selectByIds",ids);
-			return result;
-		}
+		
+	}
 	
 }

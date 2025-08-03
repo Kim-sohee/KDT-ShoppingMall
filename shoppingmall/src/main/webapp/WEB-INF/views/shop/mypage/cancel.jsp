@@ -1,6 +1,15 @@
 <%@page import="shoppingmall.util.Paging"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="../inc/init.jsp" %>
+<%
+    String msg = (String) session.getAttribute("msg");
+    if (msg != null) {
+%>
+<script>alert("<%= msg %>");</script>
+<%
+        session.removeAttribute("msg"); // 한 번만 띄우기 위해 제거
+    }
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,11 +41,6 @@
 			<%@ include file="../inc/sidebar.jsp"%>
 			<!-- 마이페이지 사이드바 끝 -->
 			
-			<%
-			//pageParam = request.getParameter("page");
-			pageParam = "edit-mypage";
-			%>
-			
 			<!-- 페이지 우측 aside 시작 -->
 			<section class="aside-container">
 				<!-- 주문 요약 시작 -->
@@ -62,8 +66,11 @@
 							<span>개인정보를 위해 </span> <br>
 							<span class="chechk-pwd-highlight">비밀번호를 다시 한 번 확인</span><span> 합니다.</span>
 						</div>
-						<input type="text" placeholder="비밀번호 입력">
-						<button class="btn-check-pwd" onclick="location.href='?tab=cancel-info'">확인</button>
+						<form method="post" action="/shop/mypage/check-password">
+							<input type="password" name="password" placeholder="비밀번호 입력">
+							<input type="hidden" name="page" value="cancel" />
+							<button class="btn-check-pwd">확인</button>
+						</form>
 					</div>
 					<!-- 비밀번호 확인 끝 -->
 						
@@ -75,7 +82,7 @@
 								<span>회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요.</span>
 							</div>
 							<div class="cancel-info-item">
-								<span>✔ 사용하고 계신 아이디(<%="sinse01" %>)는 탈퇴할 경우 재사용 및 복구가 불가능합니다.</span>
+								<span>✔ 사용하고 계신 아이디(<%=loginMember.getId() %>)는 탈퇴할 경우 재사용 및 복구가 불가능합니다.</span>
 								<span>탈퇴한 아이디는 본인과 타인 모두 재사용 및 복구가 불가하오니 신중하게 선택하시기 바랍니다.</span>
 								<span>부정 가입 또는 부정 이용이 의심되는 아이디는 탈퇴 후 6개월간 동일한 실명정보로 재가입 할 수 없습니다.</span>
 							</div>
@@ -92,7 +99,11 @@
 							<div class="cancel-final-confirm">
 								<span>정말 삭제하시겠습니까?</span>
 							</div>
-						<button class="btn-check-pwd" onclick="location.href='?tab=cancel-complete'">삭제</button>
+							<form method="post" action="/shop/mypage/delete">
+								<input type="hidden" name="page" value="cancel" />
+								<input type="hidden" name="member_id" value=<%=loginMember.getMember_id() %> />
+								<button class="btn-check-pwd">삭제</button>
+							</form>
 					</div>
 					<!-- 회원탈퇴 안내문 끝 -->				
 					
@@ -123,6 +134,3 @@
 	<!-- footer 끝 -->
 </body>
 </html>
-
-
-
