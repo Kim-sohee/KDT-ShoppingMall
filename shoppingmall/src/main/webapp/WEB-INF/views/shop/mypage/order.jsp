@@ -1,7 +1,6 @@
 <%@page import="shoppingmall.util.PriceFormat"%>
-<%@page import="shoppingmall.util.Paging"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@include file="../inc/init.jsp"%>
+<%@include file="../inc/init.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,69 +27,41 @@
 		<div class="mypage-header">
 			<h1>마이페이지</h1>
 		</div>
-
+		
 		<div class="container">
 			<!-- 마이페이지 사이드바 시작 -->
-			<%@ include file="../inc/sidebar.jsp"%>
+			<%@include file="../inc/sidebar.jsp" %>
 			<!-- 마이페이지 사이드바 끝 -->
-
+			
 			<!-- 페이지 우측 aside 시작 -->
 			<section class="aside-container">
-				<!-- 주문 요약 시작 -->
-				<%@include file="../inc/order-summary.jsp"%>
+				<!-- 주문 요약 시작 -->		
+				<%@include file="../inc/order-summary.jsp" %>
 				<!-- 주문 요약 끝 -->
-
+				
 				<!-- 마이페이지 상세내용 시작 -->
 				<section class="detail-content">
-					<div class="detail-content-name">
-						<span>취소 / 반품 / 교환 조회</span>
-					</div>
-
+					
 					<!-- 기간 조회 시작 -->
 					<div>
-						<%@ include file="../inc/date.jsp"%>
+						<%@ include file="../inc/date.jsp" %>
 					</div>
 					<!-- 기간 조회 끝 -->
-
-					<!-- 상품 항목 card 영역 시작 -->
-					<div class="mypage-product">
-
-						<%
-						String status_type = request.getParameter("status_type");
-						if (status_type == null) status_type = "problematic"; // 기본 탭은 전체
-						%>
-
-						<div class="mypage-product-header">
-							<div
-								class="header-item <%= "problematic".equals(status_type) ? "selected" : "" %>">
-								<a href="/shop/mypage/order/list?page=<%= pageParam %>&status_type=problematic">전체</a>
-							</div>
-							<div
-								class="header-item <%= "returns".equals(status_type) ? "selected" : "" %>">
-								<a href="/shop/mypage/order/list?page=<%= pageParam %>&status_type=returns">취소/반품</a>
-							</div>
-							<div
-								class="header-item <%= "exchanges".equals(status_type) ? "selected" : "" %>">
-								<a href="/shop/mypage/order/list?page=<%= pageParam %>&status_type=exchanges">교환</a>
-							</div>
-						</div>
-						<%
-					        int curPos = paging.getCurPos();
-					        int num = paging.getNum();
-					        
-					        if(orderSummaryList.size() == 0) {
-					    %>
-					        <div class="no-orders">
-					            <% if ("returns".equals(status_type)) { %> 취소/반품 내역이 없습니다.
-						        <% } else if ("exchanges".equals(status_type)) { %> 교환 내역이 없습니다.
-						        <% } else { %> 나의 취소/반품/교환 내역이 없습니다.
-						        <% } %>
-					        </div>
-					    <%
-					        } else {
-					    %>
-						
-						<!-- table 영역 시작 -->
+					
+					<%
+				        int curPos = paging.getCurPos();
+				        int num = paging.getNum();
+				        
+				        if(orderSummaryList.size() == 0) {
+				    %>
+				        <div class="no-orders">
+				            주문 / 배송 내역이 없습니다.
+				        </div>
+				    <%
+				        } else {
+				    %>
+				    
+					<!-- table 영역 시작 -->
 					<div class="mypage-table">
 						<div class="col-12">				
 							<table class="my-hover-table">
@@ -121,8 +92,9 @@
 										<td><%=orderSummary.getPayment_type() %></td>
 										<td>
 											<button style="border:0; border-radius: 0.5rem; background-color: #D70C19; color:white;">
-												<a href="/shop/mypage/order/detail?page=<%= pageParam %>&order_summary_id=<%= orderSummary.getOrder_summary_id() %>&status_type=<%= status_type %>"
-												  class="detail-link"
+												<a 
+													href="/shop/mypage/order/detail?page=order&order_summary_id=<%= orderSummary.getOrder_summary_id()%>&status_type=delivery"
+													class="detail-link"
 												>
 												상세보기
 												</a>
@@ -158,12 +130,10 @@
 					</div>
 					<% } %>
 					<!-- table 영역 끝 -->	
-
 				</section>
 				<!-- 마이페이지 상세내용 끝 -->
 			</section>
 			<!-- 페이지 우측 aside 끝 -->
-
 		</div>
 	</main>
 	<!-- 마이페이지 본문 끝 -->
@@ -200,6 +170,3 @@
 	});
 </script>
 </html>
-
-
-

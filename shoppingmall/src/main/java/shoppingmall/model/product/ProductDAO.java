@@ -1,5 +1,4 @@
 package shoppingmall.model.product;
-
 import java.util.List;
 
 import shoppingmall.domain.Product;

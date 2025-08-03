@@ -1,6 +1,13 @@
+<%@page import="shoppingmall.util.Paging"%>
+<%@page import="shoppingmall.domain.OrderSummary"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-    String pageParam = request.getParameter("page");
-    if (pageParam == null) pageParam = "order";
-    request.setAttribute("pageParam", pageParam); // 공유
+	String pageParam = request.getParameter("page");
+	if (pageParam == null) pageParam = "order";
+	request.setAttribute("pageParam", pageParam);
+	
+    Paging paging = (Paging)request.getAttribute("paging");
+    
+    List<OrderSummary> orderSummaryList = (List)request.getAttribute("orderSummaryList");
 %>

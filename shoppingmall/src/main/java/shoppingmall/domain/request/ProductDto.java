@@ -29,7 +29,7 @@ public class ProductDto {
 	private Difficulty difficulty;
 	private List<MultipartFile> files = new ArrayList<>();
 	private List<ProductImage> productImages = new ArrayList<>();
-	
+
 	public Product toProduct() {
 		Product product = new Product();
 		if(product_id != null) {
@@ -50,3 +50,4 @@ public class ProductDto {
 		return product;
 	}
 }
+

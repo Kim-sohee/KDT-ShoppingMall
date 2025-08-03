@@ -10,7 +10,7 @@ import shoppingmall.exception.ProductImageInsertException;
 
 @Repository
 public class MybatisProductImageDAO implements ProductImageDAO {
-	
+
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 
@@ -34,5 +34,5 @@ public class MybatisProductImageDAO implements ProductImageDAO {
 			throw new ProductImageDeleteException(e);
 		}
 	}
-
 }
+

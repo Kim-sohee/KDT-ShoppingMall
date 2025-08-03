@@ -8,3 +8,4 @@ public class ProductImage {
 	private String fileName;
 	private Product product;
 }
+
