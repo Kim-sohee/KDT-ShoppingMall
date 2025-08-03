@@ -28,4 +28,9 @@
 	<select id="select" parameterType="int" resultMap="productMap">
 		select * from product_snapshot where product_snapshot_id=#{product_snapshot_id}
 	</select>
+	
+	<!-- 한건 이름 가져오기 -->
+	<select id="selectProductNameBySnapshotId" parameterType="int" resultType="String">
+		select product_name from product_snapshot where product_snapshot_id=#{product_snapshot_id}
+	</select>
 </mapper>
