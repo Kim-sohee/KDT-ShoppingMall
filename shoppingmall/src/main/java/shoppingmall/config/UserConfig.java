@@ -8,6 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.apis.GoogleApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuth20Service;
@@ -79,4 +80,10 @@ public class UserConfig {
 		builder.callback(naver_redirect_uri);
 		return builder.build(NaverApi20.instance());
 	}
+	
+	
+	 @Bean
+	    public ObjectMapper objectMapper() {
+	        return new ObjectMapper();
+	    }
 }
