@@ -26,7 +26,7 @@ body {
 #banner {
 	width: 100%;
 	height: 400px;
-	background-color: green;
+	
 }
 /* 인기 카테고리 범위 */
 #popular_category {

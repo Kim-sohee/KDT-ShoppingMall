@@ -158,11 +158,11 @@
 			      if (!confirm('이 항목을 장바구니에서 삭제하시겠습니까?')) return;
 			
 			      fetch('/shop/cart/delete?cart_id=' + cartId, {
-			        method: 'GET' // 또는 POST (더 안전함)
+			        method: 'GET' 
 			      })
 			      .then(response => {
 			        if (response.ok) {
-			          // 성공 시 새로고침 or 해당 아이템 DOM 삭제
+			        
 			          location.reload(); 
 			        } else {
 			          alert('삭제에 실패했습니다.');

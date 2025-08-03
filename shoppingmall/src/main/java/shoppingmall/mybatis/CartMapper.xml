@@ -1,64 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Cart">
-	<insert id="insert" parameterType="Cart">
-		insert into
-		cart(cart_id,quantity,product_id,member_id)
-		values(#{cart_id},#{quantity},
-		#{product.product_id},#{member.member_id})
-	</insert>
 
-
-	<!-- 장바구니 전용 selectByMember member_id 를 기준으로 장바구니에 해당하는 cart 와 product 테이블을 
-		조인해야한다. member id 의 경우 cart 페이지로 넘어갈 때 자동으로 이를 session에서 넘겨줄 예정 -->
-	<resultMap type="Cart" id="CartJoinWithProduct">
-		<id column="cart_id" property="cart_id" />
-		<result column="quantity" property="quantity" />
-		<association column="product_id" property="product"
-			javaType="shoppingmall.domain.Product" select="Product.select"></association>
-
+   <resultMap id="CartProductJoinMap" type="Cart">
+	    <id property="cart_id" column="cart_id"/>
+	    <result property="quantity" column="quantity"/>
+	
+	    <association property="product" javaType="shoppingmall.domain.Product">
+	        <id property="product_id" column="product_id"/>
+	        <result property="product_name" column="product_name"/>
+	        <result property="price" column="price"/>
+	        <result property="discount_rate" column="discount_rate"/>
+	        <result property="product_quantity" column="product_quantity"/>
+	        <result property="description" column="description"/>
+	        <result property="regdate" column="regdate"/>
+	        <result property="play_time" column="play_time"/>
+	    </association>
 	</resultMap>
 
-
-	<sql id="columns_with_product"> cart_id, quantity, product_id</sql>
-
-	<select id="selectByMember" parameterType="int"
-		resultMap="CartJoinWithProduct">
-		select
-		<include refid="columns_with_product"></include>
-		from cart
-		where member_id = #{member_id};
+    <!--장바구니 리스트 조회: member_id 기준 + product 조인 -->
+   <select id="selectByMember" parameterType="int" resultMap="CartProductJoinMap">
+	    SELECT 
+	        c.cart_id,
+	        c.quantity,
+	        c.product_id,
+	
+	        p.product_id,
+	        p.product_name,
+	        p.price,
+	        p.discount_rate,
+	        p.product_quantity,
+	        p.description,
+	        p.regdate,
+	        p.play_time
+	
+	    FROM cart c
+	    JOIN product p ON c.product_id = p.product_id
+	    WHERE c.member_id = #{member_id}
 	</select>
 
-	<delete id="delete" parameterType="int">
-		DELETE FROM cart WHERE cart_id = #{cart_id}
-	</delete>
+    <!-- insert -->
+    <insert id="insert" parameterType="Cart">
+        INSERT INTO cart(cart_id, quantity, product_id, member_id)
+        VALUES(#{cart_id}, #{quantity}, #{product.product_id}, #{member.member_id})
+    </insert>
 
-	<update id="updateQuantity"
-		parameterType="shoppingmall.domain.Cart">
-		UPDATE cart SET quantity = #{quantity}
-		WHERE cart_id = #{cart_id}
-	</update>
+    <!-- 장바구니 한 건 조회 -->
+    <select id="selectById" parameterType="int" resultType="Cart">
+        SELECT * FROM cart WHERE cart_id = #{cart_id}
+    </select>
 
+    <!-- 수량 업데이트 -->
+    <update id="updateQuantity" parameterType="Cart">
+        UPDATE cart SET quantity = #{quantity}
+        WHERE cart_id = #{cart_id}
+    </update>
 
-	<select id="selectById" parameterType="int" resultType="cart">
-		SELECT * FROM cart WHERE cart_id = #{cart_id}
-	</select>
-	
-	<delete id="deleteSelectedItems" parameterType="list">
-	  DELETE FROM cart
-	  WHERE cart_id IN
-	  <foreach item="id" collection="list" open="(" separator="," close=")">
-	    #{id}
-	  </foreach>
-	</delete>
-	
-	
-	<select id="selectByIds" parameterType="list" resultType="Cart">
-	  SELECT * FROM cart
-	  WHERE cart_id IN
-	  <foreach item="id" collection="list" open="(" separator="," close=")">
-	    #{id}
-	  </foreach>
-	</select>
+    <!-- 장바구니 항목 삭제 -->
+    <delete id="delete" parameterType="int">
+        DELETE FROM cart WHERE cart_id = #{cart_id}
+    </delete>
+
+    <!-- 선택된 cart_id 목록으로 삭제 -->
+    <delete id="deleteSelectedItems" parameterType="list">
+        DELETE FROM cart
+        WHERE cart_id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 선택된 cart_id 목록으로 조회 -->
+    <select id="selectByIds" parameterType="list" resultType="Cart">
+        SELECT * FROM cart
+        WHERE cart_id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
 </mapper>
