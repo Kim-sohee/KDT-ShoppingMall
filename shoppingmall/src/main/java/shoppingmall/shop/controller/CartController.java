@@ -26,17 +26,17 @@ public class CartController {
     @Autowired
     private CartService cartService;
     //장바구니 관련 컨트롤러
-    @GetMapping("/test/login")
-    public String fakeLogin(HttpSession session) {
-    	Member member = new Member();
-    	member.setMember_id(1);
-    	member.setMember_name("홍길동");
-    	
-    
-    	
-    	session.setAttribute("member", member);
-    	return "redirect:/shop/cart/list"; // 장바구니 목록 테스트용
-    }
+//    @GetMapping("/test/login")
+//    public String fakeLogin(HttpSession session) {
+//    	Member member = new Member();
+//    	member.setMember_id(1);
+//    	member.setMember_name("홍길동");
+//    	
+//    
+//    	
+//    	session.setAttribute("member", member);
+//    	return "redirect:/shop/cart/list"; // 장바구니 목록 테스트용
+//    }
 
     @PostMapping("/cart/regist")
     @ResponseBody
@@ -118,6 +118,6 @@ public class CartController {
     @ExceptionHandler(CartException.class)
     @ResponseBody
     public String handleCartException(CartException e) {
-        return "fail:" + e.getMessage();
+        return "fail:cart is null" + e.getMessage();
     }
 }

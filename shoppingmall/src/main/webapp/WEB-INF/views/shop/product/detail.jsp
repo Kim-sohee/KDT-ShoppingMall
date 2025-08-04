@@ -784,25 +784,31 @@ if(!product.getProductImages().isEmpty()){
 		</div>
 
 		<!-- 리뷰 카드 리스트 -->
-		<div id="review_list">
 		<%
-		    
-		    for (Review r : reviews) {
-		        String stars = "★★★★★☆☆☆☆☆".substring(5 - r.getRating(), 10 - r.getRating());
-		      
+		    if (reviews == null || reviews.isEmpty()) {
 		%>
 		    <div class="review_card">
-		        <div class="review_top">
-		            <strong><%= r.getMember().getMember_name() %></strong>
-		            <span class="review_date"><%= r.getReviewed_at() %></span>
-		            <span class="stars"><%= stars %></span>
-		        </div>
-		        <div class="review_text"><%= r.getContent() %></div>
-		        <button class="btn_helpful">도움돼요 (2)</button>
+		        <div class="review_text">아직 등록된 리뷰가 없습니다.</div>
 		    </div>
 		<%
+		    } else {
+		        for (Review r : reviews) {
+		            String stars = "★★★★★☆☆☆☆☆".substring(5 - r.getRating(), 10 - r.getRating());
+		%>
+		            <div class="review_card">
+		                <div class="review_top">
+		                    <strong><%= r.getMember().getMember_name() %></strong>
+		                    <span class="review_date"><%= r.getReviewed_at() %></span>
+		                    <span class="stars"><%= stars %></span>
+		                </div>
+		                <div class="review_text"><%= r.getContent() %></div>
+		                <button class="btn_helpful">도움돼요 (2)</button>
+		            </div>
+		<%
+		        }
 		    }
 		%>
+
 		</div>
 
 

@@ -28,7 +28,12 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	public List<OrderDetail> selectAll() throws OrderDetailNotFoundException {
 		return orderDetailDAO.selectAll();
 	}
-	
+
+	@Override
+	public void insert(OrderDetail orderDetail) {
+		orderDetailDAO.insert(orderDetail);
+	}
+
 	@Override
 	public List<Product> getTopSellingProducts() {
 		List<Integer> topSnapshotIds = orderDetailDAO.selectTopSnapshotIds();
@@ -43,5 +48,6 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		if(productNames.isEmpty()) return new ArrayList<>();
 		
 		return productDAO.selectTopProductByNames(productNames);
+
 	}
 }

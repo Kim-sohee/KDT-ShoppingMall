@@ -29,8 +29,26 @@
 		select * from product_snapshot where product_snapshot_id=#{product_snapshot_id}
 	</select>
 	
+
+	<!-- 장바구니에 있던 값들 집어넣기 -->
+	<insert id="insert" parameterType="ProductSnapshot"
+        useGeneratedKeys="true" keyProperty="product_snapshot_id">
+	    INSERT INTO product_snapshot (
+	        product_name, price, discount_rate, product_quantity,
+	        description, regdate, play_time, image,
+	        theme_id, player_range_id, age_range_id, difficulty_id
+	    )
+	    VALUES (
+	        #{product_name}, #{price}, #{discount_rate}, #{product_quantity},
+	        #{description}, #{regdate}, #{play_time}, #{image},
+	        #{theme.theme_id}, #{playerRange.player_range_id},
+	        #{ageRange.age_range_id}, #{difficulty.difficulty_id}
+	    )
+	</insert>
+
 	<!-- 한건 이름 가져오기 -->
 	<select id="selectProductNameBySnapshotId" parameterType="int" resultType="String">
 		select product_name from product_snapshot where product_snapshot_id=#{product_snapshot_id}
 	</select>
+
 </mapper>
