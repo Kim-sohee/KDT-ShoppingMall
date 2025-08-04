@@ -493,7 +493,14 @@
 	color: #D70C19;
 }
 
-.check-pwd-container input[type="text"] {
+.check-pwd-container form{
+	display: flex;
+	flex-direction: column; 
+	justify-content: center;
+	gap: 1.5rem;
+}
+
+.check-pwd-container form input[type="password"] {
 	width: 45%;
 	padding: 1rem 0.5rem;
 	align-self: center;
@@ -516,7 +523,7 @@
 }
 
 /* 회원정보 수정 항목 입력 영역 */
-.edit-fill-data {
+.edit-fill-data form {
 	display: flex;
 	flex-direction: column;	
 	gap: 2rem;
@@ -552,9 +559,29 @@
 	font-size: 16px;
 }
 
+.edit-content:last-child {
+	width: 50%;
+	display: inline-block;
+	font-size: 20px;
+	padding: 0.6rem 0;
+	text-align: center;
+}
+
 .edit-content button {
-	width: 10%;
-	padding: 0.6rem;
+	width:10%;
+	padding: 0.6rem 1rem;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s;
+}
+
+.edit-content button:hover {
+    background: #D70C19;
+    border-color: #D70C19;
+    color: white;
 }
 
 
@@ -686,4 +713,25 @@
 .cancel-info-highlight {
 	font-size: 20px;
 	font-weight: bold;
+}
+
+.cancel-info form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.cancel-info form .btn-check-pwd {
+	border: 0px;
+	border-radius: 15px;
+	padding: 1rem 3rem;
+	background:  #D70C19;
+	font-weight: bold;
+	color: white;
+	width: 25%;
+	align-self: center;
+}
+
+.cancel-info form .btn-check-pwd:hover {
+	background: #ff6b6b;
 }

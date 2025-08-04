@@ -12,37 +12,37 @@
 				<div class="sidebar-card">
 					<h3>쇼핑</h3>
 					<div class="sidebar-card-item">
-						<a href="/shop/mypage/order/list?page=order" class="<%= "order".equals(pageParam) ? "active" : "" %>">주문 / 배송 조회</a>
+						<a href="/shop/mypage/list?page=order" class="<%= "order".equals(pageParam) ? "active" : "" %>">주문 / 배송 조회</a>
 					</div>
 					<div class="sidebar-card-item">
-						<a href="/shop/mypage/order/list?page=return" class="<%= "return".equals(pageParam) ? "active" : "" %>">취소 / 반품 / 교환 조회</a>
+						<a href="/shop/mypage/list?page=return" class="<%= "return".equals(pageParam) ? "active" : "" %>">취소 / 반품 / 교환 조회</a>
 					</div>
 				</div>
 				<div class="sidebar-card">
 					<h3>혜택</h3>
 					<div class="sidebar-card-item">
-						<a href="/shop/mypage/order/list?page=point" class="<%= "point".equals(pageParam) ? "active" : "" %>">포인트</a>
+						<a href="/shop/mypage/list?page=point" class="<%= "point".equals(pageParam) ? "active" : "" %>">포인트</a>
 					</div>
 				</div>
 				<div class="sidebar-card">
 					<h3>활동</h3>
 					<div class="sidebar-card-item">
-						<a href="/shop/mypage/order/list?page=review" class="<%= "review".equals(pageParam) ? "active" : "" %>">상품 후기</a>
+						<a href="/shop/mypage/list?page=review" class="<%= "review".equals(pageParam) ? "active" : "" %>">상품 후기</a>
 					</div>
 					<div class="sidebar-card-item">
-						<a href="/shop/mypage/order/list?page=qna" class="<%= "qna".equals(pageParam) ? "active" : "" %>">문의 내역</a>
+						<a href="/shop/mypage/list?page=qna" class="<%= "qna".equals(pageParam) ? "active" : "" %>">문의 내역</a>
 					</div>
 				</div>
 				<div class="sidebar-card">
 					<h3>나의 정보</h3>
 					<div class="sidebar-card-item">
-						<a href="/shop/mypage/order/list?page=edit-mypage" class="<%= "edit-mypage".equals(pageParam) ? "active" : "" %>">회원정보 수정</a>
+						<a href="/shop/mypage/list?page=edit-mypage" class="<%= "edit-mypage".equals(pageParam) ? "active" : "" %>">회원정보 수정</a>
 					</div>
 					<div class="sidebar-card-item">
-						<a href="/shop/mypage/order/list?page=delivery-payment" class="<%= "delivery-payment".equals(pageParam) ? "active" : "" %>">배송지 / 환불계좌 관리</a>
+						<a href="/shop/mypage/list?page=delivery-payment" class="<%= "delivery-payment".equals(pageParam) ? "active" : "" %>">배송지 / 환불계좌 관리</a>
 					</div>
 					<div class="sidebar-card-item">
-						<a href="/shop/mypage/order/list?page=cancel" class="<%= "cancel".equals(pageParam) ? "active" : "" %>">회원 탈퇴</a>
+						<a href="/shop/mypage/list?page=cancel" class="<%= "cancel".equals(pageParam) ? "active" : "" %>">회원 탈퇴</a>
 					</div>
 				</div>
 			</div>

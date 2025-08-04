@@ -13,9 +13,7 @@
 		<result column="delivery_fee" property="delivery_fee" />
 		<result column="return_address" property="return_address" />
 
-		<association column="order_summary_id"
-			property="orderSummary" javaType="OrderSummary"
-			select="OrderSummary.select" />
+		<association column="order_summary_id" property="orderSummary" javaType="OrderSummary" select="OrderSummary.select" />
 	</resultMap>
 
 	<select id="selectAll" resultMap="joinMap">

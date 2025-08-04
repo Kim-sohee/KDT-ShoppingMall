@@ -1,18 +1,10 @@
 <%@page import="shoppingmall.util.PriceFormat"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@include file="../inc/init.jsp" %>
+<%
+	List<OrderSummary> orderSummaryList = (List)request.getAttribute("orderSummaryList");
+%>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>보드게임</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
-<link rel="stylesheet" href="/static/shop/styles/mypage.css">
-<link rel="stylesheet" href="/static/shop/styles/footer.css">
-<link rel="stylesheet" href="/static/shop/styles/date.css">
-</head>
 <body>
 	<!-- header 시작 -->
 	<%@ include file="../inc/header.jsp"%>
@@ -41,6 +33,9 @@
 				
 				<!-- 마이페이지 상세내용 시작 -->
 				<section class="detail-content">
+					<div class="detail-content-name">
+						<span>주문/배송 조회</span>
+					</div>
 					
 					<!-- 기간 조회 시작 -->
 					<div>
@@ -123,7 +118,6 @@
 									<%	} else { %>
 									<li><a class="page-link disabled" href="#">&raquo;</a></li>
 									<%	} %>
-									
 								</ul>
 							</div>
 						</div>
@@ -142,31 +136,8 @@
 	<%@ include file="../inc/footer.jsp"%>
 	<!-- footer 끝 -->
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function applyDateFilter() {
-	    const start = document.querySelector('input[name="start_date"]').value;
-	    const end = document.querySelector('input[name="end_date"]').value;
-	
-	    const params = new URLSearchParams(window.location.search);
-	    params.set("start_date", start);
-	    params.set("end_date", end);
-	    params.set("page", "<%= pageParam %>"); // 원래 페이지 유지
-	
-	 	// form 기본 제출 막기
-	    const form = document.getElementById("date_form");
-	    if (form) {
-	      form.onsubmit = (e) => e.preventDefault();
-	    }
-
-	    // 주소로 이동
-	    location.href = "/shop/mypage/order/list?" + params.toString();
-	  }
-  
-	// 버튼 클릭시 폼 제출
-    document.querySelector('#date_form button').addEventListener('click', (e) => {
-	  e.preventDefault(); // 버튼의 submit 막기
-	  applyDateFilter();
-	});
+	const pageParam = "<%= pageParam %>";
 </script>
+<script src="/static/mypage.js"></script>
 </html>
