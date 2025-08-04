@@ -72,8 +72,10 @@
                             <h3><%= member.getMember_name() %>님</h3>
                             <p class="delivery-info-tel"><%= member.getPhone() %></p>
                             <div class="delivery-info-adress">
-                                <span class="adress-value"><%= member.getDefault_address() %></span>
-                                <span class="adress-port">(우편번호: 입력 필요)</span>
+                                <div class="address-port" id = "roadAddress" name ="roadAddress">(우편번호: 입력 필요)</div>
+                                <div class="adress-value" id = "postcode" name  ="postcode"><%= member.getDefault_address() %></div>
+                                <input type = "text" id = "addressDetail" placeholder="상세 주소를 입력해주세요." name="addressDetail">
+                                <input type = "text" class = "address-alias" id = "addressAlias" placeholder="주소의 별명을 입력해주세요." name="addressAlias">
                             </div>
                             <div class="delivery-actions">
                                 <button class="btn-delivery-adress" id = "change-delivery-address">배송지 변경</button>
@@ -206,32 +208,56 @@
 
 <%@ include file="../inc/footer.jsp" %>
 
-<script src="https://js.tosspayments.com/v1/payment"></script>
+<script src="https://js.tosspayments.com/v1/payment"></script> <!-- 토스 페이먼츠 지불을 위해 불러옴 -->
+<script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script> <!-- 도로명 주소 입력을 위함 -->
 <script>
-    const cartIds = [<%
-        for (int i = 0; i < cart_items.size(); i++) {
-            out.print(cart_items.get(i).getCart_id());
-            if (i < cart_items.size() - 1) out.print(", ");
-        }
-    %>];
+	    const cartIds = [<%
+	        for (int i = 0; i < cart_items.size(); i++) {
+	            out.print(cart_items.get(i).getCart_id());
+	            if (i < cart_items.size() - 1) out.print(", ");
+	        }
+	    %>];
     
    
 
-    // 전액 사용 버튼 클릭 시 포인트 입력창에 자동으로 채우고 반영
-    function useAllPoint() {
-        const point = <%= point %>;
-        document.getElementById('usedPointInput').value = point;
-        updatePointInfo(point);
-    }
+	    // 전액 사용 버튼 클릭 시 포인트 입력창에 자동으로 채우고 반영
+	    function useAllPoint() {
+	        const point = <%= point %>;
+	        document.getElementById('usedPointInput').value = point;
+	        updatePointInfo(point);
+	    }
+	    
 
-    // 포인트 입력 시 자동 반영
-    document.addEventListener("DOMContentLoaded", function () {
+	    
+	    //도로명 주소의 값 구해오기
+	    function execDaumPostcode() {
+		    new daum.Postcode({
+		      width: 400,
+		      height: 500,
+		      oncomplete: function(data) {
+		        // 도로명주소, 우편번호 span에 넣기
+		        document.getElementById('postcode').innerText = data.roadAddress;
+		        document.getElementById('roadAddress').innerText = "(우편번호: " + data.zonecode + ")";
+		      }
+		    }).open({
+		      left: (window.innerWidth / 2) - 200,
+		      top: (window.innerHeight / 2) - 250
+		    });
+		  }
+
+    	// 포인트 입력 시 자동 반영	
+    	document.addEventListener("DOMContentLoaded", function () {
         const usedPointInput = document.getElementById('usedPointInput');
+        
 
         usedPointInput.addEventListener('input', function () {
             const used = parseInt(this.value) || 0;
             updatePointInfo(used);
         });
+        
+        document.getElementById("change-delivery-address").addEventListener("click",function(){
+        	execDaumPostcode()
+        })
 
         document.getElementById("payment-button").addEventListener("click", async function () {
             const used = parseInt(usedPointInput.value) || 0;
@@ -243,6 +269,11 @@
                 alert("결제 수단을 선택해주세요.");
                 return;
             }
+            const detailAddress = document.getElementById("addressDetail").value;
+            const addressAlias = document.getElementById("addressAlias").value;
+            
+            const roadAddress = document.getElementById("postcode").innerText;
+            const zonecode = document.getElementById("roadAddress").innerText.replace("(우편번호: ", "").replace(")", "");
 
             try {
                 const res = await fetch("/shop/product/order", {
@@ -251,8 +282,12 @@
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        cartIds: cartIds,
-                        usedPoint: used
+                    	cartIds: cartIds,
+                    	usedPoint: used,
+                    	roadAddress: roadAddress,
+                    	zonecode: zonecode,
+                    	detailAddress: detailAddress,
+                    	addressAlias: addressAlias
                     })
                 });
 
