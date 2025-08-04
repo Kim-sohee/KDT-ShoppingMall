@@ -76,7 +76,7 @@
                                 <span class="adress-port">(우편번호: 입력 필요)</span>
                             </div>
                             <div class="delivery-actions">
-                                <button class="btn-delivery-adress">배송지 변경</button>
+                                <button class="btn-delivery-adress" id = "change-delivery-address">배송지 변경</button>
                             </div>
                         </div>
                         <select class="delivery-select">
@@ -122,7 +122,8 @@
                                 <span class="quantity-value"><%= quantity %>개</span>
                             </div>
                             <div class="item-price">
-                                <div class="price"><%= price * quantity %>원</div>
+                             
+                                <div class="price"><%=String.format("%,d", price * quantity)%>원</div>
                             </div>
                         </div>
                         <% } %>
@@ -173,12 +174,12 @@
             <div class="order-summary">
                 <div class="summary-order">
                     <h3>주문 요약</h3>
-                    <div class="summary-item"><span>상품 금액</span><span><%= totalPrice %>원</span></div>
-                    <div class="summary-item"><span>할인 금액</span><span class="discount">-<%= discount %>원</span></div>
-                    <div class="summary-item"><span>배송비</span><span class="<%= deliveryFee == 0 ? "shipping-free" : "" %>"><%= deliveryFee == 0 ? "무료배송" : deliveryFee + "원" %></span></div>
+                    <div class="summary-item"><span>상품 금액</span><span><%= String.format("%,d",totalPrice)%>원</span></div>
+                    <div class="summary-item"><span>할인 금액</span><span class="discount">-<%=String.format("%,d", discount)%>원</span></div>
+                    <div class="summary-item"><span>배송비</span><span class="<%= deliveryFee == 0 ? "shipping-free" : "" %>"><%= deliveryFee == 0 ? "무료배송" : String.format("%,d",deliveryFee) + "원" %></span></div>
                     <div class="summary-divider"></div>
-                    <div class="summary-total"><span>총 결제 금액</span><span class="total-amount"><%= finalAfterPoint %>원</span></div>
-                    <div class="summary-savings"><span>총 절약 금액</span><span class="savings-amount"><%= discount %>원</span></div>
+                    <div class="summary-total"><span>총 결제 금액</span><span class="total-amount"><%=String.format("%,d", finalAfterPoint)%>원</span></div>
+                    <div class="summary-savings"><span>총 절약 금액</span><span class="savings-amount"><%=String.format("%,d", discount)%>원</span></div>
                     <button class="btn btn-primary btn-checkout" id="payment-button">결제하기</button>
 
                     <div class="payment-info">
@@ -194,7 +195,7 @@
                         <h4>배송 정보</h4>
                         <div class="delivery-item"><span>배송 방법</span><span>택배 배송</span></div>
                         <div class="delivery-item"><span>배송 예정일</span><span>1-2일 (영업일 기준)</span></div>
-                        <div class="delivery-item"><span>배송비</span><span><%= deliveryFee == 0 ? "무료배송" : deliveryFee + "원" %></span></div>
+                        <div class="delivery-item"><span>배송비</span><span><%= deliveryFee == 0 ? "무료배송" : String.format("%,d",deliveryFee) + "원"%></span></div>
                     </div>
                 </div>
             </div>
@@ -213,6 +214,8 @@
             if (i < cart_items.size() - 1) out.print(", ");
         }
     %>];
+    
+   
 
     // 전액 사용 버튼 클릭 시 포인트 입력창에 자동으로 채우고 반영
     function useAllPoint() {
