@@ -1,5 +1,6 @@
 package shoppingmall.model.member;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import lombok.extern.slf4j.Slf4j;
 import shoppingmall.domain.Member;
+import shoppingmall.exception.MemberDeleteException;
 import shoppingmall.exception.MemberNotFoundException;
 import shoppingmall.exception.MemberRegistException;
 import shoppingmall.exception.MemberUpdateException;
@@ -19,7 +21,22 @@ public class MybatisMemberDAO implements MemberDAO {
 
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-
+	
+	@Override
+	public Member getChildList(int member_id, Timestamp startDate, Timestamp endDate) throws MemberNotFoundException {
+		Map<String, Object> paramMap = new HashMap<>();
+		log.debug("DAO로 넘어온 시작일자는 "+startDate);
+		log.debug("DAO로 넘어온 종료일자는 "+endDate);
+		paramMap.put("member_id", member_id);
+		paramMap.put("startDate", startDate);
+		paramMap.put("endDate", endDate);
+		Member member = sqlSessionTemplate.selectOne("Member.selectReveiwAndQna", paramMap);
+		if(member == null) {
+			throw new MemberNotFoundException("해당 회원 정보를 불러올 수 없습니다.");
+		}
+		return member;
+	}
+	
 	@Override
 	public Member selectById(String id) throws MemberNotFoundException {
 		Member member = sqlSessionTemplate.selectOne("Member.selectById", id);
@@ -39,7 +56,7 @@ public class MybatisMemberDAO implements MemberDAO {
 			throw new MemberRegistException("회원 등록에 실패하였습니다.");
 		}
 	}
-
+	
 	@Override
 	public Member selectByEmail(String email) {
 		Member member = sqlSessionTemplate.selectOne("Member.selectByEmail", email);
@@ -63,7 +80,7 @@ public class MybatisMemberDAO implements MemberDAO {
 	}
 
 	@Override
-	public Member find(String name, String phone) {
+	public Member findIdAndPwd(String name, String phone) {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("member_name", name);
 		paramMap.put("phone", phone);
@@ -81,6 +98,14 @@ public class MybatisMemberDAO implements MemberDAO {
 		
 		if (result < 1) {
 			throw new MemberUpdateException("회원 정보 수정에 실패하였습니다.");
+		}
+	}
+	
+	@Override
+	public void delete(int member_id) throws MemberDeleteException {
+		int result = sqlSessionTemplate.delete("Member.delete", member_id);
+		if (result < 1) {
+			throw new MemberDeleteException("회원 삭제에 실패하였습니다.");
 		}
 	}
 	

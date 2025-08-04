@@ -52,6 +52,7 @@ public class Paging {
 		curPos = (currentPage - 1) * pageSize;
 		num = totalRecord - curPos;
 
+		/*
 		log.debug("totalRecord=" + totalRecord);
 		log.debug("totalPage=" + totalPage);
 		log.debug("currentPage=" + currentPage);
@@ -59,5 +60,6 @@ public class Paging {
 		log.debug("lastPage=" + lastPage);
 		log.debug("curPos=" + curPos);
 		log.debug("num=" + num);
+		*/
 	}
 }

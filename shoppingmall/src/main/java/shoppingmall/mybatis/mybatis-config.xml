@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration 
-PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
 	<typeAliases>
-		<typeAlias type="shoppingmall.domain.Status"					alias="Status"/>
-		<typeAlias type="shoppingmall.domain.Qna"						alias="Qna"/>
-		<typeAlias type="shoppingmall.domain.Returns"					alias="Returns"/>
-		<typeAlias type="shoppingmall.domain.Delivery"					alias="Delivery"/>
-		<typeAlias type="shoppingmall.domain.Member"				alias="Member"/>
-		<typeAlias type="shoppingmall.domain.OrderSummary"	alias="OrderSummary"/>
-		<typeAlias type="shoppingmall.domain.Cart"						alias="Cart"/>
-		<typeAlias type="shoppingmall.domain.Product" 				alias="Product"/>
-		<typeAlias type="shoppingmall.domain.AgeRange" 				alias="AgeRange"/>
-		<typeAlias type="shoppingmall.domain.Difficulty" 				alias="Difficulty"/>
-		<typeAlias type="shoppingmall.domain.PlayerRange" 			alias="PlayerRange"/>
-		<typeAlias type="shoppingmall.domain.Theme" 					alias="Theme"/>
+		<typeAlias type="shoppingmall.domain.Status"			alias="Status"/>
+		<typeAlias type="shoppingmall.domain.Qna"				alias="Qna"/>
+		<typeAlias type="shoppingmall.domain.Returns"			alias="Returns"/>
+		<typeAlias type="shoppingmall.domain.Delivery"			alias="Delivery"/>
+		<typeAlias type="shoppingmall.domain.Member"			alias="Member"/>
+		<typeAlias type="shoppingmall.domain.OrderSummary"		alias="OrderSummary"/>
+		<typeAlias type="shoppingmall.domain.OrderDetail"		alias="OrderDetail"/>
+		<typeAlias type="shoppingmall.domain.Cart"				alias="Cart"/>
+		<typeAlias type="shoppingmall.domain.Product" 			alias="Product"/>
+		<typeAlias type="shoppingmall.domain.AgeRange" 			alias="AgeRange"/>
+		<typeAlias type="shoppingmall.domain.Difficulty" 		alias="Difficulty"/>
+		<typeAlias type="shoppingmall.domain.PlayerRange" 		alias="PlayerRange"/>
+		<typeAlias type="shoppingmall.domain.Theme" 			alias="Theme"/>
 		<typeAlias type="shoppingmall.domain.ProductSnapshot" 	alias="ProductSnapshot"/>
-		<typeAlias type="shoppingmall.domain.Review" 					alias="Review"/>
+		<typeAlias type="shoppingmall.domain.Review" 			alias="Review"/>
 		<typeAlias type="shoppingmall.domain.ProductImage" 		alias="ProductImage"/>
-		<typeAlias type="shoppingmall.domain.OrderDetail"			alias="OrderDetail"/>
 	</typeAliases>
 
 	<environments default="development">
@@ -39,7 +38,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-c
 		<mapper resource="shoppingmall/mybatis/MemberMapper.xml" />
 		<mapper resource="shoppingmall/mybatis/OrderSummaryMapper.xml" />
 		<mapper resource="shoppingmall/mybatis/OrderDetailMapper.xml" />
-		
 		<mapper resource="shoppingmall/mybatis/CartMapper.xml" />	
 		<mapper resource="shoppingmall/mybatis/ProductMapper.xml" />
 		<mapper resource="shoppingmall/mybatis/AgeRangeMapper.xml" />
@@ -49,7 +47,5 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-c
 		<mapper resource="shoppingmall/mybatis/ProductSnapshotMapper.xml" />
 		<mapper resource="shoppingmall/mybatis/ReviewMapper.xml" />
 		<mapper resource="shoppingmall/mybatis/ProductImageMapper.xml" />
-
-		<mapper resource="shoppingmall/mybatis/CartMapper.xml" />
 	</mappers>
 </configuration>

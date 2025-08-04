@@ -24,15 +24,20 @@ public class OrderSummaryServiceImpl implements OrderSummaryService {
 	private StatusDAO statusDAO;
 	
 	@Override
+	public List<OrderSummary> selectByMember(Member member) {
+		return orderSummaryDAO.selectByMember(member);
+	}
+	
+	@Override
 	public List<OrderSummary> selectByPageAndMember(String page, Member member, Timestamp startDate, Timestamp endDate) throws OrderSummaryNotFoundException {
 	    if ("order".equals(page)) {
-	        return orderSummaryDAO.selectByMemberAndDate(member, startDate, endDate);
+	        return orderSummaryDAO.selectOrderByMember(member, startDate, endDate);
 	    } else if ("return".equals(page)) {
 	        return orderSummaryDAO.selectReturnByMember(member, startDate, endDate);
 	    } else {
 	        return Collections.emptyList();
 	    }
-	}	
+	}
 	
 	@Override
 	public OrderSummary selectByStatusList(int order_summary_id, Member member, List<Integer> statusList) throws OrderSummaryNotFoundException {

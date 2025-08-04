@@ -2,18 +2,10 @@
 <%@page import="shoppingmall.util.Paging"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@include file="../inc/init.jsp"%>
+<%
+	List<OrderSummary> orderSummaryList = (List)request.getAttribute("orderSummaryList");
+%>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>보드게임</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
-<link rel="stylesheet" href="/static/shop/styles/mypage.css">
-<link rel="stylesheet" href="/static/shop/styles/footer.css">
-<link rel="stylesheet" href="/static/shop/styles/date.css">
-</head>
 <body>
 	<!-- header 시작 -->
 	<%@ include file="../inc/header.jsp"%>
@@ -56,22 +48,22 @@
 					<div class="mypage-product">
 
 						<%
-						String status_type = request.getParameter("status_type");
-						if (status_type == null) status_type = "problematic"; // 기본 탭은 전체
+							String status_type = request.getParameter("status_type");
+							if (status_type == null) status_type = "problematic"; // 기본 탭은 전체
 						%>
 
 						<div class="mypage-product-header">
 							<div
 								class="header-item <%= "problematic".equals(status_type) ? "selected" : "" %>">
-								<a href="/shop/mypage/order/list?page=<%= pageParam %>&status_type=problematic">전체</a>
+								<a href="/shop/mypage/list?page=<%= pageParam %>&status_type=problematic">전체</a>
 							</div>
 							<div
 								class="header-item <%= "returns".equals(status_type) ? "selected" : "" %>">
-								<a href="/shop/mypage/order/list?page=<%= pageParam %>&status_type=returns">취소/반품</a>
+								<a href="/shop/mypage/list?page=<%= pageParam %>&status_type=returns">취소/반품</a>
 							</div>
 							<div
 								class="header-item <%= "exchanges".equals(status_type) ? "selected" : "" %>">
-								<a href="/shop/mypage/order/list?page=<%= pageParam %>&status_type=exchanges">교환</a>
+								<a href="/shop/mypage/list?page=<%= pageParam %>&status_type=exchanges">교환</a>
 							</div>
 						</div>
 						<%
@@ -172,34 +164,8 @@
 	<%@ include file="../inc/footer.jsp"%>
 	<!-- footer 끝 -->
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function applyDateFilter() {
-	    const start = document.querySelector('input[name="start_date"]').value;
-	    const end = document.querySelector('input[name="end_date"]').value;
-	
-	    const params = new URLSearchParams(window.location.search);
-	    params.set("start_date", start);
-	    params.set("end_date", end);
-	    params.set("page", "<%= pageParam %>"); // 원래 페이지 유지
-	
-	 	// form 기본 제출 막기
-	    const form = document.getElementById("date_form");
-	    if (form) {
-	      form.onsubmit = (e) => e.preventDefault();
-	    }
-
-	    // 주소로 이동
-	    location.href = "/shop/mypage/order/list?" + params.toString();
-	  }
-  
-	// 버튼 클릭시 폼 제출
-    document.querySelector('#date_form button').addEventListener('click', (e) => {
-	  e.preventDefault(); // 버튼의 submit 막기
-	  applyDateFilter();
-	});
+	const pageParam = "<%= pageParam %>";
 </script>
+<script src="/static/mypage.js"></script>
 </html>
-
-
-

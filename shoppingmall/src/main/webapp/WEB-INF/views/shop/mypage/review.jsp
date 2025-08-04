@@ -1,18 +1,13 @@
+<%@page import="shoppingmall.domain.Product"%>
+<%@page import="shoppingmall.domain.Review"%>
+<%@page import="shoppingmall.util.PriceFormat"%>
 <%@page import="shoppingmall.util.Paging"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@include file="../inc/init.jsp" %>
+<%
+	List<Review> reviewList = (List)request.getAttribute("reviewList");
+%>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>보드게임</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
-<link rel="stylesheet" href="/static/shop/styles/mypage.css">
-<link rel="stylesheet" href="/static/shop/styles/footer.css">
-<link rel="stylesheet" href="/static/shop/styles/date.css">
-</head>
 <body>
 	<!-- header 시작 -->
 	<%@ include file="../inc/header.jsp"%>
@@ -53,81 +48,119 @@
 
 					<!-- 상품 항목 card 영역 시작 -->
 					<div class="mypage-product">
-					<%
-					    // 예시: 실제로는 request 속성에서 주문 리스트를 가져와서 size 확인
-					    // List<Order> orderList = (List<Order>) request.getAttribute("orderList");
-					    // int orderCount = (orderList != null) ? orderList.size() : 0;
-					    int orderCount = 0;
-					%>
-					
-					<% if (orderCount == 0) { %>
+					<%  
+				        if(reviewList.size() == 0) {
+				    %>
 					    <div class="no-orders">
 					        작성한 리뷰가 없습니다.
 					    </div>
 					<% } else { %>
+													
+					<!-- 상품 항목 card 영역 시작 -->
+					<div class="mypage-product">
 						<div class="product-item-list">
-							<%for(int i = 0; i < orderCount; i++ ){ %>
+							
+							<!-- for문 시작 -->
+							<% for(Review review : reviewList) { %>
+							<% Product product = review.getProduct(); %>
+							<%	
+							   String contextPath = request.getContextPath();
+							   String imageUrl = "";
+							   if(!product.getProductImages().isEmpty()){
+								   imageUrl = contextPath+"/data/p_"+product.getProduct_id()+"/"+product.getProductImages().get(0).getFileName();
+							   } 
+							%>	
+													
 							<div class="product-item">
 								<div class="item-main-header">
-									<span><%="2025. 8. 1." %> <%="구매" %></span> <span><a
-										href="#">주문 상세보기></a></span>
+									<span> <%= review.getReviewed_at() %> 구매 완료 </span>
 								</div>
+								
 								<div class="product-card">
 									<div class="product-item-main">
+									
 										<div class="item-image">
-											<img src="/img/Welcome.png" alt="아그리콜라">
+											<img src="${imageUrl}" alt="상품 이미지">
 										</div>
+										
 										<div class="item-info">
-											<!-- <h3><a href="product-detail.jsp"> 입력해주어야 함 -->
 											<h3>
-												<a href="#"><%="아그리콜라" %></a>
+												<a href="/shop/product/detail?product_id=<%=product.getProduct_id()%>"><%=product.getProduct_name() %></a>
 											</h3>
-											<p class="item-brand"><%="에이스" %></p>
+											<div class="item-brand">
+												<span class="option-label">카테고리:</span> 
+												<span class="option-value"><%=product.getTheme().getTheme_name() %></span>
+											</div>
 											<div class="item-specs">
 												<span class="option-label">인원:</span> <span
-													class="option-value"><%=2 %>-<%=4 %>명</span>
+													class="option-value"><%=product.getPlayerRange().getPlayer_min() %>-<%=product.getPlayerRange().getPlayer_max() %>명</span>
 											</div>
 											<div class="item-specs">
 												<span class="option-label">연령:</span> <span
-													class="option-value"><%="14" %>세 이상</span>
+													class="option-value"><%=product.getAgeRange().getAge_min()%>세
+													이상</span>
 											</div>
 											<div class="item-specs">
 												<span class="option-label">수량:</span> <span
-													class="option-value"><%="10" %>개</span>
+													class="option-value"><%=product.getProduct_quantity()%>개</span>
 											</div>
-											<div class="item-options">
+											<div class="item-options" style="display:none;">
 												<span class="option-label">옵션:</span> <span
 													class="option-value">기본판</span>
 											</div>
 										</div>
 										<div class="item-price">
 											<div class="price-original">
-												<span class="discount-rate"><%="10%" %> </span> 
-												<span class="original-price"><%="50,000" %>원</span>
+												<span class="discount-rate"> 
+												<%	if(product.getDiscount_rate() > 0 ) {%> 
+												<%=	product.getDiscount_rate() %>% 
+												<%	}%>
+												</span> 
+												<span class="original-price"><%=PriceFormat.productPriceFormat(product.getPrice()) %>원</span>
 											</div>
-											<div class="price-sale"><%="145,000" %>원</div>
+											<div class="price-sale">
+												<%	int discountedPrice = (int)(product.getPrice() * (1 - (product.getDiscount_rate() / 100.0)));%>
+												<%= PriceFormat.productPriceFormat(discountedPrice) %>원
+											</div>
 										</div>
-									</div>
-									<div class="item-actions">
-										<button class="btn-detail">내가 작성한 후기</button>
+										
 									</div>
 								</div>
 							</div>
-							<%} %>
-						</div>
-						<%} %>
-						<div class="card-footer clearfix">
-							<ul class="mypage-table-paging">
-								<li><a class="page-link" href="#">&laquo;</a></li>
-								<% for(int i = paging.getFirstPage(); i <= paging.getLastPage(); i++) { %>
-								<% if (i > paging.getTotalPage()) break; //총 페이지 수를 넘으면 반복문 빠져나오기 %>
-								<li><a class="page-link" href="?page=<%='#' %>"><%=i %></a></li>
-								<% } %>
-								<li><a class="page-link" href="#">&raquo;</a></li>
-							</ul>
+							
+							<% } %>
+							<!-- for문 끝 -->
+							
 						</div>
 					</div>
 					<!-- 상품 항목 card 영역 끝 -->
+							
+					<% } %>
+							
+					<!-- paging 영역 시작 -->
+					<% if (reviewList.size() > 0) { %>
+						<div class="card-footer clearfix">
+							<ul class="mypage-table-paging">
+								<% if(paging.getFirstPage()-1 > 0){ %>
+							<li><a class="page-link" href="#" data-page="<%=paging.getFirstPage()-1%>">&laquo;</a></li>
+							<% } else { %>
+							<li><a class="page-link disabled" href="#">&laquo;</a></li>
+							<% } %>
+						
+							<% for(int i = paging.getFirstPage(); i <= paging.getLastPage(); i++) { %>
+							<% if (i > paging.getTotalPage()) break; %>
+							<li><a href="#" class="page-link <%=(paging.getCurrentPage() == i) ? "active" : "" %>" data-page="<%=i %>"><%=i %></a></li>
+							<% } %>
+						
+							<% if(paging.getLastPage() < paging.getTotalPage()) { %>
+							<li><a class="page-link" href="#" data-page="<%=paging.getLastPage()+1%>">&raquo;</a></li>
+							<% } else { %>
+							<li><a class="page-link disabled" href="#">&raquo;</a></li>
+							<% } %>
+							</ul>
+						</div>
+					<% } %>			
+					<!-- paging 영역 끝 -->
 
 				</section>
 				<!-- 마이페이지 상세내용 끝 -->
@@ -143,7 +176,8 @@
 	<%@ include file="../inc/footer.jsp"%>
 	<!-- footer 끝 -->
 </body>
+<script>
+	const pageParam = "<%= pageParam %>";
+</script>
+<script src="/static/mypage.js"></script>
 </html>
-
-
-

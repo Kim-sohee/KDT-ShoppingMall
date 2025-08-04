@@ -5,11 +5,10 @@
 		delivery_id, address, address_alias, receiver_name,
 		receiver_phone, member_id
 	</sql>
-
+	
+	<!-- 배송지 정보 전체 조회 -->
 	<select id="selectall" resultType="Delivery">
-		SELECT
-		<include refid="columns" />
-		FROM delivery
+		SELECT <include refid="columns"/> FROM delivery
 	</select>
 
 	<!-- join을 이용하여 배송지 정보 조회 시작 -->
@@ -23,40 +22,47 @@
 		<association column="member_id" property="member"
 			javaType="Member" select="Member.select" />
 	</resultMap>
-
+	
+	<!-- 부모인 Member를 통해 배송지 조회 시작 -->
+	<resultMap id="DeliveryMemberJoin" type="Delivery">
+		<id column="delivery_id" property="delivery_id" />
+		<result column="address" property="address" />
+		<result column="address_alias" property="address_alias" />
+		<result column="receiver_name" property="receiver_name" />
+		<result column="receiver_phone" property="receiver_phone" />
+	</resultMap>
+	
+	<!-- 배송지 한 건 조회 -->
 	<select id="select" parameterType="int" resultMap="joinMap">
-		SELECT
-		<include refid="columns" />
-		FROM delivery WHERE delivery_id = #{delivery_id}
+		SELECT <include refid="columns"/> FROM delivery WHERE delivery_id = #{delivery_id}
 	</select>
 
-	<select id="selectByMemberId" parameterType="int"
-		resultMap="joinMap">
-		SELECT
-		<include refid="columns" />
-		FROM delivery WHERE member_id = #{member_id}
+	<!-- 회원FK를 이용하여 배송지 한 건 조회 -->
+	<select id="selectByMemberId" parameterType="int" resultMap="DeliveryMemberJoin">
+		SELECT <include refid="columns"/> FROM delivery WHERE member_id = #{member_id}
 	</select>
-	<!-- join을 이용하여 배송지 정보 조회 끝 -->
-
+	
+	<!-- 배송지 한 건 추가 -->
 	<insert id="insert" parameterType="Delivery">
-		INSERT INTO delivery(address,
-		address_alias, receiver_name, receiver_phone, member_id)
-		VALUES(#{address}, #{address_alias}, #{receiver_name},
-		#{receiver_phone}, #{member.member_id}
+		INSERT INTO delivery(address, address_alias, receiver_name, receiver_phone, member_id)
+		VALUES(#{address}, #{address_alias}, #{receiver_name}, #{receiver_phone}, #{member.member_id}
 	</insert>
 
+	<!-- 배송지 수정 -->
 	<update id="update" parameterType="Delivery">
 		UPDATE delivery
-		SET address =
-		#{address}, address_alias = #{address_alias}, receiver_name =
-		#{receiver_name}, receiver_phone = #{receiver_phone}
-		WHERE member_id =
-		#{member_id};
+		SET address = #{address}, address_alias = #{address_alias}, receiver_name = #{receiver_name}, receiver_phone = #{receiver_phone}
+		WHERE member_id = #{member_id};
 	</update>
 
+	<!-- 배송지 삭제 -->
 	<delete id="delete" parameterType="int">
-		DELETE FROM delivery WHERE
-		delivery_id = #{delivery_id}
+		DELETE FROM delivery WHERE delivery_id = #{delivery_id}
+	</delete>
+	
+	<!-- 회원FK를 통한 배송지 삭제 -->
+	<delete id="deleteByMemberId" parameterType="int">
+		DELETE FROM delivery WHERE member_id = #{member_id}
 	</delete>
 
 </mapper>

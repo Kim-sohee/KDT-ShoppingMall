@@ -9,10 +9,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import shoppingmall.domain.Delivery;
 import shoppingmall.domain.Member;
 import shoppingmall.domain.OrderSummary;
-import shoppingmall.domain.Status;
+import shoppingmall.exception.OrderSummaryDeleteException;
 import shoppingmall.exception.OrderSummaryNotFoundException;
 
 @Repository
@@ -22,7 +21,18 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
 	private SqlSessionTemplate sqlSessionTemplate;
 	
 	@Override
-	public List<OrderSummary> selectByMemberAndDate(Member member, Timestamp startDate, Timestamp endDate) {
+	public List<OrderSummary> selectByMember(Member member) {
+		List<OrderSummary> orderSummaryList = sqlSessionTemplate.selectList("OrderSummary.selectByMember", member);
+		if(orderSummaryList == null) {
+			throw new OrderSummaryNotFoundException("주문 요약 조회에 실패하였습니다.");
+		}
+		
+		return orderSummaryList;
+	}
+	
+	
+	@Override
+	public List<OrderSummary> selectOrderByMember(Member member, Timestamp startDate, Timestamp endDate) {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("startDate", startDate);
 		paramMap.put("endDate", endDate);
@@ -70,6 +80,24 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
 	public void Insert(OrderSummary ordersummary) {
 		sqlSessionTemplate.insert("OrderSummary.insert",ordersummary);
 		
+	}
+	
+	@Override
+	public void delete(int order_summary_id) throws OrderSummaryDeleteException {
+		try {
+			sqlSessionTemplate.delete("OrderSummary.delete", order_summary_id);
+		} catch (Exception e) {
+			throw new OrderSummaryDeleteException("주문 요약 삭제에 실패하였습니다.");
+		}
+	}
+	
+	@Override
+	public void deleteByMemberId(int member_id) throws OrderSummaryDeleteException {
+		try {
+			sqlSessionTemplate.delete("OrderSummary.deleteByMemberId", member_id);
+		} catch (Exception e) {
+			throw new OrderSummaryDeleteException("주문 요약 삭제에 실패하였습니다.");
+		}
 	}
 	
 }

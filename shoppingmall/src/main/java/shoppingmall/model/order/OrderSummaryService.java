@@ -8,6 +8,7 @@ import shoppingmall.domain.OrderSummary;
 import shoppingmall.domain.Status;
 
 public interface OrderSummaryService {
+	public List<OrderSummary> selectByMember(Member member);
 	public List<OrderSummary> selectByPageAndMember(String page, Member member, Timestamp startDate, Timestamp endDate);
 	
 	public OrderSummary selectByStatusList(int order_summary_id, Member member, List<Integer> statusList);

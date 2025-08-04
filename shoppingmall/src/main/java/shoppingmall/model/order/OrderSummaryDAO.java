@@ -9,9 +9,11 @@ import shoppingmall.domain.OrderSummary;
 import shoppingmall.domain.Status;
 
 public interface OrderSummaryDAO {
-	public List<OrderSummary> selectByMemberAndDate(Member member, Timestamp startDate, Timestamp endDate);
+	public List<OrderSummary> selectByMember(Member member);
+	public List<OrderSummary> selectOrderByMember(Member member, Timestamp startDate, Timestamp endDate);
 	public List<OrderSummary> selectReturnByMember(Member member, Timestamp startDate, Timestamp endDate);
-	
+	public void delete(int order_summary_id);
+	public void deleteByMemberId(int member_id);
 	
 	public OrderSummary selectByStatusList(int order_summary_id, Member member, List<Integer> statusList);
 	

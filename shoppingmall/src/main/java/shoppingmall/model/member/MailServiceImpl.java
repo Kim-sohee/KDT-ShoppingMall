@@ -63,7 +63,7 @@ public class MailServiceImpl implements MailService {
 		if ("id".equals(type)) {
 			// 아이디 찾기
 			log.debug("전달받은 회원 정보 " + member);
-			existingMember = memberDAO.find(member.getMember_name(), member.getPhone());
+			existingMember = memberDAO.findIdAndPwd(member.getMember_name(), member.getPhone());
 			log.debug("기존 회원이 있는지? " + existingMember);
 
 			subject = "ID찾기 정보";
