@@ -35,19 +35,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<%=contextPath %>/admin/order/history/list" id="orderHistory" class="nav-link <%= "orderHistory".equals(navMaenu) ? "active" : "" %>">
+                <a href="<%=contextPath %>/admin/order/history/listpage?status_id=1" id="orderHistory" class="nav-link <%= "orderHistory".equals(navMaenu) ? "active" : "" %>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>주문</p>
                 </a>
               </li>
                <li class="nav-item">
-                <a href="<%=contextPath %>/admin/order/inquiry/list" id="orderInquiry" class="nav-link <%= "orderInquiry".equals(navMaenu) ? "active" : "" %>">
+                <a href="<%=contextPath %>/admin/order/inquiry/listpage?status_id=7" id="orderInquiry" class="nav-link <%= "orderInquiry".equals(navMaenu) ? "active" : "" %>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>교환</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<%=contextPath %>/admin/order/return/list" id="orderReturn" class="nav-link <%= "orderReturn".equals(navMaenu) ? "active" : "" %>">
+                <a href="<%=contextPath %>/admin/order/return/listpage?status_id=6" id="orderReturn" class="nav-link <%= "orderReturn".equals(navMaenu) ? "active" : "" %>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>반품</p>
                 </a>

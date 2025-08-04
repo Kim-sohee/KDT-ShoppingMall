@@ -1,4 +1,9 @@
+<%@page import="shoppingmall.util.Paging"%>
+<%@page import="shoppingmall.domain.OrderSummary"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<% List<OrderSummary> orderSummaries = (List<OrderSummary>) request.getAttribute("orderSummaries"); %>
+<% Paging paging = (Paging) request.getAttribute("paging"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,38 +101,52 @@
 											<!-- 테이블 헤더 끝 -->
 											<!-- 테이블 바디 시작 -->
 											<tbody>
+											<% for(int i = 0; i < orderSummaries.size(); i++) {
+												OrderSummary orderSummary = orderSummaries.get(i);
+												%>
 												<!-- 테이블 아이템 시작 -->
 												<tr class="odd">
-													<td class="dtr-control sorting_1 text-right" tabindex="0">000200002</td>
-													<td class="text-right">2025-06-17 20:23:17</td>
-													<td class="text-right">20,000원</td>
-													<td class="text-right">2000p</td>
-													<td class="text-right">신용카드</td>
-													<td class="text-right">testuser1</td>
+													<td class="dtr-control sorting_1 text-right" tabindex="0"><%= orderSummary.getOrder_summary_id() %></td>
+													<td class="text-right"><%= orderSummary.getOrdered_at() %></td>
+													<td class="text-right"><%= orderSummary.getTotal_price() %>원</td>
+													<td class="text-right"><%= orderSummary.getPoint_used() %>p</td>
+													<td class="text-right"><%= orderSummary.getPayment_type() %></td>
+													<td class="text-right"><%= orderSummary.getMember().getMember_name() %></td>
 													<td class="text-right">
-														<button type="button" class="btn btn-block btn-danger btn-sm">결제 취소</button>
+														<% 
+															String buttonClassName = "btn-primary";
+															switch(orderSummary.getStatus().getStatus_id()){
+															case 1:
+																buttonClassName = "btn-secondary";
+																break;
+															case 2:
+																buttonClassName = "btn btn-ligh";
+																break;
+															case 3:
+																buttonClassName = "btn-dark";
+																break;
+															case 4:
+																buttonClassName = "btn btn-info";
+																break;
+															case 5:
+																buttonClassName = "btn-success";
+																break;
+															case 6:
+																buttonClassName = "btn-danger";
+																break;
+															default: 
+																buttonClassName = "btn-warning";
+																break;
+															}
+														%>
+														<button type="button" class="btn btn-block <%= buttonClassName %> btn-sm"><%= orderSummary.getStatus().getStatus_name() %></button>
 													</td>
 													<td class="text-right">
 														<button type="button" class="btn btn-block btn-primary btn-sm">상세보기</button>
 													</td>
 												</tr>
 												<!-- 테이블 아이템 끝 -->
-												<!-- 테이블 아이템 시작 -->
-												<tr class="even">
-													<td class="dtr-control sorting_1 text-right" tabindex="0">000200002</td>
-													<td class="text-right">2025-06-17 20:23:17</td>
-													<td class="text-right">20,000원</td>
-													<td class="text-right">2000p</td>
-													<td class="text-right">신용카드</td>
-													<td class="text-right">testuser1</td>
-													<td class="text-right">
-														<button type="button" class="btn btn-block btn-success btn-sm">배송완료</button>
-													</td>
-													<td class="text-right">
-														<a href="<%=contextPath%>/admin/order/detail"><button type="button" class="btn btn-block btn-primary btn-sm">상세보기</button></a>
-													</td>
-												</tr>
-												<!-- 테이블 아이템 끝 -->
+												<% } %>
 											</tbody>
 											<!-- 테이블 바디 끝 -->
 										</table>
@@ -135,20 +154,37 @@
 								</div>
 								<div class="row justify-content-between">
 									<div class="col-sm-12 col-md-auto">
-										<div class="dataTables_info" id="example2_info" role="status" aria-live="polite">총 57 페이지</div>
+										<div class="dataTables_info" id="example2_info" role="status" aria-live="polite">총 <%= paging.getTotalPage() %> 페이지</div>
 									</div>
 									<div class="col-sm-12 col-md-auto">
 										<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-											<ul class="pagination">
-												<li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-												<li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-												<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-												<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-												<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-												<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-												<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
-												<li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
-											</ul>
+										<ul class="pagination">
+													<%
+													if (paging.getFirstPage() - 1 > 0) {
+													%>
+													<li class="paginate_button page-item previous" id="example2_previous"><a href="<%= contextPath %>/admin/order/history/listpage?pagenum=<%= paging.getCurPos() - 1 %>" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+													<%
+													} else {
+													%>
+													<li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+													<% } %>
+													
+													<% for(int i = paging.getFirstPage(); i <= paging.getLastPage(); i++) { 
+														if(i > paging.getTotalPage()) break;
+													%>
+														<li class="paginate_button page-item <% if(i == paging.getCurrentPage()) { out.print("active"); } %>"><a href="<%= contextPath %>/admin/order/history/listpage?pagenum=<%=i%>" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link"><%= i %></a></li>
+													<% } %>
+													<%
+													if (paging.getLastPage() < paging.getTotalPage()) {
+													%>
+													<li class="paginate_button page-item next" id="example2_next"><a href="<%= contextPath %>/admin/order/history/listpage?pagenum=<%= paging.getCurPos() + 1 %>" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+													<%
+													} else {
+													%>
+													<li class="paginate_button page-item next disabled" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+													<% } %>
+													
+												</ul>
 										</div>
 									</div>
 								</div>
