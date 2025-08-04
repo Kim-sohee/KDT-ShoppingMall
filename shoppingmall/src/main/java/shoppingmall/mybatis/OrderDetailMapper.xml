@@ -25,5 +25,13 @@
 		<include refid="columns" />
 		FROM order_detail WHERE order_summary_id = #{order_summary_id}
 	</select>
+	
+	<!-- 베스트셀러: top4 상품의 이름 가져오기 -->
+	<select id="selectTopSnapshotIds" resultType="int">
+		select product_snapshot_id from order_detail
+		group by product_snapshot_id
+		order by sum(quantity_real) desc 
+		limit 4
+	</select>
 
 </mapper>
