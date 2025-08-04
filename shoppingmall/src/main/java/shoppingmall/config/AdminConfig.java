@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"shoppingmall.admin.advice","shoppingmall.admin.controller"})
+@ComponentScan(basePackages = {"shoppingmall.admin.advice","shoppingmall.admin.controller","shoppingmall.model"})
 public class AdminConfig extends WebMvcConfigurerAdapter {
 
 	@Bean
@@ -30,7 +30,7 @@ public class AdminConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public InternalResourceViewResolver viewResolver() {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-		resolver.setPrefix("/WEB-INF");
+		resolver.setPrefix("/WEB-INF/views");
 		resolver.setSuffix(".jsp");
 		return resolver;
 	}

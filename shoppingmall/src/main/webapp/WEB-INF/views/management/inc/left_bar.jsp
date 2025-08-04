@@ -1,11 +1,7 @@
 <%@page import="shoppingmall.domain.Member"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
-<% 
-String navMaenu = (String)request.getAttribute("navMenu"); 
-Member member = (shoppingmall.domain.Member) session.getAttribute("member");
-%>
-
-
+<% String navMaenu = (String)request.getAttribute("navMenu"); %>
+<% Member loginAdmin = (Member) session.getAttribute("loginAdmin"); %>
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/static/admin/index3.html" class="brand-link">
@@ -21,7 +17,7 @@ Member member = (shoppingmall.domain.Member) session.getAttribute("member");
           <!-- <img src="/static/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
         </div>
         <div class="info">
-          <a href="#" class="d-block"><%=member.getMember_name() %>님 안녕하세요.</a>
+          <a href="#" class="d-block"><%= String.valueOf(loginAdmin.getMember_name()) %> &nbsp; 님 안녕하세요.</a>
         </div>
       </div>
 
