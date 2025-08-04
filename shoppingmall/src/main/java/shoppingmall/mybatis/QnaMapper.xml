@@ -13,12 +13,26 @@
 		<result column="comment_member"	property="comment_member"/>
 		<result column="comment" 		property="comment"/>
 		<result column="is_commented"	property="is_commented"/>
-		
-		<association column="member_id" property="member" javaType="Member" select="Member.select"/>
+		<association column="member_id" property="member" javaType="Member" 
+					select="Member.select"/>
+		<association column="product_id" property="product" javaType="Product" 
+					select="Product.select"/>
 	</resultMap>
 	
 	<select id="selectAll" resultMap="joinMap">
 		SELECT <include refid="columns"/> FROM qna
+	</select>
+
+	<select id="selectAllOrderBy" resultMap="joinMap">
+		SELECT
+		<include refid="columns" />
+		FROM qna
+		ORDER BY
+		is_commented ASC,
+		CASE
+		WHEN is_commented = 0 THEN qna_id
+		ELSE -qna_id
+		END ASC;
 	</select>
 	
 	<select id="select" parameterType="int" resultMap="joinMap">
@@ -53,6 +67,13 @@
 	<update id="update" parameterType="Qna">
 		UPDATE qna
 		SET title = #{title},  content = #{content}
+		WHERE qna_id = #{qna_id}
+	</update>
+	
+	<!-- Qna 어드민에서 수정 -->
+	<update id="updateFromAdmin" parameterType="Qna">
+		UPDATE qna
+		SET is_commented = #{is_commented}, comment_member=#{comment_member}, comment=#{comment}
 		WHERE qna_id = #{qna_id}
 	</update>
 	
