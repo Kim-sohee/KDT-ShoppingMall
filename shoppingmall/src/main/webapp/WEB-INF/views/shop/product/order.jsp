@@ -106,7 +106,7 @@
                             List<ProductImage> images = cart.getProduct().getProductImages();
                             String thumbnail = (images != null && !images.isEmpty()) ? images.get(0).getFileName() : null;
                             String imageSrc = (thumbnail != null && !thumbnail.isEmpty())
-                                ? contextPath + "/static/uploads/" + thumbnail
+                                ? contextPath + "/data/p_"+ cart.getProduct().getProduct_id()+"/"+ thumbnail
                                 : contextPath + "/static/img/noimage.png";
                         %>
                         <div class="order-item" data-cart-id="<%= cart.getCart_id() %>">

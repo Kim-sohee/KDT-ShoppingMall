@@ -17,9 +17,9 @@ List<Qna> qnas = (List<Qna>)request.getAttribute("qna");
 int count_qna = (int)request.getAttribute("qna_count");
 
 String contextPath = request.getContextPath();
-String imageUrl = "";
+String mainImageUrl = "";
 if(!product.getProductImages().isEmpty()){
-	imageUrl = contextPath+"/data/p_"+product.getProduct_id()+"/"+product.getProductImages().get(0).getFileName();
+	mainImageUrl = contextPath+"/data/p_"+product.getProduct_id()+"/"+product.getProductImages().get(0).getFileName();
 }
 %>
 <!DOCTYPE html>
@@ -82,6 +82,11 @@ if(!product.getProductImages().isEmpty()){
 	border: 1px solid #ddd;
 	border-radius: 6px;
 	cursor: pointer;
+}
+
+#gallery img.selected {
+	border: 2px solid #D70C19;
+	box-shadow: 0 0 5px rgba(0, 123, 255, 0.6);
 }
 
 /* 오른쪽 상품 정보 영역 */
@@ -638,11 +643,15 @@ if(!product.getProductImages().isEmpty()){
 			<div id="upper_left_side">
 				<!-- 대표 이미지 영역  -->
 				<div id="main_image">
-					<img alt="메인 이미지" src="${imageUrl}">
+					<img alt="메인 이미지" src="<%=mainImageUrl%>">
 				</div>
 				<!-- 이미지 갤러리 영역 -->
 				<div id="gallery">
-					<img alt="메인 이미지" src="${imageUrl}">
+					<% for(int i=0; i<product.getProductImages().size(); i++){ 
+						String imageUrl = contextPath+"/data/p_"+product.getProduct_id()+"/"+product.getProductImages().get(i).getFileName();
+					%>
+					<img alt="메인 이미지" src="<%=imageUrl%>">
+					<% } %>
 					<!-- 필요 시 추가 이미지 반복문 처리 가능 -->
 				</div>
 			</div>
@@ -950,9 +959,19 @@ if(!product.getProductImages().isEmpty()){
 			});
 
 			// 갤러리 이미지 클릭 → 메인 이미지 교체
+			// 초기 선택 상태 설정
+			const firstImage = $("#gallery img").first();
+			const firstSrc = firstImage.attr("src");
+			$("#main_image img").attr("src", firstSrc);
+			firstImage.addClass("selected");
+
 			$("#gallery img").on("click", function() {
 				const newSrc = $(this).attr("src");
 				$("#main_image img").attr("src", newSrc);
+				
+				//선택 표시 클래스 추가
+				$("#gallery img").removeClass("selected");
+				$(this).addClass("selected");
 			});
 
 			// 상단 탭 고정
