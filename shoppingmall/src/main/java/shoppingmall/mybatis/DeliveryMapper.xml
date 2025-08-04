@@ -20,7 +20,7 @@
 		<result column="receiver_phone" property="receiver_phone" />
 
 		<association column="member_id" property="member"
-			javaType="Member" select="Member.select" />
+			javaType="Member" select="Member.selectOnlyMember" />
 	</resultMap>
 	
 	<!-- 부모인 Member를 통해 배송지 조회 시작 -->

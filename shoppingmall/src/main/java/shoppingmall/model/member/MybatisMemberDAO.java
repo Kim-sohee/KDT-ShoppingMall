@@ -2,6 +2,7 @@ package shoppingmall.model.member;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -35,6 +36,21 @@ public class MybatisMemberDAO implements MemberDAO {
 			throw new MemberNotFoundException("해당 회원 정보를 불러올 수 없습니다.");
 		}
 		return member;
+	}
+	
+	@Override
+	public List<Member> selectAll() {
+		return sqlSessionTemplate.selectList("Member.selectAll");
+	}
+	
+	@Override
+	public Member select(int member_id) {
+		return sqlSessionTemplate.selectOne("Member.select", member_id);
+	}
+	
+	@Override
+	public Member selectWithDelivery(int member_id) {
+		return sqlSessionTemplate.selectOne("Member.selectWithDelivery",member_id);
 	}
 	
 	@Override
