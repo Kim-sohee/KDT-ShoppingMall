@@ -1,5 +1,5 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="shoppingmall.domain.Delivery"%>
 <%@page import="shoppingmall.domain.OrderDetail"%>
 <%@page import="shoppingmall.domain.ProductSnapshot"%>
 <%@page import="shoppingmall.domain.Member"%>
@@ -17,6 +17,9 @@
     int discount = discountAttr != null ? discountAttr : 0;
     int finalPrice = finalPriceAttr != null ? finalPriceAttr : 0;
     int earnedPoint = earnedPointAttr != null ? earnedPointAttr : 0;
+    
+    
+    Delivery delivery = (Delivery) request.getAttribute("delivery");
 %>
 
 <!DOCTYPE html>
@@ -77,8 +80,8 @@
                         <div class="order-success-item">
                             <div class="item-image">
                                 <img src="<%= (snapshot.getProductImages() != null && !snapshot.getProductImages().isEmpty()) 
-							    ? "/static/uploads/" + snapshot.getProductImages().get(0).getFileName() 
-							    : "/static/img/noimage.png" %>" alt="<%= snapshot.getProduct_name() %>">
+						    ? "/static/uploads/" + snapshot.getProductImages().get(0).getFileName() 
+						    : "/static/img/noimage.png" %>" alt="<%= snapshot.getProduct_name() %>">
 
                             </div>
                             <div class="item-info">
@@ -105,7 +108,8 @@
                         <table class="info-table">
                             <tr><th>이름</th><td><%= member.getMember_name() %></td></tr>
                             <tr><th>휴대폰번호</th><td><%= member.getPhone() %></td></tr>
-                            <tr><th>배송지 주소</th><td><%= member.getDefault_address() %></td></tr>
+                            <tr><th>배송지 주소</th><td><%= delivery.getAddress() %></td></tr>
+							<tr><th>주소 별칭</th><td><%= delivery.getAddress_alias() %></td></tr>
                         </table>
                     </div>
 

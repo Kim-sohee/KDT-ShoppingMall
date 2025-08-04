@@ -149,17 +149,28 @@
 
 .delivery-info-adress {
     display: flex;
-    gap: 1rem;
-    font-size: 1.2rem;
+	flex-direction:column;
+	gap: 1rem;
+	font-size:1.2rem;
+    /* gap: 1rem;
+    font-size: 1.2rem; */
 }
 
 .adress-value {
     color: #333;
     font-weight: 500;
+    width:100%;
 }
 
 .adress-port {
+	width:100%;
     color: #666;
+}
+
+#addressDetail {
+    width: 100%;
+    color: #666;
+    font-size: 1.2rem; /* ✅ 올바른 CSS 속성명 */
 }
 
 /*배송지 수정 버튼*/

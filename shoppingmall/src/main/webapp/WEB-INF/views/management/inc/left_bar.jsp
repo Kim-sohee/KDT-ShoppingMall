@@ -1,5 +1,7 @@
+<%@page import="shoppingmall.domain.Member"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <% String navMaenu = (String)request.getAttribute("navMenu"); %>
+<% Member loginAdmin = (Member) session.getAttribute("loginAdmin"); %>
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/static/admin/index3.html" class="brand-link">
@@ -15,7 +17,7 @@
           <!-- <img src="/static/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
         </div>
         <div class="info">
-          <a href="#" class="d-block"><%= (String)session.getAttribute("member") %>님 안녕하세요.</a>
+          <a href="#" class="d-block"><%= String.valueOf(loginAdmin.getMember_name()) %> &nbsp; 님 안녕하세요.</a>
         </div>
       </div>
 
@@ -59,7 +61,7 @@
       
           <!-- 상품관리 메뉴 시작-->
           <li class="nav-item">
-            <a href="<%=contextPath %>/admin/product/listpage" class="nav-link <%= (navMaenu != null && navMaenu.startsWith("productList")) ? "active" : "" %>">
+            <a href="<%=contextPath%>/admin/product/listpage" class="nav-link <%= (navMaenu != null && navMaenu.startsWith("productList")) ? "active" : "" %>">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 상품관리

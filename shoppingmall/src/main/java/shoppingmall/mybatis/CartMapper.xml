@@ -7,7 +7,7 @@
 	    <id property="cart_id" column="cart_id"/>
 	    <result property="quantity" column="quantity"/>
 	
-	    <association property="product" javaType="shoppingmall.domain.Product">
+	    <association property="product" javaType="shoppingmall.domain.Product" resultMap="Product.productMap">
 	        <id property="product_id" column="product_id"/>
 	        <result property="product_name" column="product_name"/>
 	        <result property="price" column="price"/>

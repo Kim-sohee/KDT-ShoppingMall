@@ -63,11 +63,12 @@
 	</select>
 	
 	<!-- 베스트셀러: 상품명으로 상품 정보 조회(top4) -->
-	<select id="selectTopProductByNames" parameterType="list" resultType="Product">
+	<select id="selectTopProductByNames" parameterType="list" resultMap="productMap">
 		select * from product where product_name IN
 		<foreach item="product_name" collection="list" open="(" separator="," close=")">
 			#{product_name}
 		</foreach>
+		limit 4
 	</select>
 	
 	<!-- 한 건 추가하기 -->

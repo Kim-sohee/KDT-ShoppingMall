@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"shoppingmall.admin.advice","shoppingmall.admin.controller"})
+@ComponentScan(basePackages = {"shoppingmall.admin.advice","shoppingmall.admin.controller","shoppingmall.model"})
 public class AdminConfig extends WebMvcConfigurerAdapter {
 
 	@Bean
