@@ -99,6 +99,12 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
 		
 		return orderSummary;
 	}
+
+	@Override
+	public void Insert(OrderSummary ordersummary) {
+		sqlSessionTemplate.insert("OrderSummary.insert",ordersummary);
+		
+	}
 	
 	@Override
 	public void delete(int order_summary_id) throws OrderSummaryDeleteException {

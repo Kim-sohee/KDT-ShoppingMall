@@ -207,7 +207,7 @@ if(!product.getProductImages().isEmpty()){
 }
 
 /* 장바구니, 구매, 찜 버튼 */
-#bt_cart, #bt_but, #bt_favorite {
+#bt_cart, #bt_buy, #bt_favorite {
 	padding: 6px 16px;
 	border-radius: 4px;
 	font-size: 14px;
@@ -231,7 +231,7 @@ if(!product.getProductImages().isEmpty()){
 	color: white;
 }
 
-#bt_but {
+#bt_buy {
 	background-color: #d32f2f;
 	color: white;
 }
@@ -711,7 +711,7 @@ if(!product.getProductImages().isEmpty()){
 					<!-- 장바구니 담기 버튼 -->
 					<div id="bt_cart">장바구니 담기</div>
 					<!-- 구매 버튼 -->
-					<div id="bt_but">구매하기</div>
+					<div id="bt_buy">구매하기</div>
 					<% } %>
 					<!--  찜 버튼 -->
 					<div id="bt_favorite">찜</div>
@@ -784,25 +784,31 @@ if(!product.getProductImages().isEmpty()){
 		</div>
 
 		<!-- 리뷰 카드 리스트 -->
-		<div id="review_list">
 		<%
-		    
-		    for (Review r : reviews) {
-		        String stars = "★★★★★☆☆☆☆☆".substring(5 - r.getRating(), 10 - r.getRating());
-		      
+		    if (reviews == null || reviews.isEmpty()) {
 		%>
 		    <div class="review_card">
-		        <div class="review_top">
-		            <strong><%= r.getMember().getMember_name() %></strong>
-		            <span class="review_date"><%= r.getReviewed_at() %></span>
-		            <span class="stars"><%= stars %></span>
-		        </div>
-		        <div class="review_text"><%= r.getContent() %></div>
-		        <button class="btn_helpful">도움돼요 (2)</button>
+		        <div class="review_text">아직 등록된 리뷰가 없습니다.</div>
 		    </div>
 		<%
+		    } else {
+		        for (Review r : reviews) {
+		            String stars = "★★★★★☆☆☆☆☆".substring(5 - r.getRating(), 10 - r.getRating());
+		%>
+		            <div class="review_card">
+		                <div class="review_top">
+		                    <strong><%= r.getMember().getMember_name() %></strong>
+		                    <span class="review_date"><%= r.getReviewed_at() %></span>
+		                    <span class="stars"><%= stars %></span>
+		                </div>
+		                <div class="review_text"><%= r.getContent() %></div>
+		                <button class="btn_helpful">도움돼요 (2)</button>
+		            </div>
+		<%
+		        }
 		    }
 		%>
+
 		</div>
 
 
@@ -1048,6 +1054,34 @@ if(!product.getProductImages().isEmpty()){
 		  		}
 		  	});
 		  });
+		  
+		  $("#bt_buy").on("click",function(){
+			  	const product_id = $("#product_id").val();
+				const quantity = $("#quantity").val();
+
+				$.ajax({
+					url : "/shop/cart/regist",
+					method : "POST",
+					contentType : "application/json",
+					data : JSON.stringify({
+						quantity : quantity,
+						product : {
+							product_id : product_id
+						}
+					}),
+					success : function(result) {
+						if (result.startsWith("success")) {
+							window.location.href ="/shop/cart/list"; 
+						} else {
+							alert("실패: " + result);
+						}
+					},
+					error : function(xhr, status, error) {
+						alert("장바구니 등록 중 오류 발생하였습니다.");
+						console.error(error);
+					}
+				});
+		  })
 
 	
 

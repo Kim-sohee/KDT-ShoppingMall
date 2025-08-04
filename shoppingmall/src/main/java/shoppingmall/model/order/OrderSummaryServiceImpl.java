@@ -61,5 +61,11 @@ public class OrderSummaryServiceImpl implements OrderSummaryService {
 	public List<Status> selectStatusAll() throws StatusNotFoundException {
 		return statusDAO.selectAll();
 	}
+
+	@Override
+	public void insert(OrderSummary orderSummary) {
+		orderSummaryDAO.Insert(orderSummary);
+		
+	}
 	
 }

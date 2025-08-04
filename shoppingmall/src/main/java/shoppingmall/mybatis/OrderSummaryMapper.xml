@@ -59,9 +59,9 @@
 	</select>
 	
 	<!-- 주문요약 추가 -->
-	<insert id="insert" parameterType="OrderSummary">
-		INSERT INTO order_summary(total_price, final_price, payment_type, point_used, member_id, status_id, delivery_id) 
-		VALUES(#{total_price}, #{final_price}, #{payment_type}, #{point_used}, #{member.member_id}, #{status.status_id}, #{delivery.delivery_id})
+	<insert id="insert" parameterType="OrderSummary" useGeneratedKeys="true" keyProperty="order_summary_id">
+		INSERT INTO order_summary( ordered_at,total_price, final_price, payment_type, point_used, member_id, status_id, delivery_id) 
+		VALUES(NOW(), #{total_price}, #{final_price}, #{payment_type}, #{point_used}, #{member.member_id}, #{status.status_id}, #{delivery.delivery_id})
 	</insert>
 
 	<!-- 주문요약 수정 -->
