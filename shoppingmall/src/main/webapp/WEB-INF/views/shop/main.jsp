@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>신세계 보드 게</title>
 <link rel="stylesheet" href="/static/shop/styles/footer.css">
 <link rel="stylesheet" href="/static/shop/styles/footer2.css">
 </head>
