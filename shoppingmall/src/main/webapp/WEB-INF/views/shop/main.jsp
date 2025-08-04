@@ -1,6 +1,9 @@
+<%@page import="shoppingmall.util.PriceFormat"%>
+<%@page import="shoppingmall.domain.Product"%>
 <%@page import="com.fasterxml.jackson.annotation.JsonInclude.Include"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<% String contextPath = request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -318,34 +321,21 @@ body {
 		<div class="best_seller" id="best_seller">
 			<h2 class="best_seller_title">베스트 셀러</h2>
 			<div class="best_seller_card_wrap">
-				<!-- 카드 1 -->
-				<div class="best_seller_card">
-					<img src="../img/main/best1.png" alt="식스틴">
-					<div class="product_name">식스틴</div>
-					<div class="product_price">45,000원</div>
-					<div class="product_rating">★★★★★ (271)</div>
+				<% List<Product> topProducts = (List<Product>)request.getAttribute("topProducts"); 
+					for(Product p : topProducts){
+						
+					//상품 이미지 경로 가져오기
+					 String imageUrl = "";
+					 if(!p.getProductImages().isEmpty()){
+						imageUrl = contextPath+"/data/p_"+p.getProduct_id()+"/"+p.getProductImages().get(0).getFileName();
+					 }
+				%>
+				<div class="best_seller_card" onclick="location.href='/shop/product/detail?product_id=<%=p.getProduct_id()%>';">
+					<img src="<%=imageUrl %>" alt="상품이미지">
+					<div class="product_name"><%=p.getProduct_name() %></div>
+					<div class="product_price"><%=PriceFormat.productPriceFormat(p.getSalePrice())%>원</div>
 				</div>
-				<!-- 카드 2 -->
-				<div class="best_seller_card">
-					<img src="../img/main/best2.png" alt="코드톡">
-					<div class="product_name">코드톡</div>
-					<div class="product_price">24,000원</div>
-					<div class="product_rating">★★★★★ (204)</div>
-				</div>
-				<!-- 카드 3 -->
-				<div class="best_seller_card">
-					<img src="../img/main/best3.png" alt="라이징5">
-					<div class="product_name">라이징5</div>
-					<div class="product_price">37,900원</div>
-					<div class="product_rating">★★★★☆ (79)</div>
-				</div>
-				<!-- 카드 4 -->
-				<div class="best_seller_card">
-					<img src="../img/main/best4.png" alt="파일업 러시">
-					<div class="product_name">파일업 러시</div>
-					<div class="product_price">52,000원</div>
-					<div class="product_rating">★★★☆☆ (93)</div>
-				</div>
+				<% } %>
 			</div>
 		</div>
 

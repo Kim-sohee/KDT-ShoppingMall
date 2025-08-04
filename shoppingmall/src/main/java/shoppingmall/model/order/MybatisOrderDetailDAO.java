@@ -23,6 +23,11 @@ public class MybatisOrderDetailDAO implements OrderDetailDAO {
 		}
 		return orderDetailList;
 	}
+	
+	@Override
+	public List<Integer> selectTopSnapshotIds() {
+		return sqlSessionTemplate.selectList("OrderDetail.selectTopSnapshotIds");
+	}
 
 	@Override
 	public void insert(OrderDetail orderDetail) {
