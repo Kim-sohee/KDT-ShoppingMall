@@ -34,9 +34,9 @@
 				<a href="index.html">홈</a> <span>></span> <span>장바구니</span>
 			</div>
 
-			<!-- 장바구린 페이지 제목 시작 -->
+			<!-- 장바구니 페이지 제목 시작 -->
 			<div class="cart-header">
-				<h1>장바구린</h1>
+				<h1>장바구니</h1>
 				<div class="cart-steps">
 					<div class="step active">
 						<span class="step-number">1</span> <span class="step-text">장바구니</span>
@@ -164,11 +164,11 @@
 			      if (!confirm('이 항목을 장바구니에서 삭제하시겠습니까?')) return;
 			
 			      fetch('/shop/cart/delete?cart_id=' + cartId, {
-			        method: 'GET' // 또는 POST (더 안전함)
+			        method: 'GET' 
 			      })
 			      .then(response => {
 			        if (response.ok) {
-			          // 성공 시 새로고침 or 해당 아이템 DOM 삭제
+			        
 			          location.reload(); 
 			        } else {
 			          alert('삭제에 실패했습니다.');
@@ -268,6 +268,7 @@
 		        }
 		    });
 		});
+		
 		document.getElementById("bt_order").addEventListener("click", function () {
 		    const checkedBoxes = document.querySelectorAll(".item-checkbox:checked");
 		    const cartIds = Array.from(checkedBoxes).map(cb => cb.dataset.cartId);
@@ -277,19 +278,30 @@
 		        return;
 		    }
 
+		    // 사용자가 입력한 포인트 가져오기 (있으면)
+		    const used = parseInt(document.getElementById("usedPointInput")?.value) || 0;
+
 		    fetch("/shop/product/order", {
 		        method: "POST",
-		        headers: {
-		            "Content-Type": "application/json"
-		        },
-		        body: JSON.stringify(cartIds)
+		        headers: { "Content-Type": "application/json" },
+		        credentials: "include",
+		        body: JSON.stringify({
+		            cartIds: cartIds,
+		            usedPoint: used
+		        })
 		    })
-		    .then(res => res.json())
-		    .then(data => {
-		        if (data.url) {
-		            location.href = data.url;
-		        } else {
-		            alert("이동할 URL이 없습니다.");
+		    .then(res => res.text())
+		    .then(text => {
+		        try {
+		            const data = JSON.parse(text);
+		            if (data.url) {
+		                location.href = data.url;
+		            } else {
+		                alert("이동할 URL이 없습니다.");
+		            }
+		        } catch (err) {
+		            console.error("응답이 JSON이 아님:", text);
+		            alert("서버 오류 발생: JSON 응답 아님");
 		        }
 		    })
 		    .catch(err => {
@@ -298,35 +310,6 @@
 		    });
 		});
 
-		document.getElementById("bt_order").addEventListener("click", function () {
-		    const checkedBoxes = document.querySelectorAll(".item-checkbox:checked");
-		    const cartIds = Array.from(checkedBoxes).map(cb => cb.dataset.cartId);
-
-		    if (cartIds.length === 0) {
-		        alert("주문할 상품을 선택해주세요.");
-		        return;
-		    }
-
-		    fetch("/shop/product/order", {
-		    	  method: "POST",
-		    	  headers: { "Content-Type": "application/json" },
-		    	  credentials: "include",
-		    	  body: JSON.stringify(cartIds)
-		    	})
-		    	.then(res => res.json()) // ← JSON으로 받아야 하고,
-		    	.then(data => {
-		    	  if (data.url) {
-		    	    location.href = data.url;
-		    	  } else {
-		    	    alert("이동할 URL이 없습니다.");
-		    	  }
-		    	})
-		    	.catch(err => {
-		    	  console.error(err);
-		    	  alert("서버 통신 중 에러 발생");
-		    	});
-
-		});
 		</script>
 
 </body>

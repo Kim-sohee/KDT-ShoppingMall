@@ -34,4 +34,19 @@
 		limit 4
 	</select>
 
+
+	<insert id="insert" parameterType="OrderDetail" useGeneratedKeys="true" keyProperty="order_detail_id">
+    INSERT INTO order_detail (
+        quantity_real,
+        order_summary_id,
+        product_snapshot_id
+    )
+    VALUES (
+        #{quantity_real},
+        #{orderSummary.order_summary_id},
+        #{productSnapshot.product_snapshot_id}
+    )
+</insert>
+
+
 </mapper>

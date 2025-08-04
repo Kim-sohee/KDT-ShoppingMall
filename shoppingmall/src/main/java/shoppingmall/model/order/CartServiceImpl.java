@@ -47,5 +47,12 @@ public class CartServiceImpl implements CartService{
 		List<Cart> result = cartDAO.getCartItemsByIds(ids);
 		return result;
 	}
+
+	@Override
+	public void deleteByMemberId(int member_id) {
+		cartDAO.deleteByMemberId(member_id);
+	}
+	
+
 	
 }
