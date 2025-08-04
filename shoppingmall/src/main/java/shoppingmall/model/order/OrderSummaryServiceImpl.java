@@ -3,7 +3,9 @@ package shoppingmall.model.order;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,30 @@ public class OrderSummaryServiceImpl implements OrderSummaryService {
 	}
 	
 	@Override
+	public List<OrderSummary> selectByOrder(int pageSize, int currentPage) throws OrderSummaryNotFoundException {
+		Map<String, Object> map = new HashMap<>();
+		map.put("page_size", pageSize);
+		map.put("offset", (currentPage - 1) * 10);
+		return orderSummaryDAO.selectByOrder(map);
+	}
+	
+	@Override
+	public List<OrderSummary> selectByInquiry(int pageSize, int currentPage) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("page_size", pageSize);
+		map.put("offset", (currentPage - 1) * 10);
+		return orderSummaryDAO.selectByInquiry(map);
+	}
+	
+	@Override
+	public List<OrderSummary> selectByReturn(int pageSize, int currentPage) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("page_size", pageSize);
+		map.put("offset", (currentPage - 1) * 10);
+		return orderSummaryDAO.selectByReturn(map);
+	}
+	
+	@Override
 	public List<Integer> getStatusListByType(String statusType) {
 		switch (statusType) {
 			case "returns": return Collections.singletonList(6);
@@ -64,6 +90,11 @@ public class OrderSummaryServiceImpl implements OrderSummaryService {
 	public void insert(OrderSummary orderSummary) {
 		orderSummaryDAO.Insert(orderSummary);
 		
+	}
+	
+	@Override
+	public int totalRecord(Status status) {
+		return orderSummaryDAO.totalRecord(status);
 	}
 	
 }

@@ -38,7 +38,7 @@ public class CsController {
 		}
 		paging.init(currentPage, currentPage);
 		List<Qna> qnas = qnaService.selectOrderBy();
-		ModelAndView modelAndView = new ModelAndView("/views/management/cs/qna/list");
+		ModelAndView modelAndView = new ModelAndView("/management/cs/qna/list");
 		modelAndView.addObject("qnas", qnas);	
 		return modelAndView;
 	}
@@ -52,7 +52,7 @@ public class CsController {
 		}
 		Qna qna = qnaService.select(Integer.parseInt(qnaId));
 		log.debug("Selected Qna : {}",qna);
-		ModelAndView modelAndView = new ModelAndView("/views/management/cs/qna/detail");
+		ModelAndView modelAndView = new ModelAndView("/management/cs/qna/detail");
 		modelAndView.addObject("qna", qna);
 		return modelAndView;
 	}

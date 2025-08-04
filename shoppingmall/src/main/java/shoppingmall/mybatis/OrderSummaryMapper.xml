@@ -21,6 +21,25 @@
 		<collection column="order_summary_id"  property="orderDetailList" javaType="java.util.List" ofType="OrderDetail" select="OrderDetail.selectByOrderSummaryId"/>
 	</resultMap>
 	
+	<!-- 구매내역 조회 -->
+	<select id="selectByOrder" parameterType="map" resultMap="DetailJoin">
+		SELECT <include refid="columns"/> FROM order_summary
+		WHERE status_id &lt; 6
+		ORDER BY ordered_at DESC LIMIT #{page_size} OFFSET #{offset}
+	</select>
+	
+	<select id="selectByInquiry" parameterType="map" resultMap="DetailJoin">
+		SELECT <include refid="columns"/> FROM order_summary
+		WHERE status_id = 7
+		ORDER BY ordered_at DESC LIMIT #{page_size} OFFSET #{offset}
+	</select>
+	
+	<select id="selectByReturn" parameterType="map" resultMap="DetailJoin">
+		SELECT <include refid="columns"/> FROM order_summary
+		WHERE status_id = 6
+		ORDER BY ordered_at DESC LIMIT #{page_size} OFFSET #{offset}
+	</select>
+	
 	<!-- 한 건 조회 -->
 	<select id="select" parameterType="int" resultMap="DetailJoin">
 	  SELECT <include refid="columns"/> FROM order_summary
@@ -76,5 +95,17 @@
 	<delete id="deleteByMemberId" parameterType="int">
 		DELETE FROM order_summary WHERE member_id = #{member_id}
 	</delete>
+
+	<select id="totalRecord" parameterType="Status" resultType="int">
+		SELECT COUNT(order_summary_id) FROM order_summary
+
+		<if test="status_id != 0 and status_id lt 6">
+			WHERE status_id &lt; ${status_id}
+		</if>
+
+		<if test="status_id != 0 and status_id gt 5">
+			WHERE status_id = #{status_id}
+		</if>
+	</select>
 
 </mapper>

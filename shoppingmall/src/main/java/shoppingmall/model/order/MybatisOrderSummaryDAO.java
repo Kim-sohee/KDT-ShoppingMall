@@ -1,6 +1,7 @@
 package shoppingmall.model.order;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +12,10 @@ import org.springframework.stereotype.Repository;
 
 import shoppingmall.domain.Member;
 import shoppingmall.domain.OrderSummary;
+import shoppingmall.domain.Status;
 import shoppingmall.exception.OrderSummaryDeleteException;
 import shoppingmall.exception.OrderSummaryNotFoundException;
+import shoppingmall.exception.OrderSummaryTotalRecoredException;
 
 @Repository
 public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
@@ -75,6 +78,48 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
 		
 		return orderSummary;
 	}
+	
+	@Override
+	public List<OrderSummary> selectByOrder(Map<String, Object> map) throws OrderSummaryNotFoundException {
+		List<OrderSummary> list = null;
+		try {
+			list = sqlSessionTemplate.selectList("OrderSummary.selectByOrder", map);			
+			if (list == null) {
+				list = new ArrayList<>();
+			}
+		} catch (Exception e) {
+			throw new OrderSummaryNotFoundException(e);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<OrderSummary> selectByInquiry(Map<String, Object> map) {
+		List<OrderSummary> list = null;
+		try {
+			list = sqlSessionTemplate.selectList("OrderSummary.selectByInquiry", map);			
+			if (list == null) {
+				list = new ArrayList<>();
+			}
+		} catch (Exception e) {
+			throw new OrderSummaryNotFoundException(e);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<OrderSummary> selectByReturn(Map<String, Object> map) {
+		List<OrderSummary> list = null;
+		try {
+			list = sqlSessionTemplate.selectList("OrderSummary.selectByReturn", map);			
+			if (list == null) {
+				list = new ArrayList<>();
+			}
+		} catch (Exception e) {
+			throw new OrderSummaryNotFoundException(e);
+		}
+		return list;
+	}
 
 	@Override
 	public void Insert(OrderSummary ordersummary) {
@@ -97,6 +142,16 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
 			sqlSessionTemplate.delete("OrderSummary.deleteByMemberId", member_id);
 		} catch (Exception e) {
 			throw new OrderSummaryDeleteException("주문 요약 삭제에 실패하였습니다.");
+		}
+	}
+
+	@Override
+	public int totalRecord(Status status) throws OrderSummaryTotalRecoredException {
+		try {
+			int result = sqlSessionTemplate.selectOne("OrderSummary.totalRecord", status);
+			return result;
+		} catch (Exception e) {
+			throw new OrderSummaryTotalRecoredException(e);
 		}
 	}
 	

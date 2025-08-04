@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -139,14 +138,14 @@ public class ProductController {
 		}
 		log.debug("products - {}", products);
 		log.debug("totalProductCount : {}", totalCount);
-		ModelAndView modelAndView = new ModelAndView("/views/management/product/list");
+		ModelAndView modelAndView = new ModelAndView("management/product/list");
 		modelAndView.addObject("themes", themes);
 		modelAndView.addObject("currentThemeId", themeId);
 		modelAndView.addObject("products", products);
 		modelAndView.addObject("paging", paging);
 		return modelAndView;
 	}
-
+	
 	@GetMapping("/product/detail")
 	public ModelAndView getProductDetail(@RequestParam(name = "product_id", required = false) Integer product_id) {
 		List<Theme> themes = themeService.selectAll();
@@ -163,13 +162,29 @@ public class ProductController {
 		return modelAndView;
 	}
 
+	@GetMapping("/product/modify")
+	public ModelAndView getProductModify(@RequestParam(name = "product_id", required = false) Integer product_id) {
+		List<Theme> themes = themeService.selectAll();
+		List<Difficulty> difficulties = difficultyService.selectAll();
+		List<AgeRange> ageRanges = ageRangeService.selectAll();
+		List<PlayerRange> playerRanges = playerRangeService.selectAll();
+		Product product = productService.select(product_id);
+		ModelAndView modelAndView = new ModelAndView("management/product/modify");
+		modelAndView.addObject("themes", themes);
+		modelAndView.addObject("difficulties", difficulties);
+		modelAndView.addObject("ageRanges", ageRanges);
+		modelAndView.addObject("playerRanges", playerRanges);
+		modelAndView.addObject("product", product);
+		return modelAndView;
+	}
+
 	@GetMapping("/product/registform")
 	public ModelAndView getProductRegistForm() {
 		List<Theme> themes = themeService.selectAll();
 		List<Difficulty> difficulties = difficultyService.selectAll();
 		List<AgeRange> ageRanges = ageRangeService.selectAll();
 		List<PlayerRange> playerRanges = playerRangeService.selectAll();
-		ModelAndView modelAndView = new ModelAndView("/views/management/product/regist");
+		ModelAndView modelAndView = new ModelAndView("management/product/regist");
 		modelAndView.addObject("themes", themes);
 		modelAndView.addObject("difficulties", difficulties);
 		modelAndView.addObject("ageRanges", ageRanges);

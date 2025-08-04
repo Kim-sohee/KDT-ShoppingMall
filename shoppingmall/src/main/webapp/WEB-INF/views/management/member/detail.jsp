@@ -1,4 +1,7 @@
+<%@page import="shoppingmall.domain.Delivery"%>
+<%@page import="shoppingmall.domain.Member"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<% Member member = (Member) request.getAttribute("member"); %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -29,7 +32,8 @@
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
-								<li class="breadcrumb-item active">Dashboard v1</li>
+								<li class="breadcrumb-item">회원관리</li>
+								<li class="breadcrumb-item active">상세보기</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -51,31 +55,35 @@
 								<div class="d-flex flex-column">
 									<div class="d-flex flex-row align-items-center">
 										<p class="mb-0 mr-3 flex-1">이름</p>
-										<div class="form-control flex-12" disabled>홍길동</div>
+										<div class="form-control flex-12" disabled><%= String.valueOf(member.getMember_name())%></div>
 									</div>
 									<div class="d-flex flex-row align-items-center mt-1">
 										<p class="mb-0 mr-3 flex-1">SNS</p>
-										<div class="form-control flex-12" disabled>홍길동</div>
+										<div class="form-control flex-12" disabled><%= String.valueOf(member.getSns_provider())%></div>
 									</div>
 									<div class="d-flex flex-row align-items-center mt-1">
 										<p class="mb-0 mr-3 flex-1">아이디</p>
-										<div class="form-control flex-12" disabled>홍길동</div>
+										<div class="form-control flex-12" disabled><%= String.valueOf(member.getId())%></div>
 									</div>
 									<div class="d-flex flex-row align-items-center mt-1">
 										<p class="mb-0 mr-3 flex-1">이메일</p>
-										<div class="form-control flex-12" disabled>홍길동</div>
+										<div class="form-control flex-12" disabled><%= String.valueOf(member.getEmail())%></div>
 									</div>
 									<div class="d-flex flex-row align-items-center mt-1">
 										<p class="mb-0 mr-3 flex-1">연락처</p>
-										<div class="form-control flex-12" disabled>홍길동</div>
+										<div class="form-control flex-12" disabled><%= String.valueOf(member.getPhone())%></div>
 									</div>
 									<div class="d-flex flex-row align-items-center mt-1">
 										<p class="mb-0 mr-3 flex-1">포인트</p>
-										<div class="form-control flex-12" disabled>홍길동</div>
+										<div class="form-control flex-12" disabled><%= String.valueOf(member.getPoint_remained())%>p</div>
 									</div>
 									<div class="d-flex flex-row align-items-center mt-1">
 										<p class="mb-0 mr-3 flex-1">가입일</p>
-										<div class="form-control flex-12" disabled>홍길동</div>
+										<div class="form-control flex-12" disabled><%= String.valueOf(member.getJoined_at())%></div>
+									</div>
+									<div class="d-flex flex-row align-items-center mt-1">
+										<p class="mb-0 mr-3 flex-1">주소</p>
+										<div class="form-control flex-12" disabled><%= String.valueOf(member.getDefault_address())%></div>
 									</div>
 								</div>
 							</div>
@@ -87,26 +95,28 @@
 								<h3>배송지 목록</h3>
 							</div>
 							<div class="card-body">
+							<% for(int i = 0; i < member.getDeliveryList().size(); i++) {
+								Delivery delivery = member.getDeliveryList().get(i);%>
 								<div class="d-flex flex-column">
 									<div class="d-flex flex-row align-items-center">
 										<p class="mb-0 mr-3 flex-1">별칭 :</p>
-										<div class="font-weight-bold flex-12">우리집</div>
+										<div class="font-weight-bold flex-12"><%= String.valueOf(delivery.getAddress_alias()) %></div>
 									</div>
 									<div class="d-flex flex-row align-items-center mt-2">
 										<p class="mb-0 mr-3 flex-1">수취인 :</p>
-										<div class="flex-12">홍길동</div>
+										<div class="flex-12"><%= String.valueOf(delivery.getReceiver_name()) %></div>
 									</div>
 									<div class="d-flex flex-row align-items-center mt-2">
 										<p class="mb-0 mr-3 flex-1">연락처 :</p>
-										<div class="flex-12">010-1234-1234</div>
+										<div class="flex-12"><%= String.valueOf(delivery.getReceiver_phone()) %></div>
 									</div>
 									<div class="d-flex flex-row align-items-center mt-2">
 										<p class="mb-0 mr-3 flex-1">배송주소 :</p>
-										<div class="flex-12">서울시 강남구 ~~동 1921-12 401호</div>
+										<div class="flex-12"><%= String.valueOf(delivery.getAddress()) %></div>
 									</div>
 								</div>
 								<hr>
-
+							<% } %>
 							</div>
 						</div>
 						<!-- 배송지 목록 끝 -->
