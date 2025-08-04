@@ -1,18 +1,10 @@
 <%@page import="shoppingmall.util.Paging"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@include file="../inc/init.jsp" %>
+<%
+	List<OrderSummary> orderSummaryList = (List)request.getAttribute("orderSummaryList");
+%>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>보드게임</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
-<link rel="stylesheet" href="/static/shop/styles/mypage.css">
-<link rel="stylesheet" href="/static/shop/styles/footer.css">
-<link rel="stylesheet" href="/static/shop/styles/date.css">
-</head>
 <body>
 	<!-- header 시작 -->
 	<%@ include file="../inc/header.jsp"%>
@@ -52,13 +44,11 @@
 					<!-- 기간 조회 끝 -->
 					
 					<%
-					    // 예시: 실제로는 request 속성에서 주문 리스트를 가져와서 size 확인
-					    // List<Order> orderList = (List<Order>) request.getAttribute("orderList");
-					    // int orderCount = (orderList != null) ? orderList.size() : 0;
-					    int orderCount = 1;
-					%>
-					
-					<% if (orderCount == 0) { %>
+				        int curPos = paging.getCurPos();
+				        int num = paging.getNum();
+				        
+				        if(orderSummaryList.size() == 0) {
+				    %>
 					    <div class="no-orders">
 					        포인트 내역이 없습니다.
 					    </div>
@@ -78,28 +68,50 @@
 								</thead>
 								<tbody>
 								
-									<%for(int i=0; i<orderCount; i++){ %>
+									<%	for(int i=0; i<paging.getPageSize(); i++){
+											if(curPos >= orderSummaryList.size()) break;
+											OrderSummary orderSummary = orderSummaryList.get(curPos++);									 		
+									 %>
 									<tr>
-										<td><span><%=orderCount-- %></span></td>
-										<td><span><%="날짜" %> | </span><a href="#"><%="상품명" %></a></td>
-										<td><span><%="+100" %>p </span></td>
-										<td><span><%="100" %>p </span></td>
+										<td><span><%=num-- %></span></td>
+										<td><span><%=orderSummary.getOrdered_at() %></span></td>
+										<%int changedPrice = ((int)(orderSummary.getFinal_price()) / 100 - orderSummary.getPoint_used());%>
+										<%if (changedPrice > 0) { %>
+										<td><span>+<%=changedPrice %>p </span></td>
+										<%}else if (changedPrice < 0) { %>
+										<td><span>-<%=Math.abs(changedPrice) %>p </span></td>
+										<%} else{%>
+										<td><span>-</span></td>
+										<%} %>
+										<td><span><%=member.getPoint_remained() %>p </span></td>
 									</tr>
 									<%} %>
 									
 								</tbody>
 							</table>
 						<%} %>
-							<div class="card-footer clearfix">
-								<ul class="mypage-table-paging">
-									<li><a class="page-link" href="#">&laquo;</a></li>
-									<% for(int i = paging.getFirstPage(); i <= paging.getLastPage(); i++) { %>
-									<% if (i > paging.getTotalPage()) break; //총 페이지 수를 넘으면 반복문 빠져나오기 %>
-									<li><a class="page-link" href="?page=<%='#' %>"><%=i %></a></li>
+							<% if (orderSummaryList.size() > 0) { %>
+								<div class="card-footer clearfix">
+									<ul class="mypage-table-paging">
+										<% if(paging.getFirstPage()-1 > 0){ %>
+									<li><a class="page-link" href="#" data-page="<%=paging.getFirstPage()-1%>">&laquo;</a></li>
+									<% } else { %>
+									<li><a class="page-link disabled" href="#">&laquo;</a></li>
 									<% } %>
-									<li><a class="page-link" href="#">&raquo;</a></li>
-								</ul>
-							</div>
+								
+									<% for(int i = paging.getFirstPage(); i <= paging.getLastPage(); i++) { %>
+									<% if (i > paging.getTotalPage()) break; %>
+									<li><a href="#" class="page-link <%=(paging.getCurrentPage() == i) ? "active" : "" %>" data-page="<%=i %>"><%=i %></a></li>
+									<% } %>
+								
+									<% if(paging.getLastPage() < paging.getTotalPage()) { %>
+									<li><a class="page-link" href="#" data-page="<%=paging.getLastPage()+1%>">&raquo;</a></li>
+									<% } else { %>
+									<li><a class="page-link disabled" href="#">&raquo;</a></li>
+									<% } %>
+									</ul>
+								</div>
+							<% } %>
 						</div>
 					</div>
 					<!-- table 영역 끝 -->
@@ -115,7 +127,8 @@
 	<%@ include file="../inc/footer.jsp"%>
 	<!-- footer 끝 -->
 </body>
+<script>
+	const pageParam = "<%= pageParam %>";
+</script>
+<script src="/static/mypage.js"></script>
 </html>
-
-
-
