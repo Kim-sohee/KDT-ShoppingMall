@@ -18,6 +18,7 @@ public class Product {
 	private String regdate;
 	private int play_time;
 	private List<ProductImage> productImages = new ArrayList<>();
+	private List<Review> reviews;
 	
 	private Theme theme;
 	private PlayerRange playerRange;

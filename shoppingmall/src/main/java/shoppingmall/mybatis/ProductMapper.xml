@@ -18,8 +18,12 @@
 		<association column="age_range_id" property="ageRange" javaType="AgeRange" select="AgeRange.select"/>
 		<association column="difficulty_id" property="difficulty" javaType="Difficulty" select="Difficulty.select"/>
 		<collection column="product_id" property="productImages" javaType="java.util.List" ofType="ProductImage" select="ProductImage.select"/>
-		
 	</resultMap>
+	
+	<resultMap type="Product" id="productWithReviewsMap" extends="productMap">
+		<collection column="product_id" property="reviews" javaType="java.util.List" ofType="Review" select="Review.selectByProductId" />
+	</resultMap>
+	
 	
 	<sql id="columns">
 		product_id, product_name, price, discount_rate, product_quantity, description, regdate, play_time, theme_id, player_range_id, age_range_id, difficulty_id
@@ -53,7 +57,7 @@
 	</select>
 	
 	<!-- 한 건 가져오기 -->
-	<select id="select" parameterType="int" resultMap="productMap">
+	<select id="select" parameterType="int" resultMap="productWithReviewsMap">
 		select * from product where product_id=#{product_id}
 	</select>
 	
@@ -120,12 +124,12 @@
 	
 	<!-- 페이지 기준으로 가져오기 -->
 	<select id="selectByPage" parameterType="map" resultMap="productMap">
-		SELECT <include refid="columns"/> FROM product LIMIT #{page_size} OFFSET #{offset} 
+		SELECT <include refid="columns"/> FROM product ORDER BY regdate DESC LIMIT #{page_size} OFFSET #{offset} 
 	</select>
 	
 	<!-- 카테고리&페이지 기준으로 가져오기 -->
 	<select id="selectByThemeWithPage" parameterType="map" resultMap="productMap">	
-		SELECT <include refid="columns"/> FROM product WHERE theme_id=#{theme_id} LIMIT #{page_size} OFFSET #{offset} 
+		SELECT <include refid="columns"/> FROM product WHERE theme_id=#{theme_id} ORDER BY regdate DESC LIMIT #{page_size} OFFSET #{offset} 
 	</select>
 	
 </mapper>

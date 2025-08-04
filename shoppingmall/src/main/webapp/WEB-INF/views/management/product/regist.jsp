@@ -350,7 +350,7 @@ List<PlayerRange> playerRanges = (List<PlayerRange>) request.getAttribute("playe
         			console.log(result);
         			alert('상품이 등록되었습니다.');
         			// 성공 후 폼 초기화 또는 리다이렉트
-        			// window.location.href = "<%=contextPath%>/admin/product/list";
+        			location.replace("<%=contextPath%>/admin/product/listpage");
         		},
         		error:(xhr, status, error)=>{
         			console.log('Error:', xhr.responseText);
