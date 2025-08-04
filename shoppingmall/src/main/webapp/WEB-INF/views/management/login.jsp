@@ -51,11 +51,11 @@ hr {
 		<!-- 메인 시작 -->
 		<main>
 			<div id="container">
-				<img id="logo" alt="로고" src="/shoppingmall/img/sinsegae_games.png">
+				<img id="logo" alt="로고" src="/img/sinsegae_games.png">
 				<div class="form-wrapper">
 					<form id="login-form">
 						<div id="input-group" class="w-50">
-							<input type="email" class="form-control" id="input-id" name="id" placeholder="아이디를 입력해주세요.">
+							<input type="email" class="form-control" id="input-email" name="email" placeholder="이메일을 입력해주세요.">
 							<input type="password" class="form-control" id="input-password" name="password" placeholder="비밀번호를 입력해주세요.">
 						</div>
 						<button id="btn-login" type="button" class="btn btn-primary w-50">로그인</button>
@@ -81,7 +81,7 @@ var Toast = Swal.mixin({
 $("#btn-login").click(()=>{
 	const formData = new FormData(document.getElementById('login-form'));
 	$.ajax({
-		url: "/shoppingmall/admin/login",
+		url: "/admin/login",
 		type: "post",
 		processData: false,
 	    contentType: false,
@@ -89,7 +89,7 @@ $("#btn-login").click(()=>{
 		success: (result, status, xhr) => {
 			console.log(result);
 			if(result.result) {
-				location.replace("/shoppingmall/admin/order/history/list");
+				location.replace("/admin/main");
 			} 
 		},
 		error: (xhr, status, error) => {
