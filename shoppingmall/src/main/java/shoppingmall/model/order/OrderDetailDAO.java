@@ -7,5 +7,5 @@ import shoppingmall.domain.OrderDetail;
 public interface OrderDetailDAO {
 	
 	public List<OrderDetail> selectAll();
-	
+	public List<Integer> selectTopSnapshotIds();
 }
