@@ -41,7 +41,7 @@ public class OrderController {
 		log.debug("currentPage {}", currentPage);
 		paging.init(totalRecord, currentPage);
 		List<OrderSummary> orderSummaries = orderSummaryService.selectByOrder(paging.getPageSize(), currentPage);
-		ModelAndView modelAndView = new ModelAndView("/views/management/order/history");
+		ModelAndView modelAndView = new ModelAndView("/management/order/history");
 		modelAndView.addObject("orderSummaries", orderSummaries);
 		modelAndView.addObject("paging", paging);
 		return modelAndView;
@@ -61,7 +61,7 @@ public class OrderController {
 		log.debug("currentPage {}", currentPage);
 		paging.init(totalRecord, currentPage);
 		List<OrderSummary> orderSummaries = orderSummaryService.selectByInquiry(paging.getPageSize(), currentPage);
-		ModelAndView modelAndView = new ModelAndView("/views/management/order/inquiry");
+		ModelAndView modelAndView = new ModelAndView("/management/order/inquiry");
 		modelAndView.addObject("orderSummaries", orderSummaries);
 		modelAndView.addObject("paging", paging);
 		return modelAndView;
@@ -81,7 +81,7 @@ public class OrderController {
 		log.debug("currentPage {}", currentPage);
 		paging.init(totalRecord, currentPage);
 		List<OrderSummary> orderSummaries = orderSummaryService.selectByReturn(paging.getPageSize(), currentPage);
-		ModelAndView modelAndView = new ModelAndView("/views/management/order/return");
+		ModelAndView modelAndView = new ModelAndView("/management/order/return");
 		modelAndView.addObject("orderSummaries", orderSummaries);
 		modelAndView.addObject("paging", paging);
 		return modelAndView;
@@ -105,7 +105,7 @@ public class OrderController {
 	
 	@GetMapping("/order/detail")
 	public ModelAndView getOrderDetail(@RequestParam(name = "order_id", required = false) Integer orderId) {
-		ModelAndView modelAndView = new ModelAndView("/views/management/order/history_detail");
+		ModelAndView modelAndView = new ModelAndView("/management/order/history_detail");
 		return modelAndView;
 	}
 	

@@ -22,7 +22,7 @@ public class MemberController {
 	@GetMapping("/member/list")
 	public ModelAndView getMemberListPage() {
 		List<Member> members = memberService.selectAll();
-		ModelAndView modelAndView = new ModelAndView("/views/management/member/list");
+		ModelAndView modelAndView = new ModelAndView("/management/member/list");
 		modelAndView.addObject("members", members);
 		return modelAndView;
 	}
@@ -33,7 +33,7 @@ public class MemberController {
 	) {
 		Member member = memberService.selectWithDelivery(Integer.parseInt(memberId));
 		log.debug("조회 유저 : {}", member);
-		ModelAndView modelAndView = new ModelAndView("/views/management/member/detail");
+		ModelAndView modelAndView = new ModelAndView("/management/member/detail");
 		modelAndView.addObject("member", member);
 		return modelAndView;
 	}

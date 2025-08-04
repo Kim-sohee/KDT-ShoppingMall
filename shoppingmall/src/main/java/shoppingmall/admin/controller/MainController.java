@@ -15,6 +15,6 @@ public class MainController {
 	
 	@GetMapping("/main")
 	public String getMainPage(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
-		return "/views/management/index";
+		return "/management/index";
 	}
 }
