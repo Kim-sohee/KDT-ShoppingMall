@@ -34,9 +34,9 @@
 				<a href="index.html">홈</a> <span>></span> <span>장바구니</span>
 			</div>
 
-			<!-- 장바구린 페이지 제목 시작 -->
+			<!-- 장바구니 페이지 제목 시작 -->
 			<div class="cart-header">
-				<h1>장바구린</h1>
+				<h1>장바구니</h1>
 				<div class="cart-steps">
 					<div class="step active">
 						<span class="step-number">1</span> <span class="step-text">장바구니</span>

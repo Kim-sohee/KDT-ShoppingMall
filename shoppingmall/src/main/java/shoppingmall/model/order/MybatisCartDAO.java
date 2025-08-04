@@ -25,11 +25,15 @@ public class MybatisCartDAO implements CartDAO{
 
 	@Override
 	public List<Cart> selectByMemeber(int product_id)throws CartException {
+		try {
 		List<Cart> result = sqlSessionTemplate.selectList("Cart.selectByMember", product_id);
-		if(result.size() < 1) {
+		return result;
+		}
+		catch(Exception e){
 			throw new CartException("cart 내부가 비어있습니다.");
 		}
-		return result;
+		
+		
 	}
 	
 	@Override

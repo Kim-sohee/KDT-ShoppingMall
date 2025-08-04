@@ -42,7 +42,7 @@ import shoppingmall.domain.Theme;
 import shoppingmall.model.order.CartService;
 import shoppingmall.model.order.OrderDetailService;
 import shoppingmall.model.order.OrderSummaryService;
-import shoppingmall.model.order.ProductSnapshotService;
+import shoppingmall.model.product.ProductSnapshotService;
 
 @Slf4j
 @Controller

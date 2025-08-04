@@ -1,4 +1,4 @@
-package shoppingmall.model.order;
+package shoppingmall.model.product;
 
 import shoppingmall.domain.ProductSnapshot;
 
