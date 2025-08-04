@@ -108,7 +108,7 @@
 						</div>
 						<% } } else { %>
 						<div class="cart-item-empty">
-							<p>장바구린에 담긴 상품이 없습니다.</p>
+							<p>장바구니에 담긴 상품이 없습니다.</p>
 							<a href="/shop/product/list" class="btn btn-secondary">상품 보러가기</a>
 						</div>
 						<% } %>
