@@ -191,7 +191,7 @@
 						    <% } %>
 						    <div class="product-overlay">
 						      <!-- <button class="btn btn-wishlist">♡</button> -->
-						      <button class="btn btn-cart">장바구니</button>
+						      <button class="btn btn-cart" data-id="<%=productId%>">장바구니</button>
 						      <button class="btn btn-detail" data-id="<%=productId%>">상세보기</button>
 						    </div>
 						    <!--<div class="product-badges">
@@ -291,6 +291,7 @@
 
     //상세보기 버튼 누를 시 디테일 페이지로 이동
     $(document).ready(function () {
+    	//const productId = null;
         $(".btn.btn-detail").on("click", function () {
             const productId = $(this).data("id");
             location.href = "/shop/product/detail?product_id=" + productId;
@@ -313,7 +314,7 @@
 				}),
 				success : function(result) {
 					if (result.startsWith("success")) {
-						alert("장바구니에 상품을 추가하였습니다!");
+						alert("장바구니에 담았습니다!");
 					} else {
 						alert("실패: " + result);
 					}
