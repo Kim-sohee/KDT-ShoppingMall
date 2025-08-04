@@ -140,7 +140,7 @@
 							<span class="total-amount"><%= String.format("%,d원", totalPrice - discount) %></span>
 						</div>
 						<div class="summary-savings">
-							<span>총 저약 금액</span>
+							<span>총 절약 금액</span>
 							<span class="savings-amount"><%= String.format("%,d원", discount) %></span>
 						</div>
 						<!-- type="submit" -> type="button" 수정 -->

@@ -23,8 +23,12 @@
 	
 	<!-- 한 건 조회 -->
 	<select id="select" parameterType="int" resultMap="DetailJoin">
-	  SELECT <include refid="columns"/> FROM order_summary
-	  WHERE order_summary_id = #{order_summary_id}
+	  SELECT <include refid="columns"/> FROM order_summary WHERE order_summary_id = #{order_summary_id}
+	</select>
+	
+	<!-- 포인트 조회 목적 요약 목록 조회 -->
+	<select id="selectForPoints" parameterType="map" resultMap="DetailJoin">
+	  SELECT <include refid="columns"/> FROM order_summary WHERE member_id = #{member_id} AND status_id = 1 AND ordered_at BETWEEN #{startDate} AND #{endDate} ORDER BY ordered_at DESC
 	</select>
 	
 	<!-- 배송 관련 주문 요약 목록 조회 -->

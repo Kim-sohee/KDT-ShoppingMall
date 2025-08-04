@@ -34,6 +34,8 @@ public class OrderSummaryServiceImpl implements OrderSummaryService {
 	        return orderSummaryDAO.selectOrderByMember(member, startDate, endDate);
 	    } else if ("return".equals(page)) {
 	        return orderSummaryDAO.selectReturnByMember(member, startDate, endDate);
+	    } else if("point".equals(page)) {
+	    	return orderSummaryDAO.selectForPoints(member, startDate, endDate);
 	    } else {
 	        return Collections.emptyList();
 	    }
