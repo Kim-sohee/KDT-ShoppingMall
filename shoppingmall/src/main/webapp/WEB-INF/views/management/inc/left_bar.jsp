@@ -4,18 +4,15 @@
 <% Member loginAdmin = (Member) session.getAttribute("loginAdmin"); %>
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="/static/admin/index3.html" class="brand-link">
-      <img src="/shoppingmall/img/sinsegae_games.png" alt="Sinse Games Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">쇼핑몰 관리자</span>
+    <a href="<%= contextPath %>/admin/main" class="brand-link">
+      <img src="/img/sinsegae_games.png" alt="Sinse Games Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">SinseBoardGame</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <!-- <img src="/static/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
-        </div>
         <div class="info">
           <a href="#" class="d-block"><%= String.valueOf(loginAdmin.getMember_name()) %> &nbsp; 님 안녕하세요.</a>
         </div>
@@ -84,12 +81,6 @@
                 <a href="<%= contextPath%>/admin/member/list" class="nav-link <%= (navMaenu != null && navMaenu.startsWith("memberList")) ? "active" : "" %>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>회원목록</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/static/admin/index2.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>회원등록</p>
                 </a>
               </li>
               <li class="nav-item">
