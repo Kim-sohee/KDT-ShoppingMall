@@ -40,6 +40,7 @@ import shoppingmall.domain.ProductSnapshot;
 import shoppingmall.domain.Status;
 import shoppingmall.domain.Theme;
 import shoppingmall.model.order.CartService;
+import shoppingmall.model.order.DeliveryService;
 import shoppingmall.model.order.OrderDetailService;
 import shoppingmall.model.order.OrderSummaryService;
 import shoppingmall.model.product.ProductSnapshotService;
@@ -61,6 +62,10 @@ public class OrderController {
 	@Autowired
 	private OrderDetailService orderDetailservice;
 	
+	@Autowired
+	private DeliveryService deliveryService;
+	
+	
 
   
 
@@ -69,6 +74,10 @@ public class OrderController {
 	public Map<String, String> goToOrder(@RequestBody CartOrderRequest request, HttpSession session) {
 	    List<String> cartIds = request.getCartIds();
 	    int usedPoint = request.getUsedPoint();
+	    String roadAddress = request.getRoadAddress();
+	    String addressDetail = request.getDetailAddress();
+	    String zonecode = request.getZonecode();
+	    String addressAlias = request.getAddressAlias();
 
 	    Member member = (Member) session.getAttribute("member");
 	    if (member == null) {
@@ -90,6 +99,12 @@ public class OrderController {
 	    }
 
 	    session.setAttribute("totalPrice", totalPrice);
+	    
+	    //주소
+	    session.setAttribute("roadAddress", roadAddress);
+	    session.setAttribute("zonecode", zonecode);
+	    session.setAttribute("detailAddress", addressDetail);
+	    session.setAttribute("addressAlias", addressAlias);
 
 	    Map<String, String> result = new HashMap<>();
 	    result.put("url", "/shop/product/order");
@@ -117,6 +132,8 @@ public class OrderController {
 	public String tossSuccess(@RequestParam("paymentKey") String paymentKey, @RequestParam("orderId") String orderId,
 			@RequestParam("amount") int amount, Model model, HttpSession session) {
 		String secretKey = "test_sk_DnyRpQWGrN2nZM4A1za2rKwv1M9E"; 
+		
+		
 
 		try {
 			URL url = new URL("https://api.tosspayments.com/v1/payments/confirm");
@@ -172,8 +189,32 @@ public class OrderController {
 			    int finalPrice = Integer.parseInt(root.path("totalAmount").asText()); // 결제된 금액
 			    int usedPoint = (int) session.getAttribute("usedPoint");
 			    
-		
+			    //주소 입력
+			    String roadAddress = (String) session.getAttribute("roadAddress");
+			    String zonecode = (String) session.getAttribute("zonecode");
+			    String detailAddress = (String) session.getAttribute("detailAddress");
 
+				String addressAlias = (String) session.getAttribute("addressAlias");
+				
+				// 디버깅 로그
+				log.debug("📦 roadAddress: {}", roadAddress);
+				log.debug("📦 zonecode: {}", zonecode);
+				log.debug("📦 detailAddress: {}", detailAddress);
+				log.debug("📦 addressAlias: {}", addressAlias);
+				
+				String fullAddress = "(" + zonecode + ") " + roadAddress + " " + detailAddress;
+				
+				// Delivery 생성
+				Delivery deliveryAddress = new Delivery();
+				deliveryAddress.setAddress(fullAddress); // 전체 주소
+				deliveryAddress.setAddress_alias(addressAlias); 
+				deliveryAddress.setReceiver_name(member.getMember_name());
+				deliveryAddress.setReceiver_phone(member.getPhone());
+				deliveryAddress.setMember(member);
+
+				// DB에 저장
+				deliveryService.insert(deliveryAddress);
+				
 			    
 			    // 주문 상태 설정 (결제완료 = 1)
 			    Status status = new Status();
@@ -280,6 +321,7 @@ public class OrderController {
 			    model.addAttribute("finalPrice", finalPrice);
 			    model.addAttribute("earnedPoint", finalPrice / 100); // 예: 1% 적립이라면
 			    
+			    model.addAttribute("delivery", deliveryAddress);
 			    
 				return "shop/product/orderSuccess"; // 성공 화면
 				

@@ -72,9 +72,10 @@
                             <h3><%= member.getMember_name() %>님</h3>
                             <p class="delivery-info-tel"><%= member.getPhone() %></p>
                             <div class="delivery-info-adress">
-                                <div class="address-port" id = "roadAddress">(우편번호: 입력 필요)</div>
-                                <div class="adress-value" id = "postcode"><%= member.getDefault_address() %></div>
-                                <input type = "text" id = "addressDetail" placeholder="상세 주소를 입력해주세요.">
+                                <div class="address-port" id = "roadAddress" name ="roadAddress">(우편번호: 입력 필요)</div>
+                                <div class="adress-value" id = "postcode" name  ="postcode"><%= member.getDefault_address() %></div>
+                                <input type = "text" id = "addressDetail" placeholder="상세 주소를 입력해주세요." name="addressDetail">
+                                <input type = "text" class = "address-alias" id = "addressAlias" placeholder="주소의 별명을 입력해주세요." name="addressAlias">
                             </div>
                             <div class="delivery-actions">
                                 <button class="btn-delivery-adress" id = "change-delivery-address">배송지 변경</button>
@@ -225,6 +226,9 @@
 	        document.getElementById('usedPointInput').value = point;
 	        updatePointInfo(point);
 	    }
+	    
+
+	    
 	    //도로명 주소의 값 구해오기
 	    function execDaumPostcode() {
 		    new daum.Postcode({
@@ -244,6 +248,7 @@
     	// 포인트 입력 시 자동 반영	
     	document.addEventListener("DOMContentLoaded", function () {
         const usedPointInput = document.getElementById('usedPointInput');
+        
 
         usedPointInput.addEventListener('input', function () {
             const used = parseInt(this.value) || 0;
@@ -264,6 +269,11 @@
                 alert("결제 수단을 선택해주세요.");
                 return;
             }
+            const detailAddress = document.getElementById("addressDetail").value;
+            const addressAlias = document.getElementById("addressAlias").value;
+            
+            const roadAddress = document.getElementById("postcode").innerText;
+            const zonecode = document.getElementById("roadAddress").innerText.replace("(우편번호: ", "").replace(")", "");
 
             try {
                 const res = await fetch("/shop/product/order", {
@@ -272,8 +282,12 @@
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        cartIds: cartIds,
-                        usedPoint: used
+                    	cartIds: cartIds,
+                    	usedPoint: used,
+                    	roadAddress: roadAddress,
+                    	zonecode: zonecode,
+                    	detailAddress: detailAddress,
+                    	addressAlias: addressAlias
                     })
                 });
 
