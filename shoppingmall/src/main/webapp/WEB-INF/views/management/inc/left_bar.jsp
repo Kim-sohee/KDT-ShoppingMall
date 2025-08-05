@@ -1,6 +1,6 @@
 <%@page import="shoppingmall.domain.Member"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
-<% String navMaenu = (String)request.getAttribute("navMenu"); %>
+<% String navMenu = (String)request.getAttribute("navMenu"); %>
 <% Member loginAdmin = (Member) session.getAttribute("loginAdmin"); %>
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -25,8 +25,8 @@
                with font-awesome or any other icon font library -->
          
           <!-- 주문관리 메뉴 시작-->
-          <li class="nav-item <%= (navMaenu != null && navMaenu.startsWith("order")) ? "menu-is-opening menu-open" : "" %>">
-            <a href="#" class="nav-link <%= (navMaenu != null && navMaenu.startsWith("order")) ? "active" : "" %>">
+          <li class="nav-item <%= (navMenu != null && navMenu.startsWith("order")) ? "menu-is-opening menu-open" : "" %>">
+            <a href="#" class="nav-link <%= (navMenu != null && navMenu.startsWith("order")) ? "active" : "" %>">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                주문관리
@@ -35,19 +35,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<%=contextPath %>/admin/order/history/listpage?status_id=1" id="orderHistory" class="nav-link <%= "orderHistory".equals(navMaenu) ? "active" : "" %>">
+                <a href="<%=contextPath %>/admin/order/history/listpage?status_id=1" id="orderHistory" class="nav-link <%= "orderHistory".equals(navMenu) ? "active" : "" %>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>주문</p>
                 </a>
               </li>
                <li class="nav-item">
-                <a href="<%=contextPath %>/admin/order/inquiry/listpage?status_id=7" id="orderInquiry" class="nav-link <%= "orderInquiry".equals(navMaenu) ? "active" : "" %>">
+                <a href="<%=contextPath %>/admin/order/inquiry/listpage?status_id=7" id="orderInquiry" class="nav-link <%= "orderInquiry".equals(navMenu) ? "active" : "" %>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>교환</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<%=contextPath %>/admin/order/return/listpage?status_id=6" id="orderReturn" class="nav-link <%= "orderReturn".equals(navMaenu) ? "active" : "" %>">
+                <a href="<%=contextPath %>/admin/order/return/listpage?status_id=6" id="orderReturn" class="nav-link <%= "orderReturn".equals(navMenu) ? "active" : "" %>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>반품</p>
                 </a>
@@ -58,7 +58,7 @@
       
           <!-- 상품관리 메뉴 시작-->
           <li class="nav-item">
-            <a href="<%=contextPath%>/admin/product/listpage" class="nav-link <%= (navMaenu != null && navMaenu.startsWith("productList")) ? "active" : "" %>">
+            <a href="<%=contextPath%>/admin/product/listpage" class="nav-link <%= (navMenu != null && navMenu.startsWith("productList")) ? "active" : "" %>">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 상품관리
@@ -68,8 +68,8 @@
           <!-- 상품관리 메뉴 끝-->
       
           <!--회원관리 메뉴 시작-->
-          <li class="nav-item <%= (navMaenu != null && navMaenu.startsWith("member")) ? "menu-is-opening menu-open" : "" %>">
-            <a href="#" class="nav-link <%= (navMaenu != null && navMaenu.startsWith("member")) ? "active" : "" %>">
+          <li class="nav-item <%= (navMenu != null && navMenu.startsWith("member")) ? "menu-is-opening menu-open" : "" %>">
+            <a href="#" class="nav-link <%= (navMenu != null && navMenu.startsWith("member")) ? "active" : "" %>">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 회원관리
@@ -78,7 +78,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<%= contextPath%>/admin/member/list" class="nav-link <%= (navMaenu != null && navMaenu.startsWith("memberList")) ? "active" : "" %>">
+                <a href="<%= contextPath%>/admin/member/listpage" class="nav-link <%= (navMenu != null && navMenu.startsWith("memberList")) ? "active" : "" %>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>회원목록</p>
                 </a>
@@ -94,8 +94,8 @@
           <!--회원관리 메뉴 끝-->
       
           <!--고객센터 메뉴 시작-->
-          <li class="nav-item <%= (navMaenu != null && navMaenu.startsWith("cs")) ? "menu-is-opening menu-open" : "" %>">
-            <a href="#" class="nav-link <%= (navMaenu != null && navMaenu.startsWith("cs")) ? "active" : "" %>">
+          <li class="nav-item <%= (navMenu != null && navMenu.startsWith("cs")) ? "menu-is-opening menu-open" : "" %>">
+            <a href="#" class="nav-link <%= (navMenu != null && navMenu.startsWith("cs")) ? "active" : "" %>">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                고객센터
@@ -104,7 +104,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<%= contextPath%>/admin/cs/qna/listpage" class="nav-link <%= (navMaenu != null && navMaenu.startsWith("csQnaList")) ? "active" : "" %>">
+                <a href="<%= contextPath%>/admin/cs/qna/listpage" class="nav-link <%= (navMenu != null && navMenu.startsWith("csQnaList")) ? "active" : "" %>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>QnA</p>
                 </a>
