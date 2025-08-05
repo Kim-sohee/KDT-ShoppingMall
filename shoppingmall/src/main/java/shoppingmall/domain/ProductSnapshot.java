@@ -24,4 +24,5 @@ public class ProductSnapshot {
 	private PlayerRange playerRange;
 	private AgeRange ageRange;
 	private Difficulty difficulty;
+	private String imageFileName;  
 }
