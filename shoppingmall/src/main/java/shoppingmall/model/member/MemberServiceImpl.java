@@ -1,7 +1,9 @@
 package shoppingmall.model.member;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +45,14 @@ public class MemberServiceImpl implements MemberService {
 	
 	public List<Member> selectAll() {
 		return memberDAO.selectAll();
+	}
+	
+	@Override
+	public List<Member> selectByPage(int pageSize, int offset) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("page_size", pageSize);
+		map.put("offset", offset);
+		return memberDAO.selectByPage(map);
 	}
 	
 	@Override
@@ -166,6 +176,11 @@ public class MemberServiceImpl implements MemberService {
 			throw new MemberRemoveException("회원 삭제 실패");
 		} 
 		
+	}
+	
+	@Override
+	public int totalRecord() {
+		return memberDAO.totalRecord();
 	}
 	
 }
