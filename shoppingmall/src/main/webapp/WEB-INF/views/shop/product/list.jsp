@@ -181,8 +181,7 @@
 						%>
 						<div class="product-card">
 						  <div class="product-image">
-						    <img src="<%=imageUrl%>" alt="상품이미지">
-						    
+						   <img src="<%= imageUrl %>" alt="<%= product.getProduct_name() %>">
 						    <!-- sold out 처리 -->
 						    <% if(product.getProduct_quantity() == 0){ %>
 						    	<div class="sold-out-overlay">
