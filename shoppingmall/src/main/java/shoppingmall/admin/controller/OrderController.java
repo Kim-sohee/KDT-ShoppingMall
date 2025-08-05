@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import shoppingmall.domain.Member;
 import shoppingmall.domain.OrderSummary;
+import shoppingmall.domain.ResponseMessage;
 import shoppingmall.domain.Status;
 import shoppingmall.model.order.OrderSummaryService;
 import shoppingmall.util.Paging;
@@ -122,6 +123,21 @@ public class OrderController {
 	public ModelAndView getOrderDetail(@RequestParam(name = "order_id", required = false) Integer orderId) {
 		ModelAndView modelAndView = new ModelAndView("/management/order/history_detail");
 		return modelAndView;
+	}
+	
+	@GetMapping("/order/history/neworders")
+	@ResponseBody
+	public ResponseEntity<ResponseMessage<Integer>> getNewOrder() {
+		ResponseMessage<Integer> responseMessage = new ResponseMessage<>();
+		try {
+			int count = orderSummaryService.newOrderCount();
+			responseMessage.setResult(true);
+			responseMessage.setData(count);
+		} catch (Exception e) {
+			responseMessage.setResult(false);
+			responseMessage.setErrorMessage(e.getMessage());
+		}
+		return ResponseEntity.ok(responseMessage);
 	}
 	
 	

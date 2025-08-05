@@ -179,4 +179,9 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
 		}
 	}
 	
+	@Override
+	public int newOrderCount() {
+		return sqlSessionTemplate.selectOne("OrderSummary.newOrderCount");
+	}
+	
 }

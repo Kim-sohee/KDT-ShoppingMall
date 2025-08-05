@@ -21,4 +21,5 @@ public interface OrderSummaryService {
 	public void insert(OrderSummary orderSummary);
 	
 	public int totalRecord(Status status);
+	public int newOrderCount();
 }

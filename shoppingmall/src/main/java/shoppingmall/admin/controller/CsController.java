@@ -92,4 +92,19 @@ public class CsController {
 		}
 		return ResponseEntity.ok(responseMessage);
 	}
+	
+	@GetMapping("/cs/qna/waitreply")
+	@ResponseBody
+	public ResponseEntity<ResponseMessage<Integer>> waitReplyCount() {
+		ResponseMessage<Integer> responseMessage = new ResponseMessage<>();
+		try {
+			int count = qnaService.selectByNotCommentedCount();
+			responseMessage.setResult(true);
+			responseMessage.setData(count);
+		} catch (Exception e) {
+			responseMessage.setResult(false);
+			responseMessage.setErrorMessage(e.getMessage());
+		}
+		return ResponseEntity.ok(responseMessage);
+	}
 }

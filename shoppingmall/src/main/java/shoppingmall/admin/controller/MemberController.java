@@ -3,13 +3,16 @@ package shoppingmall.admin.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
 import shoppingmall.domain.Member;
+import shoppingmall.domain.ResponseMessage;
 import shoppingmall.model.member.MemberService;
 import shoppingmall.util.Paging;
 
@@ -45,5 +48,20 @@ public class MemberController {
 		ModelAndView modelAndView = new ModelAndView("/management/member/detail");
 		modelAndView.addObject("member", member);
 		return modelAndView;
+	}
+	
+	@GetMapping("/member/total")
+	@ResponseBody
+	public ResponseEntity<ResponseMessage<Integer>> totalMemberCount() {
+		ResponseMessage<Integer> responseMessage = new ResponseMessage<>();
+		try {
+			int count = memberService.totalRecord();
+			responseMessage.setResult(true);
+			responseMessage.setData(count);
+		} catch (Exception e) {
+			responseMessage.setResult(false);
+			responseMessage.setErrorMessage(e.getMessage());
+		}
+		return ResponseEntity.ok(responseMessage);
 	}
 }

@@ -19,6 +19,8 @@
 		<typeAlias type="shoppingmall.domain.ProductSnapshot" 	alias="ProductSnapshot"/>
 		<typeAlias type="shoppingmall.domain.Review" 			alias="Review"/>
 		<typeAlias type="shoppingmall.domain.ProductImage" 		alias="ProductImage"/>
+		<typeAlias type="shoppingmall.domain.Statistics" 		alias="Statistics"/>
+		
 	</typeAliases>
 
 	<environments default="development">
@@ -47,5 +49,6 @@
 		<mapper resource="shoppingmall/mybatis/ProductSnapshotMapper.xml" />
 		<mapper resource="shoppingmall/mybatis/ReviewMapper.xml" />
 		<mapper resource="shoppingmall/mybatis/ProductImageMapper.xml" />
+		<mapper resource="shoppingmall/mybatis/StatisticsMapper.xml" />
 	</mappers>
 </configuration>
