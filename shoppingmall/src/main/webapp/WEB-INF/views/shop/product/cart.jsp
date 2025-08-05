@@ -108,7 +108,7 @@
 						</div>
 						<% } } else { %>
 						<div class="cart-item-empty">
-							<p>장바구린에 담긴 상품이 없습니다.</p>
+							<p>장바구니에 담긴 상품이 없습니다.</p>
 							<a href="/shop/product/list" class="btn btn-secondary">상품 보러가기</a>
 						</div>
 						<% } %>
@@ -137,10 +137,10 @@
 						<div class="summary-divider"></div>
 						<div class="summary-total">
 							<span>총 결제 금액</span>
-							<span class="total-amount"><%= String.format("%,d원", totalPrice - discount) %></span>
+							<span class="total-amount"><%= (totalPrice-discount<0) ? "0원" : String.format("%,d원", totalPrice - discount) %></span>
 						</div>
 						<div class="summary-savings">
-							<span>총 저약 금액</span>
+							<span>총 절약 금액</span>
 							<span class="savings-amount"><%= String.format("%,d원", discount) %></span>
 						</div>
 						<!-- type="submit" -> type="button" 수정 -->
@@ -191,7 +191,7 @@
 		    })
 		    .then(res => {
 		      if (res.ok) {
-		        location.reload(); // 또는 가격만 업데이트
+		        location.reload();
 		      } else {
 		        alert('수량 변경 실패');
 		      }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -132,8 +133,8 @@ public class ProductController {
 	    int count = reviewService.CountReview(product_id);
 	    //상품의 별점 별 개수 가져오기 
 	    Map<Integer, Integer> ratingMap = reviewService.getRatingDistribution(product_id);
-	    //QNA 가져오기
-	    List<Qna> qna = qnaService.selectAll();
+	    //상품에 해당하는 리뷰 가져오기
+	    List<Qna> qna = qnaService.selectByProductId(product_id);
 	    //Qna 갯수 가져오기
 	    int qna_count= qnaService.count(product_id);
 	    
@@ -152,12 +153,32 @@ public class ProductController {
 	    return mav;
 	}
 	
-	@PostMapping("/product/qna/regist")
-	public String registQna(Qna qna, HttpSession session, int product_id) {
+	@ResponseBody
+	@PostMapping("/qna/regist")
+	public Object registQna(@RequestBody Qna qna, HttpSession session) {
 	    Member loginMember = (Member) session.getAttribute("member");
-	    Product product = productService.select(product_id);
+
+	    if (loginMember == null) {
+	        return "unauthorized";
+	    }
+
+	    // 1. product_id 꺼냄
+	    int productId =(Integer)session.getAttribute("product_id");
+
+	    // 2. 실제 Product 객체 조회
+	    Product product = productService.select(productId);
+
+	    // 3. QnA에 실제 Product, Member 객체 주입
+	    qna.setProduct(product);
 	    qna.setMember(loginMember);
+	    qna.setIs_commented(0);
+
+	    // 4. DB 등록
 	    qnaService.insert(qna);
-	    return "redirect:/shop/product/detail?product_id=" +product.getProduct_id() ;
+
+	    return qna;
 	}
+
+
+
 }
