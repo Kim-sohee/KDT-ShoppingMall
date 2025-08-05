@@ -88,5 +88,11 @@ public class MybatisQnaDAO implements QnaDAO{
 		int result = sqlSessionTemplate.selectOne("Qna.countQna", product_id);
 		return result;
 	}
+
+	@Override
+	public List<Qna> selectByProductId(int product_id) {
+		List<Qna> result = sqlSessionTemplate.selectList("Qna.selectByProductId",product_id);
+		return result;
+	}
 	
 }

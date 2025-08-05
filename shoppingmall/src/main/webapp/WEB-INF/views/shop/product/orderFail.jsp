@@ -63,10 +63,10 @@
 	            		
 	            		<!-- 버튼 시작 -->
 	            		<div class="goto-cart">
-	            			<a href="./cart.jsp" class="btn btn-cart">장바구니로 이동</a>
+	            			<a href="/shop/cart/list" class="btn btn-cart">장바구니로 이동</a>
 	            		</div>
 	            		<div class="goto-home">
-	                        <a href="../index.jsp" class="btn btn-home">홈으로</a>
+	                        <a href="/shop/main" class="btn btn-home">홈으로</a>
 	                    </div>
 	                    <!-- 버튼 끝 -->
 	            	</div>

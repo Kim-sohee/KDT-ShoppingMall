@@ -13,4 +13,7 @@ public interface QnaDAO {
 	public void delete(int qna_id);
 	public void updateFromAdmin(Qna qna);
 	public int qnaCount(int product_id);
+	
+	//물건 한 건 당 QNA 얻어오기
+	public List<Qna> selectByProductId(int product_id);
 }

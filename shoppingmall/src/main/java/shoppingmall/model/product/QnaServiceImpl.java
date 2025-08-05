@@ -56,5 +56,10 @@ public class QnaServiceImpl implements QnaService{
 	public int count(int product_id) {
 		return qnaDAO.qnaCount(product_id);
 	}
+
+	@Override
+	public List<Qna> selectByProductId(int product_id) {
+		return qnaDAO.selectByProductId(product_id);
+	}
 	
 }
