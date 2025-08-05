@@ -2,11 +2,15 @@ package shoppingmall.domain;
 
 import java.util.List;
 
+import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Data;
 
 @Data
 public class Member {
+	
 	private int member_id;
 	private String member_name;
 	private String id;
@@ -21,6 +25,7 @@ public class Member {
 	
 	@JsonManagedReference("member-reviews")
 	List<Review> reviewList;				//자식인 review를 collection 객체인 List로 보유한다.
+	@OneToMany(mappedBy = "member")
 	@JsonManagedReference("member-qnas")
 	List<Qna> qnaList;						//자식인 qna를 collection 객체인 List로 보유한다.
 	@JsonManagedReference("member-deliveries")
