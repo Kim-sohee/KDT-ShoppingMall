@@ -12,4 +12,5 @@ public interface QnaDAO {
 	public void delete(int qna_id);
 	
 	public int qnaCount(int product_id);
+	public void setMemberIdNull(int member_id);
 }

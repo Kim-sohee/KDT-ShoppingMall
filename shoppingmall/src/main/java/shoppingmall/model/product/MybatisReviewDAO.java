@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import shoppingmall.domain.Review;
 import shoppingmall.exception.ReviewAvgNullException;
 import shoppingmall.exception.ReviewNullException;
+import shoppingmall.exception.ReviewUpdateException;
 
 @Repository
 public class MybatisReviewDAO implements ReviewDAO {
@@ -59,6 +60,14 @@ public class MybatisReviewDAO implements ReviewDAO {
 	    }
 	    return resultMap;
 	}
-
+	
+	@Override
+	public void setMemberIdNull(int member_id) throws ReviewUpdateException {
+		try {
+			sqlSessionTemplate.update("Review.setReviewMemberIdNull", member_id);
+		} catch (Exception e) {
+			throw new ReviewUpdateException("리뷰 수정 실패");
+		}
+	}
 
 }

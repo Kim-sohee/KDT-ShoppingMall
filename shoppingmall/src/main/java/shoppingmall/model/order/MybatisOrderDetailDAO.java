@@ -42,5 +42,14 @@ public class MybatisOrderDetailDAO implements OrderDetailDAO {
 			throw new OrderDetailRegistException("주문 상세 등록에 실패하였습니다.");
 		}
 	}
+	
+	@Override
+	public void deleteByOrderSummaryId(int orderSummary_id) throws OrderDetailNotFoundException {
+		try {
+			sqlSessionTemplate.delete("OrderDetail.deleteByOrderSummaryId", orderSummary_id);
+		} catch (Exception e) {
+			throw new OrderDetailNotFoundException("주문 상세 내역을 찾을 수 없습니다.");
+		}
+	}
 
 }

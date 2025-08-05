@@ -46,7 +46,10 @@
 	</update>
 
 	<delete id="delete" parameterType="int">
-		DELETE FROM returns WHERE
-		return_id = #{return_id}
+		DELETE FROM returns WHERE return_id = #{return_id}
+	</delete>
+	
+	<delete id="deleteByOrderSummaryId" parameterType="int">
+		DELETE FROM returns WHERE order_summary_id = #{order_summary_id}
 	</delete>
 </mapper>

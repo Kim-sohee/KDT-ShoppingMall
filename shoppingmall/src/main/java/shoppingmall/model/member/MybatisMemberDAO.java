@@ -59,6 +59,15 @@ public class MybatisMemberDAO implements MemberDAO {
 	}
 	
 	@Override
+	public Member selectByMemberId(int member_id) throws MemberNotFoundException {
+		try {
+			return sqlSessionTemplate.selectOne("Member.selectByMemberId", member_id);
+		} catch (Exception e) {
+			throw new MemberNotFoundException("회원 조회에 실패하였습니다.");
+		}
+	}
+	
+	@Override
 	public Member selectByEmail(String email) throws MemberNotFoundException {
 		try {
 			return sqlSessionTemplate.selectOne("Member.selectByEmail", email);

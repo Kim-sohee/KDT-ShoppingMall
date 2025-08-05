@@ -10,4 +10,6 @@ public interface ReviewDAO {
 	public double AvgRating(int product_id);
 	public int selectCountRating(int product_id);
 	public Map<Integer, Integer> selectRatingDistribution(int product_id);
+	
+	public void setMemberIdNull(int member_id);
 }

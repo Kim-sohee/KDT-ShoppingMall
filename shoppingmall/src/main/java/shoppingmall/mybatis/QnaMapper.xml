@@ -68,4 +68,8 @@
 		where product_id = #{product.product_id}
 	</select>
 	
+	<!-- member_id FK참조 끊기 -->
+	<update id="setQnaMemberIdNull" parameterType="int">
+		UPDATE qna SET member_id = -1 WHERE member_id=#{member_id}
+	</update>
 </mapper>

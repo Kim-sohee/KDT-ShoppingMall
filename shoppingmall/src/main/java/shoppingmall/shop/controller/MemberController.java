@@ -1,6 +1,7 @@
 package shoppingmall.shop.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -53,13 +54,22 @@ public class MemberController {
 	
 	//홈페이지 로그인 요청 처리
 	@PostMapping("/member/login")
-	public String login(Member member, HttpSession session) {
-		Member loginSuccessMember = memberService.login(member);
+	@ResponseBody
+	public Map<String, Object> login(Member member, HttpSession session) {
+		Map<String, Object> result = new HashMap<>();
 		
-		log.debug("로그인 성공했니? 성공한 회원 email은 " + loginSuccessMember.getEmail());
-		
-		session.setAttribute("member", loginSuccessMember);
-		return "redirect:/shop/main";
+		try {
+			Member loginSuccessMember = memberService.login(member);
+			log.debug("로그인 성공했니? 성공한 회원 email은 " + loginSuccessMember.getEmail());
+			session.setAttribute("member", loginSuccessMember);
+			result.put("success", true);
+			
+		} catch (Exception e) {
+			result.put("success", false);
+			result.put("message", "아이디 또는 비밀번호가 올바르지 않습니다.");
+			
+		}
+		return result;
 	}
 	
 	//로그아웃 요청 처리
@@ -77,10 +87,36 @@ public class MemberController {
 	
 	//회원가입 요청 처리
 	@PostMapping("/member/join")
-	public String regist(Member member) {
-		memberService.regist(member);
-		mailService.sendJoinMail(member);
-		return "redirect:/shop/member/joinCompleteForm";
+	@ResponseBody
+	public Map<String, Object> regist(@RequestParam Map<String, String> paramMap) {
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			String name = paramMap.get("name");
+			String phone = paramMap.get("phone");
+			String id = paramMap.get("id");
+	        String pw = paramMap.get("password");
+	        String email = paramMap.get("email");
+			String address = paramMap.get("address");
+	        
+			Member member = new Member();
+			member.setMember_name(name);
+			member.setPhone(phone);
+			member.setId(id);
+			member.setPassword(pw);
+			member.setEmail(email);
+			member.setDefault_address(address);
+			
+			memberService.regist(member);
+			mailService.sendJoinMail(member);
+			response.put("success", true);
+			
+		} catch (Exception e) {
+			response.put("success", false);
+			response.put("message", e.getMessage());
+			
+		}
+		return response;
 	}
 	
 	//회원가입 완료 폼 요청 처리
@@ -98,20 +134,29 @@ public class MemberController {
 	
 	//아이디&비밀번호 찾기 요청 처리
 	@RequestMapping(value="/member/find", method=RequestMethod.POST)
-	public ModelAndView getInfo(@RequestParam Map<String, String> paramMap) {
-		String type = paramMap.get("type"); // "email" 또는 "password"
+	@ResponseBody
+	public Map<String, Object> getInfo(@RequestParam Map<String, String> paramMap) {
+		Map<String, Object> response = new HashMap<>();
 		
-		Member member = new Member();
-		member.setMember_name(paramMap.get("member_name"));
-		if("id".equals(type)) {
-			member.setPhone(paramMap.get("phone"));
-		} else if("password".equals(type)){
-			member.setId(paramMap.get("id")); //비밀번호 찾기			
-		}
+		try {
+			String type = paramMap.get("type"); // "email" 또는 "password"
+			
+			Member member = new Member();
+			member.setMember_name(paramMap.get("member_name"));
+			if("id".equals(type)) {
+				member.setPhone(paramMap.get("phone"));
+			} else if("password".equals(type)){
+				member.setId(paramMap.get("id")); //비밀번호 찾기			
+			}
 
-		mailService.sendFindMail(member, type);
-		
-		return new ModelAndView("shop/getInfo");
+			mailService.sendFindMail(member, type);
+			response.put("success", true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.put("success", false);
+			response.put("message", e.getMessage());
+		}
+		return response;
 	}
 	
 	/*-------------------------------------------------
