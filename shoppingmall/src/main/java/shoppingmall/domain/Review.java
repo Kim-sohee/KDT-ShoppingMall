@@ -1,5 +1,6 @@
 package shoppingmall.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.ToString;
 
@@ -10,6 +11,8 @@ public class Review {
 	private String reviewed_at;
 	private int rating;
 	@ToString.Exclude
+	@JsonBackReference("product-reviews")
 	private Product product;
+	@JsonBackReference("member-reviews")
 	private Member member;
 }

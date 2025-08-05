@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import shoppingmall.domain.Product;
 import shoppingmall.domain.Theme;
+import shoppingmall.exception.ProductDeleteException;
 import shoppingmall.exception.ProductException;
 import shoppingmall.exception.ProductGetTotalCountException;
 import shoppingmall.exception.ProductInsertException;
@@ -116,4 +117,16 @@ public class MybatisProductDAO implements ProductDAO{
 		return sqlSessionTemplate.selectList("Product.selectTopProductByNames", names);
 	}
 	
+	@Override
+	public void delete(Product product) throws ProductDeleteException {
+		try {
+			int result = sqlSessionTemplate.delete("Product.delete", product);
+			if(result < 1) {
+				throw new ProductDeleteException("상품 삭제 실패");
+			}
+		} catch (Exception e) {
+			throw new ProductDeleteException(e);
+		}
+		
+	}
 }

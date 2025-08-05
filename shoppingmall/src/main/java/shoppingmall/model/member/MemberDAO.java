@@ -3,6 +3,7 @@ package shoppingmall.model.member;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import shoppingmall.domain.Member;
 
@@ -21,4 +22,6 @@ public interface MemberDAO {
 	public Member login(Member member);									//홈페이지 로그인
 	public Member snsLogin(Member member);								//SNS로그인
 	public Member findIdAndPwd(String name, String phone);	//아이디, 비밀번호 찾기
+	public int totalRecord();
+	public List<Member> selectByPage(Map<String, Object> map);
 }

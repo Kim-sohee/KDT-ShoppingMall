@@ -49,12 +49,18 @@
 		<result column="comment" 		property="comment"/>
 		<result column="is_commented"	property="is_commented"/>
 		
-		<association column="product_id" property="product" javaType="Product" select="Product.select"/>
+		<association column="product_id" property="product" javaType="Product" select="Product.selectOnlyProduct"/>
+		<association column="member_id" property="member" javaType="Member" select="Member.selectOnlyMember"/>
 	</resultMap>
 	
 	<!-- Member(부모)에 의한 호출 리스트 -->
 	<select id="selectQnaByMemberId" parameterType="int" resultMap="QnaMemberJoin">
 		SELECT <include refid="columns"/> FROM qna WHERE member_id = #{member_id}
+	</select>
+	
+	<!-- 전체 레코드 가져오기 -->
+	<select id="totalRecord" resultType="int">
+		SELECT COUNT(qna_id) FROM qna; 
 	</select>
 		
 	<!-- Qna 등록 -->	

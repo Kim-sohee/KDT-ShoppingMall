@@ -25,6 +25,16 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
 	private SqlSessionTemplate sqlSessionTemplate;
 	
 	@Override
+	public OrderSummary select(int summery_id) throws OrderSummaryNotFoundException {
+		try {
+			OrderSummary orderSummary = sqlSessionTemplate.selectOne("OrderSummary.select", summery_id);
+			return orderSummary;
+		} catch (Exception e) {
+			throw new OrderSummaryNotFoundException(e);
+		}
+	}
+	
+	@Override
 	public List<OrderSummary> selectByMember(Member member) {
 		try {
 			return sqlSessionTemplate.selectList("OrderSummary.selectByMember", member);

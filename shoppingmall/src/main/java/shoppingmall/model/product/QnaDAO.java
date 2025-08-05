@@ -17,4 +17,6 @@ public interface QnaDAO {
 	
 	//물건 한 건 당 QNA 얻어오기
 	public List<Qna> selectByProductId(int product_id);
+	public int totalRecord();
+	public List<Qna> selectByMemberId(int member_id);
 }

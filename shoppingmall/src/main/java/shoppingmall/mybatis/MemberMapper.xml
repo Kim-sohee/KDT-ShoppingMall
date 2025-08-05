@@ -92,6 +92,11 @@
 		WHERE member_name = #{member_name} AND phone = #{phone}
 	</select>
 	
+	<!--  페이징으로 조회 -->
+	<select id="selectByPage" parameterType="map" resultType="Member">
+		SELECT <include refid="columns"/> FROM member ORDER BY joined_at DESC LIMIT #{page_size} OFFSET #{offset}
+	</select>
+	
 	<!-- 홈페이지 로그인 회원 조회 -->
 	<select id="login" parameterType="Member" resultType="Member">
 		SELECT <include refid="columns"/> FROM member 
@@ -121,4 +126,10 @@
 	<delete id="delete" parameterType="int">
 		DELETE FROM member WHERE member_id = #{member_id}
 	</delete>
+	
+	<!-- 총 레코드 수 -->
+	<select id="totalRecord" resultType="int">
+		SELECT COUNT(member_id) FROM member
+	</select>
+	
 </mapper>

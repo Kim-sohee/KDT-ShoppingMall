@@ -17,4 +17,5 @@ public interface ProductService {
 	public int totalCount(Theme theme);
 	public List selectByPage(int pageSize, int currentPage);
 	public List selectByThemeWithPage(int themeId, int pageSize, int currentPage);
+	public void remove(Product product, String savePath);
 }

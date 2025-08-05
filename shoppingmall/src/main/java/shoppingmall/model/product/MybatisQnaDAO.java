@@ -39,6 +39,15 @@ public class MybatisQnaDAO implements QnaDAO{
 			throw new QnASelectException(e);
 		}
 	}
+	
+	@Override
+	public List<Qna> selectByMemberId(int member_id) throws QnASelectException {
+		try {
+			return sqlSessionTemplate.selectList("Qna.selectQnaByMemberId", member_id);
+		} catch (Exception e) {
+			throw new QnASelectException(e);
+		}
+	}
 
 	@Override
 	public Qna select(int qna_id) throws QnaNullException{
@@ -103,4 +112,9 @@ public class MybatisQnaDAO implements QnaDAO{
 			throw new QnaUpdateException("Qna 수정 실패");
 		}
 	}
+	
+	public int totalRecord() {
+		return sqlSessionTemplate.selectOne("Qna.totalRecord");
+	}
+	
 }

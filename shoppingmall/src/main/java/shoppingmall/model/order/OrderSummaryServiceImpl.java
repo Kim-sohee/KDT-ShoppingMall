@@ -26,6 +26,11 @@ public class OrderSummaryServiceImpl implements OrderSummaryService {
 	private StatusDAO statusDAO;
 	
 	@Override
+	public OrderSummary select(int summeryId) throws OrderSummaryNotFoundException {
+		return orderSummaryDAO.select(summeryId);
+	}
+	
+	@Override
 	public List<OrderSummary> selectByMember(Member member) {
 		return orderSummaryDAO.selectByMember(member);
 	}

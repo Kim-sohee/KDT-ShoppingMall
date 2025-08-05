@@ -27,13 +27,13 @@
 		WHERE status_id &lt; 6
 		ORDER BY ordered_at DESC LIMIT #{page_size} OFFSET #{offset}
 	</select>
-	
+	<!-- 교환내역 조회 -->
 	<select id="selectByInquiry" parameterType="map" resultMap="DetailJoin">
 		SELECT <include refid="columns"/> FROM order_summary
 		WHERE status_id = 7
 		ORDER BY ordered_at DESC LIMIT #{page_size} OFFSET #{offset}
 	</select>
-	
+	<!-- 반품내역 조회 -->
 	<select id="selectByReturn" parameterType="map" resultMap="DetailJoin">
 		SELECT <include refid="columns"/> FROM order_summary
 		WHERE status_id = 6
@@ -102,14 +102,14 @@
 
 	<select id="totalRecord" parameterType="Status" resultType="int">
 		SELECT COUNT(order_summary_id) FROM order_summary
-
-		<if test="status_id != 0 and status_id lt 6">
-			WHERE status_id &lt; ${status_id}
-		</if>
-
-		<if test="status_id != 0 and status_id gt 5">
-			WHERE status_id = #{status_id}
-		</if>
+		<where>
+			<if test="status_id != 0 and status_id lt 6">
+				status_id &lt;= #{status_id}
+			</if>
+			<if test="status_id != 0 and status_id gte 6">
+				status_id = #{status_id}
+			</if>
+		</where>
 	</select>
 
 </mapper>

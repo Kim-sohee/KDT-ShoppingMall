@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import shoppingmall.domain.AgeRange;
 import shoppingmall.domain.Difficulty;
 import shoppingmall.domain.PlayerRange;
 import shoppingmall.domain.Product;
+import shoppingmall.domain.ResponseMessage;
 import shoppingmall.domain.Theme;
 import shoppingmall.domain.request.ProductDto;
 import shoppingmall.model.product.AgeRangeService;
@@ -190,5 +192,24 @@ public class ProductController {
 		modelAndView.addObject("ageRanges", ageRanges);
 		modelAndView.addObject("playerRanges", playerRanges);
 		return modelAndView;
+	}
+	
+	@PostMapping("/product/remove")
+	@ResponseBody
+	public ResponseEntity<ResponseMessage<String>> removeProduct(
+			@RequestParam(name = "product_id", required = true) String productId, HttpServletRequest request) {
+		ResponseMessage<String> responseMessage = new ResponseMessage<>();
+		try {
+			Product product = new Product();
+			product.setProduct_id(Integer.parseInt(productId));
+			String saveImagePath = request.getServletContext().getRealPath("/data");
+			productService.remove(product, saveImagePath);
+			responseMessage.setResult(true);
+			responseMessage.setData("상품이 삭제되었습니다.");
+		} catch (Exception e) {
+			responseMessage.setResult(false);
+			responseMessage.setErrorMessage(e.getMessage());
+		}
+		return ResponseEntity.ok(responseMessage);
 	}
 }
