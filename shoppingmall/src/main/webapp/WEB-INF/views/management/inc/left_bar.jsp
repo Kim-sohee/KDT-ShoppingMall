@@ -83,12 +83,12 @@
                   <p>회원목록</p>
                 </a>
               </li>
-              <li class="nav-item">
+             <!--  <li class="nav-item">
                 <a href="/static/admin/index3.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>메일발송</p>
                 </a>
-              </li>
+              </li> -->
             </ul>
           </li>
           <!--회원관리 메뉴 끝-->
