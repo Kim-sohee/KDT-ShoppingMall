@@ -295,7 +295,7 @@
           
           $bodyRow.append($('<td class="dtr-control sorting_1 text-right align-middle" tabindex="0">').text(statusText));
           $bodyRow.append($('<td class="text-right align-middle">').text(qna.content));
-          $bodyRow.append($('<td class="text-right align-middle">').text(qna.member.member_name));
+          $bodyRow.append($('<td class="text-right align-middle">').text("<%= member.getMember_name()%>"));
           $bodyRow.append($('<td class="text-right align-middle">').text(qna.product.product_name));
           
           const $actionCell = $('<td class="text-right align-middle">');

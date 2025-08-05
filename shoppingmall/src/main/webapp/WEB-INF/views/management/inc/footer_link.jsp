@@ -31,6 +31,31 @@
 <!-- Toastr -->
 <script src="/static/admin/plugins/toastr/toastr.min.js"></script>
 
+<script type="text/javascript">
+	$(()=>{
+		$('#logout-button').click(()=>{
+			if(confirm('정말 로그아웃 하시겠습니까?')){
+				$.ajax({
+					url: "/admin/logout",
+					type: "post",
+					success:(result, status, xhr) => {
+						if(result.result) {
+						    // 히스토리 스택 완전 정리
+						    history.pushState(null, null, '/admin/loginpage');
+						    window.addEventListener('popstate', function(event) {
+						        history.pushState(null, null, '/admin/loginpage');
+						    });
+						    
+						    // 캐시 방지
+						    window.location.replace('/admin/loginpage');
+						}
+					}
+				})
+			}
+		})
+	})
+</script>
+
 
 
 

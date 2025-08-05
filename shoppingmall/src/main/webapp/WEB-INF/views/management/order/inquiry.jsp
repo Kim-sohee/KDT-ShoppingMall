@@ -105,7 +105,7 @@
 													<% for(int i = 0; i < orderSummaries.size(); i++) {
 												OrderSummary orderSummary = orderSummaries.get(i);
 												int paymentPrice = 0;
-												for(int j = 0; j < orderSummary.getOrderDetailList().size(); i++) {
+												for(int j = 0; j < orderSummary.getOrderDetailList().size(); j++) {
 													ProductSnapshot productSnapshot = orderSummary.getOrderDetailList().get(i).getProductSnapshot();
 													paymentPrice += (int)(productSnapshot.getPrice() - (productSnapshot.getPrice() * (productSnapshot.getDiscount_rate()/(float)100)));
 												}
@@ -127,13 +127,13 @@
 																buttonClassName = "btn-secondary";
 																break;
 															case 2:
-																buttonClassName = "btn btn-ligh";
+																buttonClassName = "btn-ligh";
 																break;
 															case 3:
 																buttonClassName = "btn-dark";
 																break;
 															case 4:
-																buttonClassName = "btn btn-info";
+																buttonClassName = "btn-info";
 																break;
 															case 5:
 																buttonClassName = "btn-success";

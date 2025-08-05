@@ -12,10 +12,11 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex flex-row justify-content-between pr-2 pl-2">
         <div class="info">
           <a href="#" class="d-block"><%= String.valueOf(loginAdmin.getMember_name()) %> &nbsp; 님 안녕하세요.</a>
         </div>
+        <i id="logout-button" class="bi bi-door-open" style="font-size: 25px; color: white; cursor: pointer;"></i>
       </div>
 
       <!-- Sidebar Menu -->
@@ -83,12 +84,12 @@
                   <p>회원목록</p>
                 </a>
               </li>
-              <li class="nav-item">
+             <!--  <li class="nav-item">
                 <a href="/static/admin/index3.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>메일발송</p>
                 </a>
-              </li>
+              </li> -->
             </ul>
           </li>
           <!--회원관리 메뉴 끝-->

@@ -1,7 +1,23 @@
+<%@page import="shoppingmall.domain.Status"%>
+<%@page import="java.util.List"%>
 <%@page import="shoppingmall.domain.OrderDetail"%>
 <%@page import="shoppingmall.domain.OrderSummary"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%! public String getButtonClassName(int stsatusId) {
+	String buttonClass = "btn-primary";
+    switch(stsatusId) {
+      case 1: buttonClass = "btn-secondary"; break;
+      case 2: buttonClass = "btn-light"; break;
+      case 3: buttonClass = "btn-dark"; break;
+      case 4: buttonClass = "btn-info"; break;
+      case 5: buttonClass = "btn-success"; break;
+      case 6: buttonClass = "btn-danger"; break;
+      default: buttonClass = "btn-warning"; break;
+    }
+    return buttonClass;
+}	 %>
 <%  OrderSummary orderSummary = (OrderSummary) request.getAttribute("orderSummary"); %>
+<% 	List<Status> statusList = (List<Status>) request.getAttribute("statusList"); %>
 <%  int totalPrice = 0; %>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,6 +39,23 @@
 			<div class="p-3">
 				<!-- 주문내역 상품 카드 시작 -->
 				<div class="d-flex flex-column">
+					<div class="card card-outline">
+						<div class="cart-body">
+						<div class="h5 mt-4 ml-4">주문 상태 변경 </div>
+								<div class="btn-group p-4">
+								
+									<button id="current-status" data-status="<%= orderSummary.getStatus().getStatus_id() %>" type="button" class="btn <%= getButtonClassName(orderSummary.getStatus().getStatus_id())%> dropdown-toggle" style="width: 220px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= orderSummary.getStatus().getStatus_name() %></button>
+									<div class="dropdown-menu pr-2 pl-2" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+										<% for(int i = 0; i < statusList.size(); i++) {
+											Status status = statusList.get(i);
+											%>
+										<button type="button" class="btn <%= getButtonClassName(status.getStatus_id()) %>" style="width: 200px;" onclick="onClickStatus('<%= status.getStatus_name()%>',<%= status.getStatus_id()%>)"><%= status.getStatus_name()%></button>
+										<div class="dropdown-divider"></div>
+										<% } %>
+									</div>
+								</div>
+						</div>
+					</div>
 					<div class="card card-outline">
 						<div class="card-header">
 							<p class="h2">주문 상품</p>
@@ -220,152 +253,56 @@
 	<!-- ./wrapper -->
 	<%@ include file="../inc/footer_link.jsp"%>
 	<script src="/static/admin/custom/ProductImg.js"></script>
-	<script>
-	function printCategory(obj, list){
-		let tag="<option value='0'>카테고리 선택</option>";
-		
-		for(let i=0;i<list.length;i++){
-			if(obj=="#topcategory"){
-				tag+="<option value='"+list[i].topcategory_id+"'>"+list[i].top_name+"</option>";
-			}else if(obj=="#subcategory"){
-				tag+="<option value='"+list[i].subcategory_id+"'>"+list[i].sub_name+"</option>";
-			}else if(obj=="#color"){
-				tag+="<option value='"+list[i].color_id+"'>"+list[i].color_name+"</option>";
-			}else if(obj=="#size"){
-				tag+="<option value='"+list[i].size_id+"'>"+list[i].size_name+"</option>";
+	<script>	
+		function onClickStatus(statusName, statusId){
+			if(confirm( '주문 상태를 "' + statusName +'"으로 변경하시겠습니까?')) {
+				if(<%= orderSummary.getStatus().getStatus_id()%> == statusId) {
+					alert('같은 상태로 설정 할 수 없습니다.');
+				} else {
+			    	changeOrderStatus(statusName, statusId);
+				}
 			}
 		}
-		
-		$(obj).html(tag);  // innerHTML=태그 동일
-	}
-	
-	//비동기 방식으로 서버에 요청을 시도하여, 데이터 가져오기 
-	function getTopCategory(){
-		$.ajax({
-			url:"/admin/admin/topcategory/list",
-			type:"get",
-			success:function(result, status, xhr){ //200번대의 성공 응답 시, 이 함수 실행
-				console.log("서버로부터 받은 결과는 ", result);
-				//화면에 출력하기 
-				printCategory("#topcategory",result);
-			},
-			error:function(xhr, status, err){
-			}
-		});
-	}
-	
-	function getSubCategory(topcategory_id){
-		$.ajax({
-			url :"/admin/admin/subcategory/list?topcategory_id="+topcategory_id,
-			type:"get",
-			success:function(result, status, xhr){
-				console.log(result);
-				printCategory("#subcategory",result);
-			}
-		});
-	}
-	
-	function getColorList(){
-		$.ajax({
-			url:"/admin/admin/color/list",
-			type:"get",
-			success:function(result, status, xhr){
-				printCategory("#color", result);
-			}
-		});
-	}
-	
-	function getSizeList(){
-		$.ajax({
-			url:"/admin/admin/size/list",
-			type:"get",
-			success:function(result, status, xhr){
-				printCategory("#size", result);
-			}
-		});
-	}
+	  	
+		function changeOrderStatus(statusName, statusId) {	
+		       
+			$.ajax({
+				url:"/admin/order/status/update",
+				type:"post",
+				data: {
+					"order_summery_id": <%= orderSummary.getOrder_summary_id()%>,
+					"status_id": statusId
+				},
+				success: (result, status, xhr)=>{
+					if(result.result){
+						alert('주문상태 변경에 성공하였습니다.');
+						$('#current-status').removeClass("<%= getButtonClassName(orderSummary.getStatus().getStatus_id())%>");
+						$('#current-status').addClass(getButtonClassName(statusId));
+						$('#current-status').text(statusName);	 
+					} else {
+						alert('주문상태 변경에 실패하였습니다.')
+					}
+				},
+				error: (xhr, status, error)=>{
+					alert('주문상태 변경에 실패하였습니다.')
+				}
+			})
 
-	//크롬브라우저에서 지원하는 e.target.files 유사 배열은 읽기전용 이라서, 
-	//개발자가 쓰기 가 안되므로, 배열을 하나 선언하여,담아서 처리
-	//주의) 아래의 배열은, 개발자가 정의한 배열일 뿐이지, form태그가 전송할 컴포넌트는 아니므로, 
-	//submit 시, selectedFile에 들어있는 파일을 전송할 수는 없다!!!
-	//해결책? form태그에 인식을 시켜야 한다.. (javascript로 프로그래밍적 formData 객체를 사용해야 함)
-	let selectedFile=[];
-	
-	function regist(){
-		const formData = new FormData(document.getElementById("form1"));
-		for(let i = 0; i < selectedFile.length; i++) {
-			formData.append("photo", selectedFile[i]);			
 		}
-		$.ajax({
-			url: "/admin/admin/product/regist",
-			type: "post",
-			data: formData,
-			processData:false,
-			contentType:false,
-			success: (result, status, xhr)=>{
-				console.log(result);
-			},
-			error: (xhr, status, error) => {
-				console.log(error);
-			}
-		});
-	}
-	   
-	$(()=>{
-	   $('#summernote').summernote({
-		height:200,
-		placeholder:"상품 상세 설명을 채우세요"
-	   });
-	   getTopCategory(); //상위 카테고리 가져오기 
-	   getColorList(); //색상 목록 가져오기 
-	   getSizeList(); //사이즈 목록 가져오기 
-	   
-
-	   
-	   //상위 카테고리의 값을 변경시, 하위 카테고리 가져오기 
-	   $("#topcategory").change(function(){
-			getSubCategory($(this).val());
-		});
-	   
-	   
-	   //파일 컴포넌트의 값 변경 시 이벤트 연결 
-	   $("#photo").change(function(e){
-			console.log(e);
-			//e.target.files 안에는 브라우저가 읽어들인, 파일의 정보가 배열유사 객체인 FileList에 담겨져 있다.
-			
-			let files=e.target.files;//배열 유사 객체 얻기
-			
-			// 기존 배열 초기화 후 새로 선택된 파일들만 추가
-			selectedFile = [];
-			
-			//첨부된 파일 수 만큼 반복
-			for(let i=0;i<files.length;i++){
-				selectedFile.push(files[i]); //배열에 파일 추가
-				
-				//파일을 읽기위한 스트림 객체 생성 
-				const reader = new FileReader();
-				
-				reader.onload=function(e){ //파일을 스트림으로 읽어들인 정보가 e에 들어있음 
-					console.log("읽은 결과 ", e);		
-					
-					//개발자 정의 클래스 인스턴스 생성 container, src, width, height 
-					let productImg = new ProductImg(document.getElementById("preview"), files[i]  ,e.target.result, 100,100);
-				}				
-				reader.readAsDataURL(files[i]); //지정한 파일을 읽기
-			}
-	   });
-	   
-	   //등록버튼 이벤트 연결 
-	   $("#bt_regist").click(()=>{		
-			regist();
-	   });
-	   $("#bt_list").click(()=>{		
-		   location.href = "/admin/admin/product/list";
-	   });
-	   
-	   
-	});
+		
+		function getButtonClassName(statusId){
+			let buttonClass = 'btn-primary';
+	          switch(statusId) {
+	            case 1: buttonClass = 'btn-secondary'; break;
+	            case 2: buttonClass = 'btn-light'; break;
+	            case 3: buttonClass = 'btn-dark'; break;
+	            case 4: buttonClass = 'btn-info'; break;
+	            case 5: buttonClass = 'btn-success'; break;
+	            case 6: buttonClass = 'btn-danger'; break;
+	            default: buttonClass = 'btn-warning'; break;
+	          }	
+	          return buttonClass;
+		}
 	</script>
 
 </body>

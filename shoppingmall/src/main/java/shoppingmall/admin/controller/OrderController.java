@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +20,7 @@ import shoppingmall.domain.OrderSummary;
 import shoppingmall.domain.ResponseMessage;
 import shoppingmall.domain.Status;
 import shoppingmall.model.order.OrderSummaryService;
+import shoppingmall.model.order.StatusService;
 import shoppingmall.util.Paging;
 
 @Slf4j
@@ -27,6 +29,8 @@ public class OrderController {
 	
 	@Autowired
 	private OrderSummaryService orderSummaryService;
+	@Autowired
+	private StatusService statusService;
 	@Autowired
 	private Paging paging;
 	@Autowired
@@ -97,8 +101,10 @@ public class OrderController {
 	public ModelAndView getOrderDetailPage(
 			@RequestParam(name = "order_summery_id", required = true) String orderSummeryId) {
 		OrderSummary orderSummary = orderSummaryService.select(Integer.parseInt(orderSummeryId));
+		List<Status> statusList = statusService.selectAll();
 		ModelAndView modelAndView = new ModelAndView("/management/order/detail");
 		modelAndView.addObject("orderSummary", orderSummary);
+		modelAndView.addObject("statusList", statusList);
 		return modelAndView;
 	}
 	
@@ -140,6 +146,24 @@ public class OrderController {
 		return ResponseEntity.ok(responseMessage);
 	}
 	
+	@PostMapping("/order/status/update")
+	@ResponseBody
+	public ResponseEntity<ResponseMessage<String>> changeStatus(
+			@RequestParam(name = "order_summery_id", required = true) String orderSummeryId,
+			@RequestParam(name = "status_id", required = true) String statusId) {
+		ResponseMessage<String> responseMessage = new ResponseMessage<>();
+		try {
+			log.debug("들어온 요약 : {}", orderSummeryId);
+			log.debug("들어온 상태 : {}", statusId);
+			orderSummaryService.updateByOrderSummeryId(Integer.parseInt(orderSummeryId), Integer.parseInt(statusId));
+			responseMessage.setResult(true);
+			responseMessage.setData("업데이트 성공");
+		} catch (Exception e) {
+			responseMessage.setResult(false);
+			responseMessage.setErrorMessage(e.getMessage());
+		}
+		return ResponseEntity.ok(responseMessage);
+	}
 	
 	
 	

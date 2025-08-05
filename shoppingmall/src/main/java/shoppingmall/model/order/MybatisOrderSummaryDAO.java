@@ -17,6 +17,7 @@ import shoppingmall.exception.OrderSummaryDeleteException;
 import shoppingmall.exception.OrderSummaryNotFoundException;
 import shoppingmall.exception.OrderSummaryRegistException;
 import shoppingmall.exception.OrderSummaryTotalRecoredException;
+import shoppingmall.exception.StatusUpdateException;
 
 @Repository
 public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
@@ -182,6 +183,15 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
 	@Override
 	public int newOrderCount() {
 		return sqlSessionTemplate.selectOne("OrderSummary.newOrderCount");
+	}
+	
+	@Override
+	public void updateStatusId(Map<String, Object> map) {
+		try {
+			sqlSessionTemplate.update("OrderSummary.updateStatusId",map);
+		} catch (Exception e) {
+			throw new StatusUpdateException(e);
+		}
 	}
 	
 }

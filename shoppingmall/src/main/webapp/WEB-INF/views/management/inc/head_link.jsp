@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="/static/admin/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="/static/admin/plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
    <style>
      .search-btn {
       height: calc(1.5em + 0.75rem + 2px);

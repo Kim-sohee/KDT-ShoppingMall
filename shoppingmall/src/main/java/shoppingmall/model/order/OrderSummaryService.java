@@ -22,4 +22,5 @@ public interface OrderSummaryService {
 	
 	public int totalRecord(Status status);
 	public int newOrderCount();
+	void updateByOrderSummeryId(int orderSummeryId, int statusId);
 }
