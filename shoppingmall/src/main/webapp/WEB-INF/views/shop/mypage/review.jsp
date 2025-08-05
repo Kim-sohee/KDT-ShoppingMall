@@ -89,16 +89,20 @@
 											</h3>
 											<div class="item-brand">
 												<span class="option-label">카테고리:</span> 
-												<span class="option-value"><%=product.getTheme().getTheme_name() %></span>
+												<span class="option-value">
+												<%=product.getTheme().getTheme_name() %>
+												</span>
 											</div>
 											<div class="item-specs">
-												<span class="option-label">인원:</span> <span
-													class="option-value"><%=product.getPlayerRange().getPlayer_min() %>-<%=product.getPlayerRange().getPlayer_max() %>명</span>
+												<span class="option-label">인원:</span> <span class="option-value">
+												<%=product.getPlayerRange().getPlayer_min() %>-<%=product.getPlayerRange().getPlayer_max() %>명
+												</span>
 											</div>
 											<div class="item-specs">
-												<span class="option-label">연령:</span> <span
-													class="option-value"><%=product.getAgeRange().getAge_min()%>세
-													이상</span>
+												<span class="option-label">연령:</span> 
+												<span class="option-value">
+													<%=product.getAgeRange().getAge_min()%>세 이상
+												</span>
 											</div>
 											<div class="item-specs">
 												<span class="option-label">수량:</span> <span
