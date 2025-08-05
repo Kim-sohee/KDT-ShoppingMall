@@ -1,3 +1,4 @@
+<%@page import="shoppingmall.domain.ProductSnapshot"%>
 <%@page import="shoppingmall.util.Paging"%>
 <%@page import="shoppingmall.domain.OrderSummary"%>
 <%@page import="java.util.List"%>
@@ -103,12 +104,18 @@
 											<tbody>
 												<% for(int i = 0; i < orderSummaries.size(); i++) {
 												OrderSummary orderSummary = orderSummaries.get(i);
+												int paymentPrice = 0;
+												for(int j = 0; j < orderSummary.getOrderDetailList().size(); j++) {
+													ProductSnapshot productSnapshot = orderSummary.getOrderDetailList().get(i).getProductSnapshot();
+													paymentPrice += (int)(productSnapshot.getPrice() - (productSnapshot.getPrice() * (productSnapshot.getDiscount_rate()/(float)100)));
+												}
+												
 												%>
 												<!-- 테이블 아이템 시작 -->
 												<tr class="odd">
 													<td class="dtr-control sorting_1 text-right" tabindex="0"><%= orderSummary.getOrder_summary_id() %></td>
 													<td class="text-right"><%= orderSummary.getOrdered_at() %></td>
-													<td class="text-right"><%= orderSummary.getTotal_price() %>원</td>
+													<td class="text-right"><%= paymentPrice %>원</td>
 													<td class="text-right"><%= orderSummary.getPoint_used() %>p</td>
 													<td class="text-right"><%= orderSummary.getPayment_type() %></td>
 													<td class="text-right"><%= orderSummary.getMember().getMember_name() %></td>
@@ -120,13 +127,13 @@
 																buttonClassName = "btn-secondary";
 																break;
 															case 2:
-																buttonClassName = "btn btn-ligh";
+																buttonClassName = "btn-ligh";
 																break;
 															case 3:
 																buttonClassName = "btn-dark";
 																break;
 															case 4:
-																buttonClassName = "btn btn-info";
+																buttonClassName = "btn-info";
 																break;
 															case 5:
 																buttonClassName = "btn-success";
@@ -142,7 +149,7 @@
 														<button type="button" class="btn btn-block <%= buttonClassName %> btn-sm"><%= orderSummary.getStatus().getStatus_name() %></button>
 													</td>
 													<td class="text-right">
-														<a href="/admin/order/return/detail?order_summery_id=<%= orderSummary.getOrder_summary_id()%>"><button type="button" class="btn btn-block btn-primary btn-sm">상세보기</button></a>
+														<a href="/admin/order/inquiry/detail?order_summery_id=<%= orderSummary.getOrder_summary_id()%>"><button type="button" class="btn btn-block btn-primary btn-sm">상세보기</button></a>
 													</td>
 												</tr>
 												<!-- 테이블 아이템 끝 -->

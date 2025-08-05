@@ -126,13 +126,13 @@
 																buttonClassName = "btn-secondary";
 																break;
 															case 2:
-																buttonClassName = "btn btn-ligh";
+																buttonClassName = "btn-ligh";
 																break;
 															case 3:
 																buttonClassName = "btn-dark";
 																break;
 															case 4:
-																buttonClassName = "btn btn-info";
+																buttonClassName = "btn-info";
 																break;
 															case 5:
 																buttonClassName = "btn-success";
