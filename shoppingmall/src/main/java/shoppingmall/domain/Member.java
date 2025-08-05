@@ -2,6 +2,7 @@ package shoppingmall.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 @Data
@@ -18,7 +19,10 @@ public class Member {
 	private int point_remained;				//회원의 잔여포인트
 	private String default_address; 		//기본배송지
 	
+	@JsonManagedReference("member-reviews")
 	List<Review> reviewList;				//자식인 review를 collection 객체인 List로 보유한다.
+	@JsonManagedReference("member-qnas")
 	List<Qna> qnaList;						//자식인 qna를 collection 객체인 List로 보유한다.
+	@JsonManagedReference("member-deliveries")
 	List<Delivery> deliveryList;			//자식인 delivery를 collection 객체인 List로 보유한다.
 }
