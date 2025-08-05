@@ -124,7 +124,7 @@
                     </div>
 
                     <div class="goto-home">
-                        <a href="../index.jsp" class="btn btn-home">홈으로</a>
+                        <a href="/shop/main" class="btn btn-home">홈으로</a>
                     </div>
                 </div>
             </div>

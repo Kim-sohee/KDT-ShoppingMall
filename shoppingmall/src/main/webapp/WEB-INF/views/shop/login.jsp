@@ -16,18 +16,13 @@
             height: 100vh;
         }
         .left {
-            flex: 1;
-            background-color: #5c2c1b;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
-            font-size: 24px;
-            font-weight: bold;
-            line-height: 1.6;
-            white-space: pre-line;
-        }
+		    flex: 1;
+		    background-image: url('/img/login/banner_image.png'); /* 이미지 경로 주의 */
+		    background-size: cover;       /* 가득 채움 (잘릴 수 있음) */
+		    background-position: center;  /* 가운데 정렬 */
+		    background-repeat: no-repeat;
+		}
+        
         .right {
             flex: 1;
             display: flex;
@@ -99,11 +94,7 @@
 	<%@ include file="./inc/nav.jsp"%>
     <div class="container">
         <div class="left">
-            지금,<br>
-            여기 페이지 수정해주실분<br>
-            찾습니다! 선착순 3명!<br>
-            박유신김소희<br>
-            류희용문창규
+            
         </div>
         <div class="right">
             <div class="login-title">회원 로그인</div>

@@ -21,7 +21,7 @@
         }
     }
 
-    int discount = 10000;
+    int discount = 0;
     int deliveryFee = totalPrice >= 50000 ? 0 : 3000;
     int finalAmount = totalPrice - discount + deliveryFee;
 
@@ -180,7 +180,7 @@
                     <div class="summary-item"><span>할인 금액</span><span class="discount">-<%=String.format("%,d", discount)%>원</span></div>
                     <div class="summary-item"><span>배송비</span><span class="<%= deliveryFee == 0 ? "shipping-free" : "" %>"><%= deliveryFee == 0 ? "무료배송" : String.format("%,d",deliveryFee) + "원" %></span></div>
                     <div class="summary-divider"></div>
-                    <div class="summary-total"><span>총 결제 금액</span><span class="total-amount"><%=String.format("%,d", finalAfterPoint)%>원</span></div>
+                    <div class="summary-total"><span>총 결제 금액</span><span class="total-amount"><%=(finalAfterPoint< 0) ? "0" : String.format("%,d", finalAfterPoint)%>원</span></div>
                     <div class="summary-savings"><span>총 절약 금액</span><span class="savings-amount"><%=String.format("%,d", discount)%>원</span></div>
                     <button class="btn btn-primary btn-checkout" id="payment-button">결제하기</button>
 
@@ -322,16 +322,27 @@
         });
     });
 
-    // 가격 정보 업데이트
-    function updatePointInfo(used) {
-        const point = <%= point %>;
-        const originalAmount = <%= finalAmount %>;
-        const remain = Math.max(point - used, 0);
-        const final = Math.max(originalAmount - used, 0);
+    	// 가격 정보 업데이트
+    	function updatePointInfo(used) {
+    	    const point = <%= point %>;
+    	    const originalAmount = <%= finalAmount %>;
+    	    const remain = Math.max(point - used, 0);
+    	    const final = Math.max(originalAmount - used, 0);
 
-        document.getElementById('remainPoint').innerText = remain + "pt";
-        document.getElementById('finalPrice').innerText = final.toLocaleString() + "원";
-    }
+    	    // 포인트 관련 영역 업데이트
+    	    document.getElementById('remainPoint').innerText = remain + "pt";
+    	    document.getElementById('finalPrice').innerText = final.toLocaleString() + "원";
+
+    	    // 총 결제 금액 영역(.summary-total > .total-amount)도 업데이트
+    	    const totalAmountElement = document.querySelector(".summary-total .total-amount");
+    	    if (totalAmountElement) {
+    	        totalAmountElement.innerText = final.toLocaleString() + "원";
+    	  
+    	    }
+    	    
+    	    
+    	    
+    	}
 </script>
 </body>
 </html>

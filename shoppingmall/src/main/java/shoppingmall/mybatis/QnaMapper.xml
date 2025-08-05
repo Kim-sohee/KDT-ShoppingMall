@@ -89,4 +89,10 @@
 		where product_id = #{product.product_id}
 	</select>
 	
+	<!-- product에 해당하는 QNA만 가지고 오도록하기 -->
+	<select id="selectByProductId" parameterType="int" resultType="Qna">
+		select <include refid="columns"></include>
+		from qna
+		where product_id = #{product.product_id}
+	</select>
 </mapper>

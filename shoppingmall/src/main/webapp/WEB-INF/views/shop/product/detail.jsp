@@ -270,8 +270,7 @@ if(!product.getProductImages().isEmpty()){
 }
 
 /* LowerWrpper 메뉴 탭 스타일 */
-#LowerWrpper {
-	margin-top: 50px;
+#LowerWrpper {	
 	display: flex;
 	justify-content: space-around;
 	border-top: 2px solid #d32f2f;
@@ -758,7 +757,7 @@ if(!product.getProductImages().isEmpty()){
 
 	<!-- 제품에 대한 상세 정보 이미지 출력  -->
 	<div id="detail_panel">
-		<img alt="상세 정보" src="/img/detail/detail_information.jpg">
+		<img alt="상세 정보" src="/img/detail/detail_image.jpg">
 	</div>
 
 	<!-- 제품 리뷰에 대한 패널 출력 -->
@@ -864,10 +863,11 @@ if(!product.getProductImages().isEmpty()){
 
 		<div class="qna_list">
 		<%
-		    for (Qna q : qnas) {
-		        String maskedId = q.getMember().getId().length() >= 4
-		                        ? q.getMember().getId().substring(0, 4) + "******"
-		                        : q.getMember().getId() + "******";
+		   	 for (Qna q : qnas) {
+		        Member m = q.getMember();
+		        String maskedId = (m != null && m.getId() != null && m.getId().length() >= 4)
+		                            ? m.getId().substring(0, 4) + "******"
+		                            : "익명";
 		%>
 		    <div class="qna_item">
 		        <div class="qna_question"><%= q.getTitle()%></div>
@@ -876,18 +876,17 @@ if(!product.getProductImages().isEmpty()){
 		            <span><%= maskedId %></span>
 		            <button class="qna_view" data-qna-id="<%= q.getQna_id() %>">보기</button>
 		        </div>
-		
-		        <% if (q.getIs_commented() == 1) { %>
-		        <!-- 답변 내용은 처음엔 숨겨둠 -->
-		        <div class="qna_answer" id="answer_<%= q.getQna_id() %>" style="display: none; background: #f9f9f9; border: 1px solid #ddd; padding: 10px; border-radius: 6px; margin-top: 10px;">
-		            <strong><%= q.getComment_member() %>님의 답변:</strong>
+		<% if (q.getIs_commented() == 1) { %>
+		        <div class="qna_answer" id="answer_<%= q.getQna_id() %>" style="display: none;">
+		            <strong><%= q.getComment_member() != null ? q.getComment_member() : "관리자" %>님의 답변:</strong>
 		            <p><%= q.getComment() %></p>
 		        </div>
-		        <% } %>
+		<% } %>
 		    </div>
 		<%
 		    }
-		%>
+		%>	
+
 		</div>
 
 
@@ -1101,6 +1100,51 @@ if(!product.getProductImages().isEmpty()){
 					}
 				});
 		  })
+		  
+		  $("#qna_form form").on("submit", function (e) {
+		    e.preventDefault();
+		
+		    const formData = {
+		        product_id: $("input[name='product_id']").val(), // 숨겨진 input에서 가져오기
+		        title: $("input[name='title']").val(),
+		        content: $("textarea[name='content']").val()
+		    };
+		
+		    $.ajax({
+		        url: "/shop/qna/regist",
+		        method: "POST",
+		        contentType: "application/json",
+		        data: JSON.stringify(formData),
+		        success: function (qna) {
+		            if (typeof qna === "string" && qna === "unauthorized") {
+		                alert("로그인 후 작성하실 수 있습니다.");
+		                return;
+		            }
+		
+		            const maskedId = qna.member?.id?.substring(0, 4) + "******";
+		
+		            const html = `
+		                <div class="qna_item">
+		                    <div class="qna_question">\${qna.title}</div>
+		                    <div class="qna_meta">
+		                        <span>\${qna.is_commented === 1 ? "답변완료" : "미답변"}</span>
+		                        <span>\${maskedId}</span>
+		                        <button class="qna_view" data-qna-id="\${qna.qna_id}">보기</button>
+		                    </div>
+		                </div>
+		            `;
+		
+		            $(".qna_list").prepend(html);
+		            $("#qna_form form")[0].reset();
+		            $("#qna_form").slideUp(200);
+		        },
+		        error: function () {
+		            alert("Q&A 등록 중 오류 발생!");
+		        }
+		    });
+		});
+
+
 
 	
 

@@ -56,9 +56,10 @@ public class CartController {
     @GetMapping("/cart/list")
     public String list(HttpSession session, Model model) {
         Member member = (Member) session.getAttribute("member");
-//        if (member == null) {
-//            return "redirect:shop/login";
-//        }
+       if (member == null) {
+    	   return "redirect:/shop/member/loginform";
+ 
+       }
 
         List<Cart> cartList = cartService.selectByMember(member.getMember_id());
         model.addAttribute("cartList", cartList);
@@ -70,7 +71,7 @@ public class CartController {
             totalPrice += price * quantity;              // 누적합 계산
         }
         
-        int discount = 10000;
+        int discount = 0;
         int deliveryFee = 0;
 
         model.addAttribute("totalPrice", totalPrice);
