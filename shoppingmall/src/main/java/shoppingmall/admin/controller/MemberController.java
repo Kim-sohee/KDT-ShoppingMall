@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import lombok.extern.slf4j.Slf4j;
 import shoppingmall.domain.Member;
 import shoppingmall.model.member.MemberService;
+import shoppingmall.util.Paging;
 
 @Slf4j
 @Controller
@@ -18,12 +19,20 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private Paging paging;
 	
-	@GetMapping("/member/list")
-	public ModelAndView getMemberListPage() {
-		List<Member> members = memberService.selectAll();
+	@GetMapping("/member/listpage")
+	public ModelAndView getMemberListPage(
+			@RequestParam(name = "pagenum", required = false, defaultValue = "1") String pagenum
+			) {
+		int totalRecord = memberService.totalRecord();
+		int currentPage = Integer.parseInt(pagenum);
+		paging.init(totalRecord, currentPage);
+		List<Member> members = memberService.selectByPage(paging.getPageSize(), paging.getCurPos());
 		ModelAndView modelAndView = new ModelAndView("/management/member/list");
 		modelAndView.addObject("members", members);
+		modelAndView.addObject("paging", paging);
 		return modelAndView;
 	}
 	

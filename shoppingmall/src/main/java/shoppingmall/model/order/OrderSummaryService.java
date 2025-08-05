@@ -2,13 +2,12 @@ package shoppingmall.model.order;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
-
 import shoppingmall.domain.Member;
 import shoppingmall.domain.OrderSummary;
 import shoppingmall.domain.Status;
 
 public interface OrderSummaryService {
+	public OrderSummary select(int summeryId);
 	public List<OrderSummary> selectByMember(Member member);
 	public List<OrderSummary> selectByPageAndMember(String page, Member member, Timestamp startDate, Timestamp endDate);
 	public List<OrderSummary> selectByOrder(int pageSize, int currentPage);

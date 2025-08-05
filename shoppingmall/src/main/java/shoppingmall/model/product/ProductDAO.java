@@ -16,4 +16,5 @@ public interface ProductDAO {
 	public List selectByPage(int pageSize, int offset); //페이지 별로 상품 가져오기
 	public List selectByThemeWithPage(int theme_id, int pageSize, int offset); // 카테고리&페이지 기준으로 상품가져오기
 	public List<Product> selectTopProductByNames(List<String> names);	//베스트 셀러 이름으로 상품 정보 가져오기
+	public void delete(Product product);
 }

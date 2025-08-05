@@ -1,6 +1,8 @@
 package shoppingmall.model.product;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +24,16 @@ public class QnaServiceImpl implements QnaService{
 	}
 	
 	@Override
-	public List<Qna> selectOrderBy() throws QnASelectException {
+	public List<Qna> selectAllOrderBy(int pageSize, int offset) throws QnASelectException {
+		Map<String, Object> map = new HashMap<>();
+		map.put("page_size", pageSize);
+		map.put("offset", offset);
 		return qnaDAO.selectAllOrderBy();
+	}
+	
+	@Override
+	public List<Qna> selectByMemberId(int memberId) {
+		return qnaDAO.selectByMemberId(memberId);
 	}
 
 	@Override
@@ -60,6 +70,11 @@ public class QnaServiceImpl implements QnaService{
 	@Override
 	public List<Qna> selectByProductId(int product_id) {
 		return qnaDAO.selectByProductId(product_id);
+	}
+	
+	@Override
+	public int totalRecord() {
+		return qnaDAO.totalRecord();
 	}
 	
 }

@@ -44,6 +44,11 @@ public class MybatisMemberDAO implements MemberDAO {
 	}
 	
 	@Override
+	public List<Member> selectByPage(Map<String, Object> map) {
+		return sqlSessionTemplate.selectList("Member.selectByPage", map);
+	}
+	
+	@Override
 	public Member select(int member_id) {
 		return sqlSessionTemplate.selectOne("Member.select", member_id);
 	}
@@ -125,4 +130,8 @@ public class MybatisMemberDAO implements MemberDAO {
 		}
 	}
 	
+	@Override
+	public int totalRecord() {
+		return sqlSessionTemplate.selectOne("Member.totalRecord");
+	}
 }

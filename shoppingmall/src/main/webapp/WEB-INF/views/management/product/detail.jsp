@@ -100,6 +100,7 @@ Product product = (Product) request.getAttribute("product");
 			<section class="content">
 				<div class="d-flex flex-row justify-content-end p-4">
 					<a href="<%= contextPath%>/admin/product/modify?product_id=<%= product.getProduct_id()%>"><button id="btn-submit" class="btn btn-primary">수정하기</button></a>
+					<button id="btn-remove" class="btn btn-danger ml-3">삭제하기</button>
 				</div>
 				<div class="row p-4">
 					<div class="card w-100">
@@ -290,6 +291,29 @@ Product product = (Product) request.getAttribute("product");
         setupImageUpload('subImage4', 'subImageInput4');
         setupImageUpload('subImage5', 'subImageInput5');
         
+        $('#btn-remove').click(()=>{
+			if(confirm('상품을 정말 삭제하시겠습니까?')){
+				$.ajax({
+					url: "/admin/product/remove",
+					type: "post",
+					data: {
+						"product_id": "<%= product.getProduct_id()%>"
+					},
+					success: (result, status, xhr) => {
+						if(result.result) {
+						    alert('상품 삭제에 성공하였습니다.');
+						    location.replace('/admin/product/listpage');
+						} else {
+							alert('상품 삭제에 실패하였습니다. error : ' + result.errorMessage);
+						}
+					},
+					error: (xhr, status, error) => {
+						console.log(error);
+					    alert('상품 삭제에 실패하였습니다.');
+					}
+				})
+			}
+        })
         
         $(()=>{
 			$('#theme-select').val('<%=product.getTheme().getTheme_id()%>');

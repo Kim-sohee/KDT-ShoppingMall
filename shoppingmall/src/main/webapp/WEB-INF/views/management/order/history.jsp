@@ -1,3 +1,4 @@
+<%@page import="shoppingmall.domain.ProductSnapshot"%>
 <%@page import="shoppingmall.util.Paging"%>
 <%@page import="shoppingmall.domain.OrderSummary"%>
 <%@page import="java.util.List"%>
@@ -9,7 +10,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AdminLTE 3 | Dashboard</title>
+<title>SinseBoardGame | 주문내역</title>
 <%@ include file="../inc/head_link.jsp"%>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -103,12 +104,17 @@
 											<tbody>
 											<% for(int i = 0; i < orderSummaries.size(); i++) {
 												OrderSummary orderSummary = orderSummaries.get(i);
+												int paymentPrice = 0;
+												for(int j = 0; j < orderSummary.getOrderDetailList().size(); j++) {
+													ProductSnapshot productSnapshot = orderSummary.getOrderDetailList().get(j).getProductSnapshot();
+													paymentPrice += (int)(productSnapshot.getPrice() - (productSnapshot.getPrice() * (productSnapshot.getDiscount_rate()/(float)100)));
+												}
 												%>
 												<!-- 테이블 아이템 시작 -->
 												<tr class="odd">
 													<td class="dtr-control sorting_1 text-right" tabindex="0"><%= orderSummary.getOrder_summary_id() %></td>
 													<td class="text-right"><%= orderSummary.getOrdered_at() %></td>
-													<td class="text-right"><%= orderSummary.getTotal_price() %>원</td>
+													<td class="text-right"><%= paymentPrice %>원</td>
 													<td class="text-right"><%= orderSummary.getPoint_used() %>p</td>
 													<td class="text-right"><%= orderSummary.getPayment_type() %></td>
 													<td class="text-right"><%= orderSummary.getMember().getMember_name() %></td>
@@ -142,7 +148,7 @@
 														<button type="button" class="btn btn-block <%= buttonClassName %> btn-sm"><%= orderSummary.getStatus().getStatus_name() %></button>
 													</td>
 													<td class="text-right">
-														<button type="button" class="btn btn-block btn-primary btn-sm">상세보기</button>
+														<a href="/admin/order/history/detail?order_summery_id=<%= orderSummary.getOrder_summary_id()%>"><button type="button" class="btn btn-block btn-primary btn-sm">상세보기</button></a>
 													</td>
 												</tr>
 												<!-- 테이블 아이템 끝 -->

@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
-import shoppingmall.domain.Delivery;
 import shoppingmall.domain.Member;
 import shoppingmall.domain.OrderSummary;
 import shoppingmall.domain.Status;
@@ -26,5 +25,6 @@ public interface OrderSummaryDAO {
 	public void Insert(OrderSummary ordersummary);
 	
 	public int totalRecord(Status status);
+	public OrderSummary select(int summery_id);
 	
 }
