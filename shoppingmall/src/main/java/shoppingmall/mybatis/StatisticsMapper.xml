@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Statistics">
+
+	<resultMap type="Statistics" id="statisticsMap">
+		<result property="label" column="label" />
+		<result property="metadata" column="metadata" />
+		<result property="data" column="data" />
+	</resultMap>
+	
+	<select id="selectOrderByThemeFromPastYear" resultMap="statisticsMap">
+		SELECT
+            t.theme_name as label,
+            CONCAT('[',
+                GROUP_CONCAT(
+                    CONCAT('"', all_months.month_year, '"')
+                    ORDER BY all_months.month_year
+                    SEPARATOR ','
+                ),
+            ']') as metadata,
+            CONCAT('[',
+                GROUP_CONCAT(
+                    COALESCE(monthly_sales.total_quantity, 0)
+                    ORDER BY all_months.month_year
+                    SEPARATOR ','
+                ),
+            ']') as data
+        FROM theme t
+        CROSS JOIN (
+            SELECT
+                DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL n MONTH), '%Y-%m') as month_year
+            FROM (
+                SELECT 0 as n UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION
+                SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION
+                SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11
+            ) months
+        ) all_months
+        LEFT JOIN (
+            SELECT
+                ps.theme_id,
+                DATE_FORMAT(os.ordered_at, '%Y-%m') as order_month,
+                SUM(od.quantity_real) as total_quantity
+            FROM order_detail od
+            INNER JOIN product_snapshot ps ON od.product_snapshot_id = ps.product_snapshot_id
+            INNER JOIN order_summary os ON od.order_summary_id = os.order_summary_id
+            WHERE os.ordered_at >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+                AND os.ordered_at <![CDATA[<]]> DATE_ADD(DATE_FORMAT(CURDATE(), '%Y-%m-01'), INTERVAL 1 MONTH)
+            GROUP BY ps.theme_id, DATE_FORMAT(os.ordered_at, '%Y-%m')
+        ) monthly_sales ON t.theme_id = monthly_sales.theme_id
+            AND all_months.month_year = monthly_sales.order_month
+        GROUP BY t.theme_id, t.theme_name
+        ORDER BY t.theme_name
+	</select>
+	
+	<select id="selectOrderBySalesFromPastYear" resultMap="statisticsMap">
+		SELECT
+            '매출 금액' as label,
+            CONCAT('[',
+                GROUP_CONCAT(
+                    CONCAT('"', all_months.month_year, '"')
+                    ORDER BY all_months.month_year
+                    SEPARATOR ','
+                ),
+            ']') as metadata,
+            CONCAT('[',
+                GROUP_CONCAT(
+                    COALESCE(monthly_sales.total_amount, 0)
+                    ORDER BY all_months.month_year
+                    SEPARATOR ','
+                ),
+            ']') as data
+        FROM (
+            SELECT
+                DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL n MONTH), '%Y-%m') as month_year
+            FROM (
+                SELECT 0 as n UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION
+                SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION
+                SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11
+            ) months
+        ) all_months
+        LEFT JOIN (
+            SELECT
+                DATE_FORMAT(os.ordered_at, '%Y-%m') as order_month,
+                SUM(os.final_price) as total_amount
+            FROM order_summary os
+            WHERE os.ordered_at >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+                AND os.ordered_at <![CDATA[<]]> DATE_ADD(DATE_FORMAT(CURDATE(), '%Y-%m-01'), INTERVAL 1 MONTH)
+            GROUP BY DATE_FORMAT(os.ordered_at, '%Y-%m')
+        ) monthly_sales ON all_months.month_year = monthly_sales.order_month
+	</select>
+	
+	<select id="totalSaleAmount" resultType="int">
+		SELECT
+		SUM(final_price) as total_cumulative_amount
+		FROM order_summary
+		WHERE ordered_at <![CDATA[<=]]>  CURDATE();	
+	</select>
+</mapper>
