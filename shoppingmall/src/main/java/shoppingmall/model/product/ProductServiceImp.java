@@ -13,7 +13,9 @@ import shoppingmall.domain.ProductImage;
 import shoppingmall.domain.Theme;
 import shoppingmall.domain.request.ProductDto;
 import shoppingmall.exception.FileUploadException;
+import shoppingmall.exception.ProductDeleteException;
 import shoppingmall.exception.ProductException;
+import shoppingmall.exception.ProductImageDeleteException;
 import shoppingmall.exception.ProductImageInsertException;
 import shoppingmall.exception.ProductInsertException;
 import shoppingmall.util.FileManager;
@@ -105,5 +107,13 @@ public class ProductServiceImp implements ProductService{
 	public List selectByThemeWithPage(int themeId, int pageSize, int currentPage) {
 		int offset = (currentPage - 1) * 10;
 		return productDAO.selectByThemeWithPage(themeId, pageSize, offset);
+	}
+	
+	@Override
+	@Transactional
+	public void remove(Product product, String savePath) throws ProductDeleteException, ProductImageDeleteException {
+		productImageDAO.deletByProductId(product.getProduct_id());
+		fileManager.remove(product, savePath);
+		productDAO.delete(product);
 	}
 }

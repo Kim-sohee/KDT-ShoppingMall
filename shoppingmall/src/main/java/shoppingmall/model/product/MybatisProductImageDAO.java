@@ -30,6 +30,9 @@ public class MybatisProductImageDAO implements ProductImageDAO {
 	public void deletByProductId(int product_id) throws ProductImageDeleteException {
 		try {
 			int result = sqlSessionTemplate.delete("ProductImage.deleteByProductId", product_id);
+			if(result < 1) {
+				throw new ProductImageDeleteException("이미지 삭제 실패");
+			}
 		} catch (Exception e) {
 			throw new ProductImageDeleteException(e);
 		}
