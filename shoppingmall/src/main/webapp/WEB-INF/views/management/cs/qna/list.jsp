@@ -1,23 +1,19 @@
+<%@page import="shoppingmall.domain.Qna"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<% List<Qna> qnas = (List<Qna>) request.getAttribute("qnas"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AdminLTE 3 | Dashboard</title>
+<title>SinseBoardGame | CS</title>
 <%@ include file="../../inc/head_link.jsp"%>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 	<div class="wrapper">
 
-		<!-- Preloader -->
-		<div class="preloader flex-column justify-content-center align-items-center">
-			<img class="animation__shake" src="/static/admin/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-		</div>
-
-		<!-- Navbar -->
-		<%@ include file="../../inc/navbar.jsp"%>
-		<!-- /.navbar -->
+		<%@ include file="../../inc/preloader.jsp" %>
 
 		<!-- Main Sidebar Container -->
 		<%@ include file="../../inc/left_bar.jsp"%>
@@ -30,14 +26,14 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0">상품 등록</h1>
+							<h1 class="m-0">QnA</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
 								<li class="breadcrumb-item ">고객센터</li>
-								<li class="breadcrumb-item active">문의</li>
+								<li class="breadcrumb-item active">QnA</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -100,24 +96,34 @@
 												<thead>
 													<tr>
 														<th class="sorting sorting_asc" tabindex="0" aria-controls="example2" width="120px" rowspan="1" colspan="1" aria-sort="ascending" aria-label="아이디: activate to sort column descending">답변상태</th>
-														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="구매일자: activate to sort column ascending">제목</th>
-														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">작성자</th>
-														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">비고</th>
+														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" >제목</th>
+														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" >작성자</th>
+														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" >상품명</th>
+														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" >비고</th>
 													</tr>
 												</thead>
 												<!-- 테이블 헤더 끝 -->
 												<!-- 테이블 바디 시작 -->
 												<tbody>
+												<% for(int i = 0; i < qnas.size(); i++) {
+													Qna qna = qnas.get(i);
+													String status = "답변대기";
+													if(qna.getIs_commented() == 1) {
+														status = "답변완료";
+													}
+													%>
 													<!-- 테이블 아이템 시작 -->
 													<tr class="odd">
-														<td class="dtr-control sorting_1 text-right align-middle" tabindex="0">답변대기</td>
-														<td class="text-right align-middle">이 제품 어디 원산지 인가요?</td>
-														<td class="text-right align-middle">testuser</td>
+														<td class="dtr-control sorting_1 text-right align-middle" tabindex="0"><%= status %></td>
+														<td class="text-right align-middle"><%= qna.getContent() %></td>
+														<td class="text-right align-middle"><%= qna.getMember().getMember_name() %></td>
+														<td class="text-right align-middle"><%= qna.getProduct().getProduct_name() %></td>
 														<td class="text-right align-middle">
-															<button type="button" class="btn btn-block btn-primary btn-sm">상세보기</button>
+															<a href="<%= contextPath%>/admin/cs/qna/detail?qna_id=<%= qna.getQna_id()%>"><button type="button" class="btn btn-block btn-primary btn-sm">상세보기</button></a>
 														</td>
 													</tr>
 													<!-- 테이블 아이템 끝 -->
+													<% } %>
 												</tbody>
 												<!-- 테이블 바디 끝 -->
 											</table>

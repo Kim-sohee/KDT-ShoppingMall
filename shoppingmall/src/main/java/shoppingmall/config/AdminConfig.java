@@ -20,12 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @EnableWebMvc
 @ComponentScan(basePackages = {"shoppingmall.admin.advice","shoppingmall.admin.controller","shoppingmall.model"})
 public class AdminConfig extends WebMvcConfigurerAdapter {
-
-	@Bean
-	@Qualifier("baseUrl")
-	public String getBaseUrl() {
-		return "/shoppingmall";
-	}
 	
 	@Bean
 	public InternalResourceViewResolver viewResolver() {

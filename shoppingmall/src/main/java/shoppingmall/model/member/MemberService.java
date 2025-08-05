@@ -1,10 +1,14 @@
 package shoppingmall.model.member;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import shoppingmall.domain.Member;
 
 public interface MemberService {
+	public List<Member> selectAll();
+	public Member select(int memberId);
+	public Member selectWithDelivery(int memberId);
 	public Member selectById(String id);
 	public Member getChildList(int member_id, Timestamp startDate, Timestamp endDate);
 	public void regist(Member member);

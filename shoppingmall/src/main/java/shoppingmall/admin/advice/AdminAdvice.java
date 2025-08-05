@@ -2,18 +2,11 @@ package shoppingmall.admin.advice;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @ControllerAdvice
 public class AdminAdvice {
-	
-	@Autowired
-	@Qualifier("baseUrl") 
-	private String baseUrl;
-
 
 	@ModelAttribute("navMenu")
 	public String getNavMenu(HttpServletRequest request) {
@@ -44,10 +37,5 @@ public class AdminAdvice {
 		}
 		
 		return null;
-	}
-	
-	@ModelAttribute("baseUrl")
-	public String getBaseUrl() {		
-		return baseUrl;
 	}
 }

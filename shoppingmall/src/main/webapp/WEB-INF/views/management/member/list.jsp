@@ -1,4 +1,7 @@
+<%@page import="shoppingmall.domain.Member"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<% List<Member> members = (List<Member>)request.getAttribute("members"); %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -104,34 +107,33 @@
 												<!-- 테이블 헤더 끝 -->
 												<!-- 테이블 바디 시작 -->
 												<tbody>
+												<% for(int i = 0; i < members.size(); i++) {
+													Member member = members.get(i);
+													String id = "";
+													String snsProvider = "";
+													if(member.getId() != null) {
+														id = member.getId();
+													}
+													if(member.getSns_provider() != null) {
+														snsProvider = member.getSns_provider();
+													}
+													%>
+												
 													<!-- 테이블 아이템 시작 -->
 													<tr class="odd">
-														<td class="dtr-control sorting_1 text-right align-middle" tabindex="0"></td>
-														<td class="text-right align-middle">testuser@google.com</td>
-														<td class="text-right align-middle">홍길동</td>
-														<td class="text-right align-middle">google</td>
-														<td class="text-right align-middle">010-1234-1234</td>
-														<td class="text-right align-middle">2000p</td>
-														<td class="text-right align-middle">2021-01-18</td>
+														<td class="dtr-control sorting_1 text-right align-middle" tabindex="0"><%= id %></td>
+														<td class="text-right align-middle"><%= String.valueOf(member.getEmail()) %></td>
+														<td class="text-right align-middle"><%= String.valueOf(member.getMember_name()) %></td>
+														<td class="text-right align-middle"><%= String.valueOf(snsProvider) %></td>
+														<td class="text-right align-middle"><%= String.valueOf(member.getPhone()) %></td>
+														<td class="text-right align-middle"><%= String.valueOf(member.getPoint_remained()) %>p</td>
+														<td class="text-right align-middle"><%= String.valueOf(member.getJoined_at()) %></td>
 														<td class="text-right align-middle">
-															<a href="<%= contextPath %>/admin/member/detail"><button type="button" class="btn btn-block btn-primary btn-sm">상세보기</button></a>
+															<a href="<%= contextPath %>/admin/member/detail?member_id=<%= member.getMember_id() %>"><button type="button" class="btn btn-block btn-primary btn-sm">상세보기</button></a>
 														</td>
 													</tr>
 													<!-- 테이블 아이템 끝 -->
-													<!-- 테이블 아이템 시작 -->
-													<tr class="even">
-														<td class="dtr-control sorting_1 text-right align-middle" tabindex="0">testuser1</td>
-														<td class="text-right align-middle">testuser@test.com</td>
-														<td class="text-right align-middle">마루치</td>
-														<td class="text-right align-middle">해당없음</td>
-														<td class="text-right align-middle">010-1234-1234</td>
-														<td class="text-right align-middle">2000p</td>
-														<td class="text-right align-middle">2021-01-18</td>
-														<td class="text-right align-middle">
-															<a href="<%= contextPath %>/admin/member/detail"><button type="button" class="btn btn-block btn-primary btn-sm">상세보기</button></a>
-														</td>
-													</tr>
-													<!-- 테이블 아이템 끝 -->
+													<% } %>
 												</tbody>
 												<!-- 테이블 바디 끝 -->
 											</table>

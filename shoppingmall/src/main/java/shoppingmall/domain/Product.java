@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
+import lombok.ToString;
 
 //상품에 관한 모델
 @Data
@@ -17,7 +18,10 @@ public class Product {
 	private String description;
 	private String regdate;
 	private int play_time;
+	@ToString.Exclude
 	private List<ProductImage> productImages = new ArrayList<>();
+	@ToString.Exclude
+	private List<Review> reviews;
 	
 	private Theme theme;
 	private PlayerRange playerRange;

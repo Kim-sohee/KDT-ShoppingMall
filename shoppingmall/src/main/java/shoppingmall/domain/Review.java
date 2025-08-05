@@ -1,6 +1,7 @@
 package shoppingmall.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 public class Review {
@@ -8,6 +9,7 @@ public class Review {
 	private String content;
 	private String reviewed_at;
 	private int rating;
+	@ToString.Exclude
 	private Product product;
 	private Member member;
 }

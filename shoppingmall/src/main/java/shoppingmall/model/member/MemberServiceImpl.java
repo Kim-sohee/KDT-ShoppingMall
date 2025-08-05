@@ -59,11 +59,25 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private ReviewDAO reviewDAO;
 	
-	@Override
-	public Member selectById(String id) throws MemberNotFoundException{
-		return memberDAO.selectById(id);
+	public List<Member> selectAll() {
+		return memberDAO.selectAll();
 	}
 	
+	@Override
+	public Member select(int memberId) {
+		return memberDAO.select(memberId);
+	}
+	
+	@Override
+	public Member selectWithDelivery(int memberId) {
+		return memberDAO.selectWithDelivery(memberId);
+	}
+
+	@Override
+	public Member selectById(String id) {
+		return memberDAO.selectById(id);
+	}
+
 	@Override
 	public Member getChildList(int member_id, Timestamp startDate, Timestamp endDate) throws MemberNotFoundException{
 		return memberDAO.getChildList(member_id, startDate, endDate);

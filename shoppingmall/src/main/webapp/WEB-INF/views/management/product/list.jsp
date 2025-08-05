@@ -93,7 +93,7 @@
 					<div class="row p-4">
 						<div class="card w-100">
 							<div class="card-body">
-							<ul class="nav nav-tabs">
+							<ul class="nav nav-tabs mb-3">
 										<li class="nav-item"><a class="nav-link <% if(themeId == null) {out.print("active");} %>" aria-current="page" href="<%= contextPath%>/admin/product/listpage">전체</a></li>
 										<% for(int i = 0; i < themes.size(); i++) {
 												Theme theme = themes.get(i);

@@ -29,7 +29,7 @@
 <!-- SweetAlert2 -->
 <script src="/static/admin/plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Toastr -->
-<script src="../../plugins/toastr/toastr.min.js"></script>
+<script src="/static/admin/plugins/toastr/toastr.min.js"></script>
 
 
 

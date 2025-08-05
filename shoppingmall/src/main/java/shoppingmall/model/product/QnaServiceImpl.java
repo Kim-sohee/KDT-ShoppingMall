@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import shoppingmall.domain.Qna;
+import shoppingmall.exception.QnAAdminUpdateException;
+import shoppingmall.exception.QnASelectException;
 
 @Service
 public class QnaServiceImpl implements QnaService{
@@ -17,6 +19,11 @@ public class QnaServiceImpl implements QnaService{
 	public List<Qna> selectAll() {
 		
 		return qnaDAO.selectAll();
+	}
+	
+	@Override
+	public List<Qna> selectOrderBy() throws QnASelectException {
+		return qnaDAO.selectAllOrderBy();
 	}
 
 	@Override
@@ -34,6 +41,11 @@ public class QnaServiceImpl implements QnaService{
 		qnaDAO.update(qna);
 		
 	}
+	
+	@Override
+	public void updateFromAdmin(Qna qna) throws QnAAdminUpdateException {
+		qnaDAO.updateFromAdmin(qna);
+	}
 
 	@Override
 	public void delete(int qna_id) {
@@ -43,6 +55,11 @@ public class QnaServiceImpl implements QnaService{
 	@Override
 	public int count(int product_id) {
 		return qnaDAO.qnaCount(product_id);
+	}
+
+	@Override
+	public List<Qna> selectByProductId(int product_id) {
+		return qnaDAO.selectByProductId(product_id);
 	}
 	
 }

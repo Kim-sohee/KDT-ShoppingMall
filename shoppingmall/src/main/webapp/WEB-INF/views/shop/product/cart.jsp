@@ -137,7 +137,7 @@
 						<div class="summary-divider"></div>
 						<div class="summary-total">
 							<span>총 결제 금액</span>
-							<span class="total-amount"><%= String.format("%,d원", totalPrice - discount) %></span>
+							<span class="total-amount"><%= (totalPrice-discount<0) ? "0원" : String.format("%,d원", totalPrice - discount) %></span>
 						</div>
 						<div class="summary-savings">
 							<span>총 절약 금액</span>
@@ -191,7 +191,7 @@
 		    })
 		    .then(res => {
 		      if (res.ok) {
-		        location.reload(); // 또는 가격만 업데이트
+		        location.reload();
 		      } else {
 		        alert('수량 변경 실패');
 		      }

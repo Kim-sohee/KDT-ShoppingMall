@@ -38,7 +38,7 @@
 		<result property="rating"		column="rating" />
 
 		<!-- Product 주입 -->
-		<association property="product" javaType="Product" column="product_id" select="Product.select" />
+		<association property="product" javaType="Product" column="product_id" select="Product.selectOnlyProduct" />
 	</resultMap>
 	
 	<!-- Member(부모)에 의한 호출 리스트 -->

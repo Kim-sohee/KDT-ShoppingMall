@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Member">
+	<resultMap type="Member" id="withDeleveryMap">
+		<id property="member_id" column="member_id"/>
+		<result property="member_name" column="member_name"/> 
+		<result property="id" column="id"/> 
+		<result property="password" column="password"/> 
+		<result property="salt" column="salt"/> 
+		<result property="email" column="email"/> 
+		<result property="sns_provider" column="sns_provider"/> 
+		<result property="phone" column="phone"/> 
+		<result property="joined_at" column="joined_at"/> 
+		<result property="point_remained" column="point_remained"/> 
+		<result property="default_address" column="default_address"/> 
+		<collection property="deliveryList" column="member_id" javaType="java.util.List" ofType="Delivery" select="Delivery.selectByMemberId"/>
+	</resultMap>
+
 	<sql id="columns">
 		member_id, member_name, id, password, salt, email, sns_provider, phone,
 		joined_at, point_remained, default_address
@@ -32,13 +47,25 @@
 		
 	<!-- 회원 전체 조회 -->
 	<select id="selectAll" resultType="Member">
-		SELECT <include refid="columns"/> FROM member
+		SELECT <include refid="columns"/> FROM member ORDER BY joined_at DESC
 	</select>
 
 	<!-- 회원PK를 통한 회원 조회 -->
 	<select id="select" parameterType="int" resultType="Member">
 		SELECT <include refid="columns"/> FROM member 
 		WHERE member_id = #{member_id}
+	</select>
+
+	<select id="selectWithDelivery" parameterType="int" resultMap="withDeleveryMap">
+		SELECT
+		<include refid="columns" />
+		FROM member WHERE member_id = #{member_id}
+	</select>
+	
+	<select id="selectOnlyMember" parameterType="int" resultType="Member">
+		SELECT
+		<include refid="columns" />
+		FROM member WHERE member_id = #{member_id}
 	</select>
 	
 	<!-- 회원PK를 통한 회원맵 조회 -->
