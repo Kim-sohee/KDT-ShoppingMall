@@ -19,4 +19,5 @@ public interface QnaDAO {
 	public List<Qna> selectByProductId(int product_id);
 	public int totalRecord();
 	public List<Qna> selectByMemberId(int member_id);
+	public int selectByNotCommentedCount();
 }

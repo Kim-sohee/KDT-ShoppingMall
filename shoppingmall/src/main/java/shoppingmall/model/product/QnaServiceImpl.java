@@ -77,4 +77,8 @@ public class QnaServiceImpl implements QnaService{
 		return qnaDAO.totalRecord();
 	}
 	
+	@Override
+	public int selectByNotCommentedCount() {
+		return qnaDAO.selectByNotCommentedCount();
+	}
 }

@@ -111,5 +111,9 @@
 			</if>
 		</where>
 	</select>
+	
+	<select id="newOrderCount" resultType="int">
+		SELECT COUNT(order_summary_id) FROM order_summary WHERE status_id=1
+	</select>
 
 </mapper>

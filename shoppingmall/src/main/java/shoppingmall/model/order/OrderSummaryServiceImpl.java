@@ -104,4 +104,9 @@ public class OrderSummaryServiceImpl implements OrderSummaryService {
 		return orderSummaryDAO.totalRecord(status);
 	}
 	
+	@Override
+	public int newOrderCount() {
+		return orderSummaryDAO.newOrderCount();
+	}
+	
 }

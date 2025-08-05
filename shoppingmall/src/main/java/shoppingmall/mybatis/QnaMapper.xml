@@ -107,4 +107,8 @@
 		where product_id = #{product.product_id}
 	</select>
 
+	<!-- 코멘트가 달리지 않은 QnA 숫자 조회 -->
+	<select id="selectByNotCommentedCount" resultType="int">
+		SELECT COUNT(qna_id) FROM qna WHERE is_commented=0;
+	</select>
 </mapper>

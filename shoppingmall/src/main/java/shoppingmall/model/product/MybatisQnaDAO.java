@@ -117,4 +117,8 @@ public class MybatisQnaDAO implements QnaDAO{
 		return sqlSessionTemplate.selectOne("Qna.totalRecord");
 	}
 	
+	@Override
+	public int selectByNotCommentedCount() {
+		return sqlSessionTemplate.selectOne("Qna.selectByNotCommentedCount");
+	}
 }
