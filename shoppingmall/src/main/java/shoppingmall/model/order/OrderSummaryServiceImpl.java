@@ -109,4 +109,12 @@ public class OrderSummaryServiceImpl implements OrderSummaryService {
 		return orderSummaryDAO.newOrderCount();
 	}
 	
+	@Override
+	public void updateByOrderSummeryId(int orderSummeryId, int statusId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("order_summary_id", orderSummeryId);
+		map.put("status_id", statusId);
+		orderSummaryDAO.updateStatusId(map);
+	}
+	
 }

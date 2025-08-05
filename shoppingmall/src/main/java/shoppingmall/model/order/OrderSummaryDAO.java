@@ -28,5 +28,6 @@ public interface OrderSummaryDAO {
 	public int totalRecord(Status status);
 	public OrderSummary select(int summery_id);
 	public int newOrderCount();
+	public void updateStatusId(Map<String,Object> map);
 	
 }

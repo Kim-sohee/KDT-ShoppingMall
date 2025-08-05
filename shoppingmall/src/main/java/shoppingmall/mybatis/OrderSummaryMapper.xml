@@ -115,5 +115,9 @@
 	<select id="newOrderCount" resultType="int">
 		SELECT COUNT(order_summary_id) FROM order_summary WHERE status_id=1
 	</select>
+	
+	<update id="updateStatusId" parameterType="map">
+		UPDATE order_summary SET status_id=#{status_id} WHERE order_summary_id=#{order_summary_id}
+	</update>
 
 </mapper>
