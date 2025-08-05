@@ -159,21 +159,25 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void edit(Member member, String password, String phone) throws MemberUpdateException {
+	public void edit(Member member, String password, String phone) throws MemberUpdateException, MemberNotFoundException {
 		String hashedPassword = PasswordUtil.hashPassword(password, member.getSalt());
 		
 		if(password.length()<8 || password.length()>16) {
 			throw new MemberUpdateException("회원정보 수정에 실패하였습니다.\n비밀번호는 8~16자로 입력해주세요.");
-		} else if (phone.length() > 0) {
-		    // 정규표현식: 숫자3자리 - 숫자3~4자리 - 숫자4자리
-		    if (!phone.matches("^\\d{3}-\\d{3,4}-\\d{4}$")) {
-		        throw new MemberUpdateException("전화번호 형식이 올바르지 않습니다. 예: 010-1234-5678");
-		    }
-		} else if (member.getPassword().equals(hashedPassword) && member.getPhone().equals(phone)) {
+		} 
+		if (phone.length() > 0 && !phone.matches("^\\d{3,4}-\\d{3,4}-\\d{4}$")) { // 정규표현식: 숫자3자리 - 숫자3~4자리 - 숫자4자리
+	        throw new MemberUpdateException("전화번호 형식이 올바르지 않습니다. 예: 010-1234-5678");
+	    }
+		if (member.getPassword().equals(hashedPassword) && member.getPhone().equals(phone)) {
 			throw new MemberNotFoundException("변경된 내역이 없습니다.");
-		} else {
-			memberDAO.update(member);			
-		}
+		} 
+		
+		//변경 사항 반영
+	    member.setPassword(hashedPassword);
+	    member.setPhone(phone);
+
+	    //DB에 업데이트
+	    memberDAO.update(member);
 	}
 	
 	@Override
