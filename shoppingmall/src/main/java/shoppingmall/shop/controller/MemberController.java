@@ -88,7 +88,7 @@ public class MemberController {
 	//회원가입 요청 처리
 	@PostMapping("/member/join")
 	@ResponseBody
-	public Map<String, Object> regist(@RequestParam Map<String, String> paramMap) {
+	public Map<String, Object> regist(@RequestParam Map<String, String> paramMap, HttpSession session) {
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
@@ -109,6 +109,10 @@ public class MemberController {
 			
 			memberService.regist(member);
 			mailService.sendJoinMail(member);
+			
+			member.setPassword(null); //session에 넘기기 전 비밀번호 초기화
+			session.setAttribute("member", member);
+			
 			response.put("success", true);
 			
 		} catch (Exception e) {

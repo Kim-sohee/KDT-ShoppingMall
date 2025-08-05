@@ -196,9 +196,12 @@
 	}
 	
 	$(()=>{
+		$("#form1").on("submit", function(e){
+		    e.preventDefault(); // 기본 전송 방지
+		});
+		
 		//회원가입 데이터 전송
 		$("#bt_regist").click(function(e){
-			e.preventDefault();
 			regist();
 		});
 		

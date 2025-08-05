@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<% Member member = (Member)session.getAttribute("member"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,7 +58,7 @@
                     <h2>회원가입 완료!</h2>
                     <img src="/img/Welcome.png" alt="회원가입을 환영합니다.">
                     <div class="info">
-                        <p>홍길동 님의 회원가입이 성공적으로 완료되었습니다.</p>
+                        <p><%=member.getMember_name() %> 님의 회원가입이 성공적으로 완료되었습니다.</p>
                         <p>회원가입 내역 확인 및 수정은 마이페이지 > 회원정보 수정에서 가능합니다.</p>
                     </div>
                 </div>
