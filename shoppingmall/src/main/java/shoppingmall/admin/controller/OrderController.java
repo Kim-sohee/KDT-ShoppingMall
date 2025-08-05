@@ -90,17 +90,18 @@ public class OrderController {
 	
 	@GetMapping("/order/history/list")
 	@ResponseBody
-	public ResponseEntity<String> getOrderList(
-			@RequestParam(name = "member_id", required = false) String memberId 
+	public ResponseEntity<String> getOrderListByMemberId(
+			@RequestParam(name = "member_id", required = true) String memberId 
 	){
-		if(memberId != null) {
-			Member member = new Member();
-			member.setMember_id(Integer.parseInt(memberId));
-			//TODO("멤버 기준으로 주문 내역 불러오기")			
-		} else {
-			//TODO("전체 주문내역 불러오기")
+		Member member = new Member();
+		member.setMember_id(Integer.parseInt(memberId));
+		List<OrderSummary> orderSummaries = orderSummaryService.selectByMember(member);
+		try {
+			String json = objectMapper.writeValueAsString(orderSummaries);
+			return ResponseEntity.ok(json);
+		} catch (JsonProcessingException e) {
+			return null;
 		}
-		return null;
 	}
 	
 	@GetMapping("/order/detail")

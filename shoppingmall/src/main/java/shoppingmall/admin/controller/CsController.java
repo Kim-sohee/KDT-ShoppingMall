@@ -43,6 +43,22 @@ public class CsController {
 		return modelAndView;
 	}
 	
+	@GetMapping("/cs/qna/list")
+	@ResponseBody
+	public ResponseEntity<String> getQnaListByMember(
+			@RequestParam(name = "member_id", required = true) String memberId) {
+		List<Qna> qnas = qnaService.selectByMemberId(Integer.parseInt(memberId));
+		log.debug("가져온 문의 {}", qnas);
+		try {
+			String json = objectMapper.writeValueAsString(qnas);
+			log.debug("변경한 문자 {}", json);
+			return ResponseEntity.ok(json);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return null;
+		}
+	} 
+	
 	@GetMapping("/cs/qna/detail")
 	public ModelAndView getQnaDetailPage (
 			@RequestParam(name = "qna_id", required = true) String qnaId
