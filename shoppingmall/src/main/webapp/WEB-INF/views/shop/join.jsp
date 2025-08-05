@@ -67,29 +67,29 @@
 							<div class="join-fill-data">
 									<div class="fill-content">
 										<div>이름</div>
-										<input type="text" name="member_name" id="member_name" placeholder="이름을 입력하세요">
+										<input type="text" 			name="member_name" 		id="member_name" 		placeholder="이름을 입력하세요">
 									</div>
 									<div class="fill-content">
 										<div>연락처</div>
-										<input type="text" name="phone" id="phone" placeholder="휴대폰 번호를 입력하세요">
+										<input type="text" 			name="phone" 						id="phone" 					placeholder="휴대폰 번호를 입력하세요">
 									</div>
 									<div class="fill-content">
 										<div>아이디</div>
-										<input type="text" name="id" id="id" placeholder="영소문자 혹은 영소문자/숫자 조합 6~16자">
+										<input type="text" 			name="id" 								id="id" 							placeholder="영소문자 혹은 영소문자/숫자 조합 6~16자">
 									</div>
 									<div class="fill-content">
 										<div>비밀번호</div>
-										<input type="password" name="password" id="password" placeholder="영대문자 포함, 영어/숫자/특수문자 조합 8~16자">
+										<input type="password" 	name="password" 				id="password" 				placeholder="영대문자 포함, 영어/숫자/특수문자 조합 8~16자">
 									</div>
 									<div class="fill-content">
 										<div>비밀번호 확인</div>
-										<input type="password" name="password_confirm" id="password_confirm" placeholder="비밀번호 확인을 위해 한번 더 입력해주세요">
+										<input type="password" 	name="password_confirm" 	id="password_confirm"	placeholder="비밀번호 확인을 위해 한번 더 입력해주세요">
 									</div>
 									<div class="fill-content">
 										<div>주소(배송지)</div>
-										<input type="text" name="default_address" id="default_address" placeholder="기본배송지 설정을 위한 주소를 입력해주세요">
+										<input type="text" 			name="default_address" 		id="default_address" 	placeholder="기본배송지 설정을 위한 주소를 입력해주세요">
 									</div>
-									<input type="hidden" name="email" id="email" />
+									<input type="hidden" 			name="email" 						id="email" />
 							</div>
 							
 							<!-- 이메일 입력 시작 -->
@@ -119,7 +119,7 @@
 					<hr style="border: thin 1px #ccc;">
 	
 					<!-- 회원가입 버튼 시작 -->
-					<button id="bt_regist">회원가입 완료</button>
+					<button type="button" id="bt_regist">회원가입 완료</button>
 					<!-- 회원가입 버튼 끝 -->
 				</form>
 				<!-- 회원가입 필수항목 입력 끝 -->
@@ -156,35 +156,31 @@
 			return;
 		}
 		
-		$("#form1").attr({
-			action:"/shop/member/join",
-			method:"post"
-		});
-		$("#form1").submit();
-		
-		/*
 		$.ajax({
-			url:"/shop/member/regist",
+			url:"/shop/member/join",
 			type:"post",
 			data:{
-                member_name: $("#member_name").val(),
-                phone: $("#phone").val(),
-                id: $("#id").val(),
-                password: $("#password").val(),
-                email: $("#email").val()
-                default_address: $("#default_address").val()
+                name: 		$("#member_name").val(),
+                phone: 		$("#phone").val(),
+                id: 				$("#id").val(),
+                password: 	$("#password").val(),
+                email: 		$("#email").val(),
+                address:		$("#default_address").val()
 			},
 			success: function(result, status, xhr) {
-			    console.log(result);
-			    alert("회원가입이 완료되었습니다.");
-			    location.href = '/shop/join';
+				if(result.success){
+			    	alert("회원가입이 완료되었습니다.");
+			    	location.href = "/shop/member/joinCompleteForm";
+				} else {
+					alert(result.message || "회원가입 중 오류가 발생했습니다.");
+					location.href = "/shop/member/join";
+				}
 		  	},
 			  error: function(xhr, status, error) {
 			    console.error("에러 발생: ", error);
-			    alert("회원가입 중 오류가 발생했습니다.");
+			    alert("서버 오류가 발생했습니다." + (xhr.responseJSON?.message || error));
 			}
 		});
-		*/
 	}
 
 	// 도메인 선택 시 도메인 input 자동 채우기 / 수정 가능 여부 제어 함수
@@ -201,7 +197,8 @@
 	
 	$(()=>{
 		//회원가입 데이터 전송
-		$("#bt_regist").click(()=>{
+		$("#bt_regist").click(function(e){
+			e.preventDefault();
 			regist();
 		});
 		

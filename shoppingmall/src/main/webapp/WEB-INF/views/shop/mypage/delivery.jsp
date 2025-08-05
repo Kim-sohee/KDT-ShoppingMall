@@ -84,32 +84,35 @@
 							<div class="delivery-item-list">
 								<%for (Delivery deliveryAddress : deliveryList) { %>
 								<div class="delivery-item">
-									<div class="delivery-item-header">
-										<span><%=deliveryAddress.getAddress_alias()%></span>
-										<button class="btn-select">선택</button>
-									</div>
-									<div class="delivery-card">
-										<div class="delivery-item-main">
-											<div class="delivery-item-option">
-												<span class="option-label">연락처</span> <span
-													class="option-value"><%=deliveryAddress.getReceiver_phone()%></span>
-											</div>
-											<div class="delivery-item-option">
-												<span class="option-label">배송지 주소</span> <span
-													class="option-value"><%=deliveryAddress.getAddress()%></span>
-											</div>
-											<div class="delivery-item-option">
-												<span class="option-label">배송 메모</span> <select
-													name="deliveryMemo" class="delivery-memo-select">
-													<option value="">배송 메모를 선택해주세요</option>
-													<option value="문 앞에 놓아주세요">문 앞에 놓아주세요</option>
-													<option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option>
-													<option value="전화 주세요">전화 주세요</option>
-													<option value="부재 시 택배함에">부재 시 택배함에 넣어주세요</option>
-												</select>
+									<form method="post" action="/shop/mypage/set-default-address">
+										<div class="delivery-item-header">
+											<span><%=deliveryAddress.getAddress_alias()%></span>
+											<input type="hidden" name="delivery_id" value="<%=deliveryAddress.getDelivery_id()%>">
+											<button type="submit" class="btn-select">선택</button>
+										</div>
+										<div class="delivery-card">
+											<div class="delivery-item-main">
+												<div class="delivery-item-option">
+													<span class="option-label">연락처</span>
+													<span class="option-value"><%=deliveryAddress.getReceiver_phone()%></span>
+												</div>
+												<div class="delivery-item-option">
+													<span class="option-label">배송지 주소</span>
+													<span class="option-value"><%=deliveryAddress.getAddress()%></span>
+												</div>
+												<div class="delivery-item-option">
+													<span class="option-label">배송 메모</span>
+													<select name="deliveryMemo" class="delivery-memo-select">
+														<option value="">배송 메모를 선택해주세요</option>
+														<option value="문 앞에 놓아주세요">문 앞에 놓아주세요</option>
+														<option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option>
+														<option value="전화 주세요">전화 주세요</option>
+														<option value="부재 시 택배함에">부재 시 택배함에 넣어주세요</option>
+													</select>
+												</div>
 											</div>
 										</div>
-									</div>
+									</form>
 								</div>
 								<%} %>
 							</div>

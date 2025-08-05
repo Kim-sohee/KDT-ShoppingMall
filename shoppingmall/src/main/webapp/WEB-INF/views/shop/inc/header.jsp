@@ -28,10 +28,10 @@ body{
 
 /* 쇼핑몰 상호 박스 위치 조정 */
 #shoppingMallName_box {
-	width: 180px;
-	height: 90px;
 	display: flex;
 	align-items: center;
+	justify-content: center;
+	height: 130px;  /* 로고 이미지 높이와 맞춤 */
 }
 
 /* 쇼핑몰 상호 */
@@ -39,6 +39,10 @@ body{
 	font-size: 45px;
 	font-weight: bold;
 	color: red;
+}
+
+#shoppingMallName a {
+	display: block;
 }
 
 /* 검색창 */

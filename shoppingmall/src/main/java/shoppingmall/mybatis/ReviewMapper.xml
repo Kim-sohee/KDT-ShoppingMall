@@ -65,4 +65,9 @@
 		WHERE product_id = #{product_id}
 		GROUP BY rating
 	</select>
+	
+	<!-- member_id FK참조 끊기 -->
+	<update id="setReviewMemberIdNull" parameterType="int">
+		UPDATE review SET member_id = -1 WHERE member_id=#{member_id}
+	</update>
 </mapper>

@@ -17,10 +17,10 @@ public class MybatisStatusDAO implements StatusDAO {
 	
 	@Override
 	public List<Status> selectAll() throws StatusNotFoundException {
-		List<Status> statusList = sqlSessionTemplate.selectList("Status.selectAll");
-		if(statusList == null) {
+		try {
+			return sqlSessionTemplate.selectList("Status.selectAll");
+		} catch (Exception e) {
 			throw new StatusNotFoundException("주문 상태를 확인할 수 없습니다.");
 		}
-		return statusList;
 	}
 }

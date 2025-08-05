@@ -68,6 +68,12 @@
 		FROM member WHERE member_id = #{member_id}
 	</select>
 	
+	<!-- 회원PK를 통한 회원맵 조회 -->
+	<select id="selectByMemberId" parameterType="int" resultMap="MemberReviewAndQnaJoin">
+		SELECT <include refid="columns"/> FROM member 
+		WHERE member_id = #{member_id}
+	</select>
+	
 	<!-- ID를 통한 회원 조회 -->
 	<select id="selectById" parameterType="String" resultMap="MemberReviewAndQnaJoin">
 		SELECT <include refid="columns"/> FROM member 

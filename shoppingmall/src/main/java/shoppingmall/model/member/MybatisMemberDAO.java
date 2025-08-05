@@ -28,14 +28,16 @@ public class MybatisMemberDAO implements MemberDAO {
 		Map<String, Object> paramMap = new HashMap<>();
 		log.debug("DAO로 넘어온 시작일자는 "+startDate);
 		log.debug("DAO로 넘어온 종료일자는 "+endDate);
+		
 		paramMap.put("member_id", member_id);
 		paramMap.put("startDate", startDate);
 		paramMap.put("endDate", endDate);
-		Member member = sqlSessionTemplate.selectOne("Member.selectReveiwAndQna", paramMap);
-		if(member == null) {
+		
+		try {
+			return sqlSessionTemplate.selectOne("Member.selectReveiwAndQna", paramMap);
+		} catch (Exception e) {
 			throw new MemberNotFoundException("해당 회원 정보를 불러올 수 없습니다.");
 		}
-		return member;
 	}
 	
 	@Override
@@ -60,44 +62,58 @@ public class MybatisMemberDAO implements MemberDAO {
 	
 	@Override
 	public Member selectById(String id) throws MemberNotFoundException {
-		Member member = sqlSessionTemplate.selectOne("Member.selectById", id);
-		log.debug("id로 조회한 회원은 " + member);
-		
-		if (member == null) {
+		log.debug("id로 조회한 회원은 " + sqlSessionTemplate.selectOne("Member.selectById", id));
+		try {
+			return sqlSessionTemplate.selectOne("Member.selectById", id);
+		} catch (Exception e) {
 			throw new MemberNotFoundException("입력하신 정보와 일치하는 회원이 없습니다.");
 		}
-		return member;
 	}
 
 	@Override
 	public void insert(Member member) throws MemberRegistException {
-		int result = sqlSessionTemplate.insert("Member.insert", member);
-		
-		if (result < 1) {
+		try {
+			sqlSessionTemplate.insert("Member.insert", member);
+		} catch (Exception e) {
 			throw new MemberRegistException("회원 등록에 실패하였습니다.");
 		}
 	}
 	
 	@Override
-	public Member selectByEmail(String email) {
-		Member member = sqlSessionTemplate.selectOne("Member.selectByEmail", email);
-		return member;
+	public Member selectByMemberId(int member_id) throws MemberNotFoundException {
+		try {
+			return sqlSessionTemplate.selectOne("Member.selectByMemberId", member_id);
+		} catch (Exception e) {
+			throw new MemberNotFoundException("회원 조회에 실패하였습니다.");
+		}
+	}
+	
+	@Override
+	public Member selectByEmail(String email) throws MemberNotFoundException {
+		try {
+			return sqlSessionTemplate.selectOne("Member.selectByEmail", email);
+		} catch (Exception e) {
+			throw new MemberNotFoundException("입력하신 정보와 일치하는 회원이 없습니다.");
+		}
+		
 	}
 
 	@Override
 	public Member login(Member member) throws MemberNotFoundException {
-		Member loginMember = sqlSessionTemplate.selectOne("Member.login", member);
-		
-		if (loginMember == null) {
+		try {
+			return sqlSessionTemplate.selectOne("Member.login", member);
+		} catch (Exception e) {
 			throw new MemberNotFoundException("입력하신 정보와 일치하는 회원이 없습니다.");
 		}
-		return loginMember;
 	}
 
 	@Override
 	public Member snsLogin(Member member) {
-		Member loginMember = sqlSessionTemplate.selectOne("Member.snsLogin", member);
-		return loginMember;
+		try {
+			return sqlSessionTemplate.selectOne("Member.snsLogin", member);
+		} catch (Exception e) {
+			throw new MemberNotFoundException("입력하신 정보와 일치하는 회원이 없습니다.");
+		}
 	}
 
 	@Override
@@ -105,27 +121,28 @@ public class MybatisMemberDAO implements MemberDAO {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("member_name", name);
 		paramMap.put("phone", phone);
-		Member member = sqlSessionTemplate.selectOne("Member.selectByNameAndPhone", paramMap);
 		
-		if (member == null) {
+		try {
+			return sqlSessionTemplate.selectOne("Member.selectByNameAndPhone", paramMap);
+		} catch (Exception e) {
 			throw new MemberNotFoundException("입력하신 정보와 일치하는 회원이 없습니다.");
 		}
-		return member;
 	}
 
 	@Override
 	public void update(Member member) throws MemberUpdateException {
-		int result = sqlSessionTemplate.update("Member.update", member);
-		
-		if (result < 1) {
+		try {
+			sqlSessionTemplate.update("Member.update", member);
+		} catch (Exception e) {
 			throw new MemberUpdateException("회원 정보 수정에 실패하였습니다.");
 		}
 	}
 	
 	@Override
 	public void delete(int member_id) throws MemberDeleteException {
-		int result = sqlSessionTemplate.delete("Member.delete", member_id);
-		if (result < 1) {
+		try {
+			sqlSessionTemplate.delete("Member.delete", member_id);
+		} catch (Exception e) {
 			throw new MemberDeleteException("회원 삭제에 실패하였습니다.");
 		}
 	}

@@ -99,7 +99,7 @@
 							<div class="product-item">
 								<div class="item-main-header">
 									<span> <%= orderSummary.getOrdered_at() %> <%= orderSummary.getStatus().getStatus_name() %> </span> 
-									<span><a href="/shop/product/detail">상품 보러가기></a></span>
+									<span><a href="/shop/product/detail?product_id=<%=product.getProduct_snapshot_id()%>">상품 보러가기></a></span>
 								</div>
 								
 								<div class="product-card">
@@ -111,7 +111,7 @@
 										
 										<div class="item-info">
 											<h3>
-												<a href="/shop/product/detail"><%=product.getProduct_name() %></a>
+												상품명: <a href="/shop/product/detail"><%=product.getProduct_name() %></a>
 											</h3>
 											<div class="item-brand">
 												<span class="option-label">카테고리:</span> 
@@ -128,30 +128,48 @@
 											</div>
 											<div class="item-specs">
 												<span class="option-label">수량:</span> <span
-													class="option-value"><%=product.getProduct_quantity()%>개</span>
+													class="option-value"><%=orderDetail.getQuantity_real()%>개</span>
 											</div>
 											<div class="item-options" style="display:none;">
-												<span class="option-label">옵션:</span> <span
-													class="option-value">기본판</span>
+												<span class="option-label">옵션:</span> 
+												<span class="option-value">기본판</span>
 											</div>
 										</div>
+										<%int discountedPrice = (int)(product.getPrice() * (1 - (product.getDiscount_rate() / 100.0)));%>
+										<%int orderPrice = discountedPrice * orderDetail.getQuantity_real(); %>
 										<div class="item-price">
-											<div class="price-original">
-												<span class="discount-rate"> <%	if(product.getDiscount_rate() > 0 ) {%> <%=product.getDiscount_rate() %> % <%	} else{ %> - <%	} %> </span> 
-												<span class="original-price"><%=PriceFormat.productPriceFormat(product.getPrice()) %>원</span>
-											</div>
 											<div class="price-sale">
-												<%int discountedPrice = (int)(product.getPrice() * (1 - (product.getDiscount_rate() / 100.0)));%>
-												<%= PriceFormat.productPriceFormat(discountedPrice) %>원
+												<span class="option-label" style="color: black">단가</span> 
+												<span class="option-value" style="font-size: 16px;"><%= PriceFormat.productPriceFormat(discountedPrice) %>원</span>
+											</div>
+											<div class="price-original">
+												<span class="discount-rate"> 
+												<% if(product.getDiscount_rate() > 0 ) { %>
+												<%=product.getDiscount_rate() %>% 
+												<% } else{%>
+													0%
+												<% } %> 
+												</span> 
+												<span class="original-price">  <%=PriceFormat.productPriceFormat(product.getPrice()) %>원</span>
+											</div>
+											<br>
+											<div class="price-sale">
+												<span class="option-label" style="color: black">결제금액</span> 
+												<span class="option-value" style="font-size: 16px;"><%= PriceFormat.productPriceFormat(orderPrice) %>원</span>
 											</div>
 										</div>
+										
 										
 									</div>
 								</div>
 								
 							</div>
 						<%} %>
-							
+						
+						<button class="btn-detail" onclick="location.href='/shop/mypage/list?page=order'">
+							주문 요약 목록으로 돌아가기
+						</button>
+			
 						</div>
 					</div>
 					<!-- 상품 항목 card 영역 끝 -->
