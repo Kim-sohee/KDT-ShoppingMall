@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.extern.slf4j.Slf4j;
 import shoppingmall.domain.Member;
 import shoppingmall.domain.OrderSummary;
@@ -25,12 +28,14 @@ public class OrderController {
 	private OrderSummaryService orderSummaryService;
 	@Autowired
 	private Paging paging;
+	@Autowired
+	private ObjectMapper objectMapper;
 	
 	
 	@GetMapping("/order/history/listpage")
 	public ModelAndView getOrderListPage(
 			@RequestParam(name = "pagenum", required = false, defaultValue = "1") String pagenum,
-			@RequestParam(name = "status_id", required = false) String statusId) {
+			@RequestParam(name = "status_id", required = false, defaultValue = "1") String statusId) {
 		Status status = new Status();
 		if (statusId != null) {
 			status.setStatus_id(Integer.parseInt(statusId));
@@ -50,7 +55,7 @@ public class OrderController {
 	@GetMapping("/order/inquiry/listpage")
 	public ModelAndView getInquiryListPage(
 			@RequestParam(name = "pagenum", required = false, defaultValue = "1") String pagenum,
-			@RequestParam(name = "status_id", required = false) String statusId) {
+			@RequestParam(name = "status_id", required = false, defaultValue = "7") String statusId) {
 		Status status = new Status();
 		if (statusId != null) {
 			status.setStatus_id(Integer.parseInt(statusId));
@@ -70,7 +75,7 @@ public class OrderController {
 	@GetMapping("/order/return/listpage")
 	public ModelAndView getReturnListPage(
 			@RequestParam(name = "pagenum", required = false, defaultValue = "1") String pagenum,
-			@RequestParam(name = "status_id", required = false) String statusId) {
+			@RequestParam(name = "status_id", required = false, defaultValue = "6") String statusId) {
 		Status status = new Status();
 		if (statusId != null) {
 			status.setStatus_id(Integer.parseInt(statusId));
@@ -84,6 +89,15 @@ public class OrderController {
 		ModelAndView modelAndView = new ModelAndView("/management/order/return");
 		modelAndView.addObject("orderSummaries", orderSummaries);
 		modelAndView.addObject("paging", paging);
+		return modelAndView;
+	}
+	
+	@GetMapping("/order/{type:history|inquiry|return}/detail")
+	public ModelAndView getOrderDetailPage(
+			@RequestParam(name = "order_summery_id", required = true) String orderSummeryId) {
+		OrderSummary orderSummary = orderSummaryService.select(Integer.parseInt(orderSummeryId));
+		ModelAndView modelAndView = new ModelAndView("/management/order/detail");
+		modelAndView.addObject("orderSummary", orderSummary);
 		return modelAndView;
 	}
 	

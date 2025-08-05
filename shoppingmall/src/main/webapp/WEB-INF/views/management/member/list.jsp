@@ -9,7 +9,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>상품 관리</title>
+<title>SinseBoardGame | 회원관리</title>
 <%@ include file="../inc/head_link.jsp"%>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -29,13 +29,14 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0">상품 등록</h1>
+							<h1 class="m-0">회원목록</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
-								<li class="breadcrumb-item active">상품관리>상품등록</li>
+								<li class="breadcrumb-item">회원관리</li>
+								<li class="breadcrumb-item active">회원목록</li>
 							</ol>
 						</div>
 						<!-- /.col -->
