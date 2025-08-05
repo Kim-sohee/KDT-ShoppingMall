@@ -4,6 +4,7 @@ import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.ToString;
 
@@ -19,8 +20,10 @@ public class Product {
 	private String regdate;
 	private int play_time;
 	@ToString.Exclude
+	@JsonManagedReference("product-images")
 	private List<ProductImage> productImages = new ArrayList<>();
 	@ToString.Exclude
+	@JsonManagedReference("product-reviews")
 	private List<Review> reviews;
 	
 	private Theme theme;

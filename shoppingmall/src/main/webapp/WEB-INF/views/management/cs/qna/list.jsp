@@ -1,7 +1,9 @@
+<%@page import="shoppingmall.util.Paging"%>
 <%@page import="shoppingmall.domain.Qna"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <% List<Qna> qnas = (List<Qna>) request.getAttribute("qnas"); %>
+<% Paging paging = (Paging) request.getAttribute("paging"); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -131,19 +133,36 @@
 									</div>
 									<div class="row justify-content-between">
 										<div class="col-sm-12 col-md-auto">
-											<div class="dataTables_info" id="example2_info" role="status" aria-live="polite">총 57 페이지</div>
+											<div class="dataTables_info" id="example2_info" role="status" aria-live="polite">총 <%= paging.getTotalPage() %> 페이지</div>
 										</div>
 										<div class="col-sm-12 col-md-auto">
 											<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
 												<ul class="pagination">
+													<%
+													if (paging.getFirstPage() - 1 > 0) {
+													%>
+													<li class="paginate_button page-item previous" id="example2_previous"><a href="<%= contextPath %>/admin/cs/qna/listpage?pagenum=<%= paging.getCurPos() - 1 %>" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+													<%
+													} else {
+													%>
 													<li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-													<li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-													<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-													<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-													<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-													<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-													<li class="paginate_button page-item"><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
-													<li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+													<% } %>
+													
+													<% for(int i = paging.getFirstPage(); i <= paging.getLastPage(); i++) { 
+														if(i > paging.getTotalPage()) break;
+													%>
+														<li class="paginate_button page-item <% if(i == paging.getCurrentPage()) { out.print("active"); } %>"><a href="<%= contextPath %>/admin/cs/qna/listpage?pagenum=<%=i%>" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link"><%= i %></a></li>
+													<% } %>
+													<%
+													if (paging.getLastPage() < paging.getTotalPage()) {
+													%>
+													<li class="paginate_button page-item next" id="example2_next"><a href="<%= contextPath %>/admin/cs/qna/listpage?pagenum=<%= paging.getCurPos() + 1 %>" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+													<%
+													} else {
+													%>
+													<li class="paginate_button page-item next disabled" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+													<% } %>
+													
 												</ul>
 											</div>
 										</div>

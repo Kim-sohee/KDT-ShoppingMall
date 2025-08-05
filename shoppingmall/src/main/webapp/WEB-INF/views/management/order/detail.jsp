@@ -1,10 +1,14 @@
+<%@page import="shoppingmall.domain.OrderDetail"%>
+<%@page import="shoppingmall.domain.OrderSummary"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%  OrderSummary orderSummary = (OrderSummary) request.getAttribute("orderSummary"); %>
+<%  int totalPrice = 0; %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AdminLTE 3 | Dashboard</title>
+<title>SinseBoardGame | 주문상세</title>
 <%@ include file="../inc/head_link.jsp"%>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -24,33 +28,35 @@
 							<p class="h2">주문 상품</p>
 						</div>
 						<div class="card-body">
+						<% for(int i = 0; i < orderSummary.getOrderDetailList().size(); i++) { 
+								OrderDetail orderDetail = orderSummary.getOrderDetailList().get(i);
+								totalPrice += (int)((orderDetail.getProductSnapshot().getPrice() - (orderDetail.getProductSnapshot().getPrice() * (orderDetail.getProductSnapshot().getDiscount_rate()/(float)100))) * orderDetail.getQuantity_real());
+						%>
+						
 							<!-- 상품 아이템 시작-->
 							<div class="d-flex">
 								<img src="./상품이미지.png" alt="" />
 								<div class="d-flex flex-column ml-3 justify-content-between">
-									<p class="h3">사보타지</p>
-									<p class="font-weight-bold text-lg" style="color: brown">40%</p>
+									<p class="h3"><%= orderDetail.getProductSnapshot().getProduct_name() %></p>
+									<p class="font-weight-bold text-lg" style="color: brown"><%= orderDetail.getProductSnapshot().getDiscount_rate() %>%</p>
 									<p class="font-weight-bold">
-										수량 : <span>2</span>개
+										수량 : <span><%= orderDetail.getQuantity_real() %></span>개
 									</p>
-									<p style="color: lightslategray">2025-06-10 12:12 주문</p>
+									<p style="color: lightslategray"><%= orderSummary.getOrdered_at() %> 주문</p>
+									<% if(orderDetail.getProductSnapshot().getDiscount_rate() > 0) { %>
+										<p class="h5"style="color: lightslategray"><del><%= orderDetail.getProductSnapshot().getPrice() %>원</del></p>
+									<% } %>
+									<p class="h4"><%= (int)((orderDetail.getProductSnapshot().getPrice() - (orderDetail.getProductSnapshot().getPrice() * (orderDetail.getProductSnapshot().getDiscount_rate()/(float)100)))) %>원</p>
 								</div>
 							</div>
 							<!-- 상품 아이템 끝 -->
 							<hr />
-							<!-- 상품 아이템 시작-->
-							<div class="d-flex">
-								<img src="./상품이미지.png" alt="" />
-								<div class="d-flex flex-column ml-3 justify-content-between">
-									<p class="h3">사보타지</p>
-									<p class="font-weight-bold text-lg" style="color: brown">40%</p>
-									<p class="font-weight-bold">
-										수량 : <span>2</span>개
-									</p>
-									<p style="color: lightslategray">2025-06-10 12:12 주문</p>
-								</div>
+							<% } %>
+							<div>
+							<p>포인트 사용 : <span class="h4 font-weight-bold"><%= orderSummary.getPoint_used() %>p</span></p>
 							</div>
-							<!-- 상품 아이템 끝 -->
+							<hr />
+							<div class = "h3">결제 금액 : <%=totalPrice - orderSummary.getPoint_used() %>원</div>
 						</div>
 					</div>
 				</div>
@@ -64,15 +70,15 @@
 						<div class="d-flex flex-column">
 							<div class="d-flex flex-column">
 								<p class="h4">수령자</p>
-								<input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="홍길동" readonly />
+								<input type="text" class="form-control" id="exampleInputEmail1" value="<%= orderSummary.getDelivery().getReceiver_name() %>" readonly />
 							</div>
 							<div class="d-flex flex-column">
 								<p class="h4 mt-3">연락처</p>
-								<input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="010-1234-1234" readonly />
+								<input type="text" class="form-control" id="exampleInputEmail1" value="<%= orderSummary.getDelivery().getReceiver_phone() %>" readonly />
 							</div>
 							<div class="d-flex flex-column">
 								<p class="h4 mt-3">배송지</p>
-								<input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="서울시 강남구 블라블라동" readonly />
+								<input type="text" class="form-control" id="exampleInputEmail1" value="<%= orderSummary.getDelivery().getAddress()%>" readonly />
 							</div>
 						</div>
 					</div>

@@ -2,6 +2,7 @@ package shoppingmall.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 @Data
@@ -17,5 +18,6 @@ public class OrderSummary {
 	private Status status;
 	private Delivery delivery;
 	
+	@JsonManagedReference("order-details")
 	private List<OrderDetail> orderDetailList; //자식을 컬렉션 객체인 리스트로 보유한다.
 }
