@@ -15,6 +15,7 @@ import shoppingmall.domain.OrderSummary;
 import shoppingmall.domain.Status;
 import shoppingmall.exception.OrderSummaryDeleteException;
 import shoppingmall.exception.OrderSummaryNotFoundException;
+import shoppingmall.exception.OrderSummaryRegistException;
 import shoppingmall.exception.OrderSummaryTotalRecoredException;
 
 @Repository
@@ -35,42 +36,53 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
 	
 	@Override
 	public List<OrderSummary> selectByMember(Member member) {
-		List<OrderSummary> orderSummaryList = sqlSessionTemplate.selectList("OrderSummary.selectByMember", member);
-		if(orderSummaryList == null) {
+		try {
+			return sqlSessionTemplate.selectList("OrderSummary.selectByMember", member);
+		} catch (Exception e) {
 			throw new OrderSummaryNotFoundException("주문 요약 조회에 실패하였습니다.");
 		}
-		
-		return orderSummaryList;
 	}
 	
+	@Override
+	public List<OrderSummary> selectForPoints(Member member, Timestamp startDate, Timestamp endDate) throws OrderSummaryNotFoundException {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("startDate", startDate);
+		paramMap.put("endDate", endDate);
+	    paramMap.put("member_id", member.getMember_id());
+	    
+		try {
+			return sqlSessionTemplate.selectList("OrderSummary.selectForPoints", paramMap);
+		} catch (Exception e) {
+			throw new OrderSummaryNotFoundException("주문 요약 조회에 실패하였습니다.");
+		}
+	}
 	
 	@Override
-	public List<OrderSummary> selectOrderByMember(Member member, Timestamp startDate, Timestamp endDate) {
+	public List<OrderSummary> selectOrderByMember(Member member, Timestamp startDate, Timestamp endDate) throws OrderSummaryNotFoundException {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("startDate", startDate);
 		paramMap.put("endDate", endDate);
 	    paramMap.put("member_id", member.getMember_id());
 		
-		List<OrderSummary> orderSummaryList = sqlSessionTemplate.selectList("OrderSummary.selectOrders", paramMap);
-		if(orderSummaryList == null) {
+		try {
+			return sqlSessionTemplate.selectList("OrderSummary.selectOrders", paramMap);
+		} catch (Exception e) {
 			throw new OrderSummaryNotFoundException("주문 요약 조회에 실패하였습니다.");
 		}
-		
-		return orderSummaryList;
 	}
 	
 	@Override
-	public List<OrderSummary> selectReturnByMember(Member member, Timestamp startDate, Timestamp endDate) {
+	public List<OrderSummary> selectReturnByMember(Member member, Timestamp startDate, Timestamp endDate) throws OrderSummaryNotFoundException {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("startDate", startDate);
 		paramMap.put("endDate", endDate);
 	    paramMap.put("member_id", member.getMember_id());
-		List<OrderSummary> orderSummaryList = sqlSessionTemplate.selectList("OrderSummary.selectProblematic", paramMap);
-		if(orderSummaryList == null) {
+		
+		try {
+			return sqlSessionTemplate.selectList("OrderSummary.selectProblematic", paramMap);
+		} catch (Exception e) {
 			throw new OrderSummaryNotFoundException("주문 요약 조회에 실패하였습니다.");
 		}
-		
-		return orderSummaryList;
 	}
 	
 	@Override
@@ -80,13 +92,11 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
 	    paramMap.put("member_id", member.getMember_id());
 	    paramMap.put("statusList", statusList);
 	    
-		OrderSummary orderSummary = sqlSessionTemplate.selectOne("OrderSummary.selectByStatusList", paramMap);
-		
-		if(orderSummary == null) {
+		try {
+			return sqlSessionTemplate.selectOne("OrderSummary.selectByStatusList", paramMap);
+		} catch (Exception e) {
 			throw new OrderSummaryNotFoundException("주문 요약 조회에 실패하였습니다.");
 		}
-		
-		return orderSummary;
 	}
 	
 	@Override
@@ -132,8 +142,12 @@ public class MybatisOrderSummaryDAO implements OrderSummaryDAO{
 	}
 
 	@Override
-	public void Insert(OrderSummary ordersummary) {
-		sqlSessionTemplate.insert("OrderSummary.insert",ordersummary);
+	public void Insert(OrderSummary ordersummary) throws OrderSummaryRegistException {
+		try {
+			sqlSessionTemplate.insert("OrderSummary.insert",ordersummary);
+		} catch (Exception e) {
+			throw new OrderSummaryRegistException("주문 요약 추가에 실패하였습니다.");
+		}
 		
 	}
 	

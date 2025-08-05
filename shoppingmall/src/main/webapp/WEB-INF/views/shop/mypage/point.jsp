@@ -61,7 +61,8 @@
 								<thead>
 									<tr>
 										<th>No</th>
-										<th>사용/적립 내역</th>
+										<th>사용/적립 일자</th>
+										<th>총 결제금액</th>
 										<th>사용/적립 포인트</th>
 										<th>남은 포인트</th>
 									</tr>
@@ -75,15 +76,16 @@
 									<tr>
 										<td><span><%=num-- %></span></td>
 										<td><span><%=orderSummary.getOrdered_at() %></span></td>
+										<td><span><%=PriceFormat.productPriceFormat(orderSummary.getFinal_price()) %></span></td>
 										<%int changedPrice = ((int)(orderSummary.getFinal_price()) / 100 - orderSummary.getPoint_used());%>
 										<%if (changedPrice > 0) { %>
-										<td><span>+<%=changedPrice %>p </span></td>
+										<td><span><%=changedPrice %>p 적립</span></td>
 										<%}else if (changedPrice < 0) { %>
-										<td><span>-<%=Math.abs(changedPrice) %>p </span></td>
+										<td><span><%=Math.abs(changedPrice) %>p 차감</span></td>
 										<%} else{%>
 										<td><span>-</span></td>
 										<%} %>
-										<td><span><%=member.getPoint_remained() %>p </span></td>
+										<td><span><%=loginMember.getPoint_remained() %>p </span></td>
 									</tr>
 									<%} %>
 									

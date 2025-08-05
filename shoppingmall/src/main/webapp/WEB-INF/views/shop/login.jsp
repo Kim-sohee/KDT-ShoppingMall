@@ -8,6 +8,7 @@
     <style>
         body {
             margin: 0;
+            width:100%;
             font-family: '맑은 고딕', sans-serif;
             background-color: #fff;
         }
@@ -137,11 +138,21 @@
 	}
 	
 	function homeLogin(){
-		$("#login-form").attr({
-			action:"/shop/member/login",
-			method:"post"
+		$.ajax({
+			url:"/shop/member/login",
+			type:"post",
+			data: $("#login-form").serialize(),
+			success:function(result, status, xhr){
+				if (result.success) {
+	                location.href = "/shop/main";
+	            } else {
+	                alert(result.message || "로그인에 실패했습니다.");
+	            }
+			},
+			error:function(xhr, status, error){
+				alert("서버 오류가 발생했습니다: " + (xhr.responseJSON?.message || error));
+			}
 		});
-		$("#login-form").submit();
 	}
 	
 	$(()=>{

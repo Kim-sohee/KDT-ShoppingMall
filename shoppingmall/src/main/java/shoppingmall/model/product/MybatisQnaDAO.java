@@ -11,6 +11,7 @@ import shoppingmall.domain.Qna;
 import shoppingmall.exception.QnAAdminUpdateException;
 import shoppingmall.exception.QnASelectException;
 import shoppingmall.exception.QnaNullException;
+import shoppingmall.exception.QnaUpdateException;
 
 @Repository
 public class MybatisQnaDAO implements QnaDAO{
@@ -63,7 +64,6 @@ public class MybatisQnaDAO implements QnaDAO{
 		if (result <1 ) {
 			throw new QnaNullException("QNA 선택 불가");
 		}
-		
 	}
 
 	@Override
@@ -105,6 +105,14 @@ public class MybatisQnaDAO implements QnaDAO{
 	}
 	
 	@Override
+	public void setMemberIdNull(int member_id) throws QnaUpdateException {
+		try {
+			sqlSessionTemplate.update("Qna.setQnaMemberIdNull", member_id);
+		} catch (Exception e) {
+			throw new QnaUpdateException("Qna 수정 실패");
+		}
+	}
+	
 	public int totalRecord() {
 		return sqlSessionTemplate.selectOne("Qna.totalRecord");
 	}

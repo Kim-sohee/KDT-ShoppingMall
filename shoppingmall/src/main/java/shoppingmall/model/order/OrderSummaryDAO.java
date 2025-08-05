@@ -10,6 +10,7 @@ import shoppingmall.domain.Status;
 
 public interface OrderSummaryDAO {
 	public List<OrderSummary> selectByMember(Member member);
+	public List<OrderSummary> selectForPoints(Member member, Timestamp startDate, Timestamp endDate);
 	public List<OrderSummary> selectOrderByMember(Member member, Timestamp startDate, Timestamp endDate);
 	public List<OrderSummary> selectReturnByMember(Member member, Timestamp startDate, Timestamp endDate);
 	public List<OrderSummary> selectByOrder(Map<String,Object> map);

@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -85,6 +84,7 @@ public class MyPageController {
 	    //쇼핑 탭(주문 배송 내역 / 취소·반품, 교환 내역) 조회 & 혜택 탭(포인트) 조회
         if ("order".equals(page) || "return".equals(page) || "point".equals(page)) {
 	        orderSummaryList = orderSummaryService.selectByPageAndMember(page, member, startDate, endDate); //날짜별 조회를 위해 orderSummaryList값 변경 후 다른 변수명으로 addObject
+	        log.debug("orderSummaryList = "+orderSummaryList);
 			log.debug("쇼핑 탭 요청 회원은 "+member);
 			
 	        paging.init(orderSummaryList, request); //페이징 처리

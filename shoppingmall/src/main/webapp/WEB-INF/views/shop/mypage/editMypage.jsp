@@ -58,7 +58,7 @@
 						</div>
 						<form method="post" action="/shop/mypage/check-password">
 							<input type="password" name="password" placeholder="비밀번호 입력">
-							<input type="hidden" name="page" value="cancel" />
+							<input type="hidden" name="page" value="edit-mypage" />
 							<button class="btn-check-pwd">확인</button>
 						</form>
 					</div>
@@ -75,23 +75,25 @@
 						<form method="post" action="/shop/mypage/updateInfo">
 						<div class="edit-content">
 							<div><span>닉네임</span></div>
-							<input type="text" 		name="member_name" 	value=<%=logginedMember.getMember_name() %>	readonly style="background:#eee;">
+							<input type="text" 			name="member_name" 	value=<%=logginedMember.getMember_name() %>	readonly style="background:#eee;">
 						</div>
 						<div class="edit-content">
 							<div><span>아이디</span></div>
-							<input type="text" 		name="id" 			value=<%=logginedMember.getId() %> 			readonly style="background:#eee;"> 
+							<input type="text" 			name="id" 							value=<%=logginedMember.getId() %> 						readonly style="background:#eee;"> 
 						</div>
 						<div class="edit-content">
 							<div><span>비밀번호</span></div>
-							<input type="password" 	name="password" 	value="12345678">
+							<input type="password" 	name="password" 			value="12345678">
+							<label style="align-content: center">* 비밀번호는 8자 이상 16자 이내로 입력해주세요.</label>
 						</div>
 						<div class="edit-content">
 							<div><span>연락처</span></div>
-							<input type="text" 		name="phone" 		value=<%=logginedMember.getPhone() %>>
+							<input type="text" 			name="phone" 					value=<%=logginedMember.getPhone() %>>
+							<label style="align-content: center">* 000-0000-0000 형식으로 입력해 주세요.</label>
 						</div>
 						<div class="edit-content">
 							<div><span>이메일</span></div>
-							<input type="text" 		name="email" 		value=<%=logginedMember.getEmail() %> 		readonly style="background:#eee;">
+							<input type="text" 			name="email" 					value=<%=logginedMember.getEmail() %> 					readonly style="background:#eee;">
 						</div>
 						<div class="edit-content">
 							<button>수정</button>
