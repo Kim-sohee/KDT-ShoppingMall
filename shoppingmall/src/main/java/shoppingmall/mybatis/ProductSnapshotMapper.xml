@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProductSnapshot">
+	<resultMap type="ProductSnapshot" id="productMap">
+		<id column="product_snapshot_id" property="product_snapshot_id"/>
+		<result column="product_name" property="product_name"/>
+		<result column="price" property="price"/>
+		<result column="discount_rate" property="discount_rate"/>
+		<result column="product_quantity" property="product_quantity"/>
+		<result column="description" property="description"/>
+		<result column="regdate" property="regdate"/>
+		<result column="play_time" property="play_time"/>
+		
+		<!-- 1:1 관계인 부모 연계 -->
+		<association column="theme_id" property="theme" javaType="Theme" select="Theme.select"/>
+		<association column="player_range_id" property="playerRange" javaType="PlayerRange" select="PlayerRange.select"/>
+		<association column="age_range_id" property="ageRange" javaType="AgeRange" select="AgeRange.select"/>
+		<association column="difficulty_id" property="difficulty" javaType="Difficulty" select="Difficulty.select"/>
+		
+	</resultMap>
+
+	<!-- 모두 가져오기 -->
+	<select id="selectAll" resultMap="productMap">
+		select * from product_snapshot
+	</select>
+	
+	<!-- 한 건 가져오기 -->
+	<select id="select" parameterType="int" resultMap="productMap">
+		select * from product_snapshot where product_snapshot_id=#{product_snapshot_id}
+	</select>
+	
+
+	<!-- 장바구니에 있던 값들 집어넣기 -->
+	<insert id="insert" parameterType="ProductSnapshot"
+        useGeneratedKeys="true" keyProperty="product_snapshot_id">
+	    INSERT INTO product_snapshot (
+	        product_name, price, discount_rate, product_quantity,
+	        description, regdate, play_time, image,
+	        theme_id, player_range_id, age_range_id, difficulty_id
+	    )
+	    VALUES (
+	        #{product_name}, #{price}, #{discount_rate}, #{product_quantity},
+	        #{description}, #{regdate}, #{play_time}, #{image},
+	        #{theme.theme_id}, #{playerRange.player_range_id},
+	        #{ageRange.age_range_id}, #{difficulty.difficulty_id}
+	    )
+	</insert>
+
+	<!-- 한건 이름 가져오기 -->
+	<select id="selectProductNameBySnapshotId" parameterType="int" resultType="String">
+		select product_name from product_snapshot where product_snapshot_id=#{product_snapshot_id}
+	</select>
+
+</mapper>

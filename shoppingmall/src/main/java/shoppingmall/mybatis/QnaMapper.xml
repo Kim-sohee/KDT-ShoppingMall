@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Qna">
+	<sql id="columns">
+		qna_id, title, content, comment_member, comment, is_commented, member_id, product_id
+	</sql>
+	
+	<!-- join을 이용하여 qna 정보 조회 시작 -->
+	<resultMap id="joinMap" type="Qna">
+		<id column="qna_id" property="qna_id"/>
+		<result column="title" 		property="title"/>
+		<result column="content"	property="content"/>
+		<result column="comment_member"	property="comment_member"/>
+		<result column="comment" 		property="comment"/>
+		<result column="is_commented"	property="is_commented"/>
+		<association column="member_id" property="member" javaType="Member" 
+					select="Member.select"/>
+		<association column="product_id" property="product" javaType="Product" 
+					select="Product.select"/>
+	</resultMap>
+	
+	<select id="selectAll" resultMap="joinMap">
+		SELECT <include refid="columns"/> FROM qna
+	</select>
+
+	<select id="selectAllOrderBy" resultMap="joinMap">
+		SELECT
+		<include refid="columns" />
+		FROM qna
+		ORDER BY
+		is_commented ASC,
+		CASE
+		WHEN is_commented = 0 THEN qna_id
+		ELSE -qna_id
+		END ASC;
+	</select>
+	
+	<select id="select" parameterType="int" resultMap="joinMap">
+		SELECT <include refid="columns"/> FROM qna WHERE qna_id = #{qna_id}	
+	</select>
+	<!-- join을 이용하여 qna 정보 조회 끝 -->
+	
+	<!-- Member(부모)에 의한 호출 resultMap -->
+	<resultMap id="QnaMemberJoin" type="Qna">
+		<id 	column="qna_id" 		property="qna_id"/>
+		<result column="title" 			property="title"/>
+		<result column="content"		property="content"/>
+		<result column="comment_member"	property="comment_member"/>
+		<result column="comment" 		property="comment"/>
+		<result column="is_commented"	property="is_commented"/>
+		
+		<association column="product_id" property="product" javaType="Product" select="Product.selectOnlyProduct"/>
+		<association column="member_id" property="member" javaType="Member" select="Member.selectOnlyMember"/>
+	</resultMap>
+	
+	<!-- Member(부모)에 의한 호출 리스트 -->
+	<select id="selectQnaByMemberId" parameterType="int" resultMap="QnaMemberJoin">
+		SELECT <include refid="columns"/> FROM qna WHERE member_id = #{member_id}
+	</select>
+	
+	<!-- 전체 레코드 가져오기 -->
+	<select id="totalRecord" resultType="int">
+		SELECT COUNT(qna_id) FROM qna; 
+	</select>
+		
+	<!-- Qna 등록 -->	
+	<insert id="insert" parameterType="Qna">
+		INSERT INTO qna(title, content, comment_member, comment, is_commented, member_id, product_id)
+		VALUES(#{title}, #{content}, #{comment_member}, #{comment}, #{is_commented}, #{member.member_id},#{product.product_id})
+	</insert>
+	
+	<!-- Qna 수정 -->
+	<update id="update" parameterType="Qna">
+		UPDATE qna
+		SET title = #{title},  content = #{content}
+		WHERE qna_id = #{qna_id}
+	</update>
+	
+	<!-- Qna 어드민에서 수정 -->
+	<update id="updateFromAdmin" parameterType="Qna">
+		UPDATE qna
+		SET is_commented = #{is_commented}, comment_member=#{comment_member}, comment=#{comment}
+		WHERE qna_id = #{qna_id}
+	</update>
+	
+	<!-- Qna삭제 -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM qna WHERE qna_id = #{qna_id}
+	</delete>
+	
+	<!-- Qna 집계함수 조회 -->
+	<select id="countQna" parameterType="int" resultType="int">
+		select count(*)
+		from qna
+		where product_id = #{product.product_id}
+	</select>
+
+	<!-- member_id FK참조 끊기 -->
+	<update id="setQnaMemberIdNull" parameterType="int">
+		UPDATE qna SET member_id = -1 WHERE member_id=#{member_id}
+	</update>
+
+	<!-- product에 해당하는 QNA만 가지고 오도록하기 -->
+	<select id="selectByProductId" parameterType="int" resultType="Qna">
+		select <include refid="columns"></include>
+		from qna
+		where product_id = #{product.product_id}
+	</select>
+
+	<!-- 코멘트가 달리지 않은 QnA 숫자 조회 -->
+	<select id="selectByNotCommentedCount" resultType="int">
+		SELECT COUNT(qna_id) FROM qna WHERE is_commented=0;
+	</select>
+</mapper>

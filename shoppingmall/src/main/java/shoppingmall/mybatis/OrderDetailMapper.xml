@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderDetail">
+
+	<sql id="columns">
+		order_detail_id, quantity_real, order_summary_id, product_snapshot_id
+	</sql>
+	
+	<resultMap id="OrderSummaryMap" type="OrderDetail">
+		<id 			column="order_detail_id" 	property="order_detail_id"/>
+		<result 	column="quantity_real" 		property="quantity_real"/>
+		
+		<association column="product_snapshot_id" 	property="productSnapshot" 	javaType="ProductSnapshot" 
+								select="ProductSnapshot.select"/>
+	</resultMap>
+
+	<select id="selectAll" resultMap="OrderSummaryMap">
+		SELECT
+		<include refid="columns" />
+		FROM order_detail
+	</select>
+
+	<select id="selectByOrderSummaryId" parameterType="int" resultMap="OrderSummaryMap">
+		SELECT
+		<include refid="columns" />
+		FROM order_detail WHERE order_summary_id = #{order_summary_id}
+	</select>
+	
+	<!-- 베스트셀러: top4 상품의 이름 가져오기 -->
+	<select id="selectTopSnapshotIds" resultType="int">
+		select product_snapshot_id from order_detail
+		group by product_snapshot_id
+		order by sum(quantity_real) desc 
+		limit 4
+	</select>
+
+
+	<insert id="insert" parameterType="OrderDetail" useGeneratedKeys="true" keyProperty="order_detail_id">
+	    INSERT INTO order_detail (
+	        quantity_real,
+	        order_summary_id,
+	        product_snapshot_id
+	    )
+	    VALUES (
+	        #{quantity_real},
+	        #{orderSummary.order_summary_id},
+	        #{productSnapshot.product_snapshot_id}
+	    )
+	</insert>
+	
+	<delete id="deleteByOrderSummaryId" parameterType="int">
+		DELETE FROM order_detail WHERE order_summary_id = #{order_summary_id}
+	</delete>
+	
+</mapper>

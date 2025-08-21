@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Theme">
+	
+	<!-- 모두 가져오기 -->
+	<select id="selectAll" resultType="Theme">
+		select * from theme
+	</select>
+	
+	<!-- 한 건 가져오기 -->
+	<select id="select" parameterType="int" resultType="Theme">
+		select * from theme where theme_id=#{theme_id}
+	</select>
+	
+	<!-- 이름으로 한 건 가져오기 -->
+	<select id="selectThemeByName" parameterType="String" resultType="Theme">
+		select * from theme where theme_name=#{theme_name}
+	</select>
+	
+	<!-- 한 건 등록하기 -->
+	<insert id="insert" parameterType="Theme">
+		insert into theme(theme_name) values(#{theme_name})
+	</insert>
+	
+	<!-- 한 건 수정하기 -->
+	<update id="update" parameterType="Theme">
+		update theme set theme_name=#{theme_name} where theme_id=#{theme_id}
+	</update>
+	
+	<!-- 한 건 삭제하기 -->
+	<delete id="delete" parameterType="int">
+	 	delete from theme where theme_id=#{theme_id}
+	</delete>
+	
+</mapper>

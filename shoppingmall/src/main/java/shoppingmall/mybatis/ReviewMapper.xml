@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Review">
+
+	<!-- 리뷰 리스트 -->
+	<select id="selectByProductId" parameterType="int"
+		resultMap="ReviewWithAssociations">
+		SELECT review_id, content, reviewed_at, rating, product_id,
+		member_id
+		FROM review
+		WHERE product_id = #{product_id}
+	</select>
+
+	<!-- resultMap -->
+	<resultMap id="ReviewWithAssociations"
+		type="shoppingmall.domain.Review">
+		<id property="review_id" column="review_id" />
+		<result property="content" column="content" />
+		<result property="reviewed_at" column="reviewed_at" />
+		<result property="rating" column="rating" />
+
+		<!-- Product 주입 -->
+		<association property="product"
+			javaType="shoppingmall.domain.Product" column="product_id"
+			select="Product.select" />
+
+		<!-- Member 주입 -->
+		<association property="member" column="member_id"
+			select="Member.select"
+			javaType="shoppingmall.domain.Member" />
+	</resultMap>
+	
+	<!-- resultMap -->
+	<resultMap id="ReviewMemberJoin" type="Review">
+		<id 	property="review_id"	column="review_id" />
+		<result property="content"		column="content" />
+		<result property="reviewed_at"	column="reviewed_at" />
+		<result property="rating"		column="rating" />
+
+		<!-- Product 주입 -->
+		<association property="product" javaType="Product" column="product_id" select="Product.select" />
+	</resultMap>
+	
+	<!-- Member(부모)에 의한 호출 리스트 -->
+	<select id="selectReviewByMemberId" parameterType="map" resultMap="ReviewMemberJoin">
+		SELECT review_id, content, reviewed_at, rating, product_id, member_id FROM review WHERE member_id = #{member_id} order by reviewed_at DESC
+	</select>
+
+
+	<!-- 평균 평점 -->
+	<select id="selectAvgRating" resultType="double" parameterType="int">
+		SELECT AVG(rating) FROM review
+		WHERE product_id = #{product_id}
+	</select>
+
+	<!-- 리뷰 개수 -->
+	<select id="selectCountRating" resultType="int" parameterType="int">
+		SELECT COUNT(*) FROM review
+		WHERE product_id = #{product_id}
+	</select>
+	
+	<!-- 별점 별 리뷰의 개수 -->
+	<select id="selectRatingDistribution" parameterType="int" resultType="map">
+		SELECT rating, COUNT(*) AS count FROM review
+		WHERE product_id = #{product_id}
+		GROUP BY rating
+	</select>
+	
+	<!-- member_id FK참조 끊기 -->
+	<update id="setReviewMemberIdNull" parameterType="int">
+		UPDATE review SET member_id = -1 WHERE member_id=#{member_id}
+	</update>
+</mapper>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Member">
+	<resultMap type="Member" id="withDeleveryMap">
+		<id property="member_id" column="member_id"/>
+		<result property="member_name" column="member_name"/> 
+		<result property="id" column="id"/> 
+		<result property="password" column="password"/> 
+		<result property="salt" column="salt"/> 
+		<result property="email" column="email"/> 
+		<result property="sns_provider" column="sns_provider"/> 
+		<result property="phone" column="phone"/> 
+		<result property="joined_at" column="joined_at"/> 
+		<result property="point_remained" column="point_remained"/> 
+		<result property="default_address" column="default_address"/> 
+		<collection property="deliveryList" column="member_id" javaType="java.util.List" ofType="Delivery" select="Delivery.selectByMemberId"/>
+	</resultMap>
+
+	<sql id="columns">
+		member_id, member_name, id, password, salt, email, sns_provider, phone,
+		joined_at, point_remained, default_address
+	</sql>
+	
+	<!-- 자식으로 보유한 객체들 리스트로 보유하기 위한 resultMap -->
+	<resultMap 	id="MemberReviewAndQnaJoin" type="Member">
+		<id 	column="member_id" 			property="member_id"/>
+		<result column="member_name"		property="member_name"/>
+		<result column="id"					property="id"/>
+		<result column="password"			property="password"/>
+		<result column="salt"				property="salt"/>
+		<result column="email"				property="email"/>
+		<result column="sns_provider"		property="sns_provider"/>
+		<result column="phone"				property="phone"/>
+		<result column="joined_at"			property="joined_at"/>
+		<result column="point_remained"		property="point_remained"/>
+		<result column="default_address"	property="default_address"/>
+		
+		<collection column="member_id" property="reviewList" javaType="java.util.List" ofType="Review" select="Review.selectReviewByMemberId"/>
+		<collection column="member_id" property="qnaList" javaType="java.util.List" ofType="Qna" select="Qna.selectQnaByMemberId"/>
+		<collection column="member_id" property="deliveryList" javaType="java.util.List" ofType="Delivery" select="Delivery.selectByMemberId"/>
+	</resultMap>
+	
+	<!-- review, qna list도 포함한 전체 조회 -->
+	<select id="selectReveiwAndQna" parameterType="map" resultMap="MemberReviewAndQnaJoin">
+		SELECT <include refid="columns"/> FROM member WHERE member_id = #{member_id}
+	</select>
+		
+	<!-- 회원 전체 조회 -->
+	<select id="selectAll" resultType="Member">
+		SELECT <include refid="columns"/> FROM member ORDER BY joined_at DESC
+	</select>
+
+	<!-- 회원PK를 통한 회원 조회 -->
+	<select id="select" parameterType="int" resultType="Member">
+		SELECT <include refid="columns"/> FROM member 
+		WHERE member_id = #{member_id}
+	</select>
+
+	<select id="selectWithDelivery" parameterType="int" resultMap="withDeleveryMap">
+		SELECT
+		<include refid="columns" />
+		FROM member WHERE member_id = #{member_id}
+	</select>
+	
+	<select id="selectOnlyMember" parameterType="int" resultType="Member">
+		SELECT
+		<include refid="columns" />
+		FROM member WHERE member_id = #{member_id}
+	</select>
+	
+	<!-- 회원PK를 통한 회원맵 조회 -->
+	<select id="selectByMemberId" parameterType="int" resultMap="MemberReviewAndQnaJoin">
+		SELECT <include refid="columns"/> FROM member 
+		WHERE member_id = #{member_id}
+	</select>
+	
+	<!-- ID를 통한 회원 조회 -->
+	<select id="selectById" parameterType="String" resultMap="MemberReviewAndQnaJoin">
+		SELECT <include refid="columns"/> FROM member 
+		WHERE id = #{id}
+	</select>
+	
+	<!-- 이메일을 통한 회원 조회 -->
+	<select id="selectByEmail" parameterType="Member" resultType="Member">
+		SELECT <include refid="columns"/> FROM member 
+		WHERE email = #{email}
+	</select>
+	
+	<!-- 이름, 연락처를 통한 회원 조회 -->
+	<select id="selectByNameAndPhone" parameterType="map" resultType="Member">
+		SELECT <include refid="columns"/> FROM member 
+		WHERE member_name = #{member_name} AND phone = #{phone}
+	</select>
+	
+	<!--  페이징으로 조회 -->
+	<select id="selectByPage" parameterType="map" resultType="Member">
+		SELECT <include refid="columns"/> FROM member ORDER BY joined_at DESC LIMIT #{page_size} OFFSET #{offset}
+	</select>
+	
+	<!-- 홈페이지 로그인 회원 조회 -->
+	<select id="login" parameterType="Member" resultType="Member">
+		SELECT <include refid="columns"/> FROM member 
+		WHERE id = #{id} and password = #{password}
+	</select>
+	
+	<!-- sns 로그인 회원 조회 -->
+	<select id="snsLogin" parameterType="Member" resultType="Member">
+		SELECT <include refid="columns"/> FROM member 
+		WHERE sns_provider = #{sns_provider} AND id = #{id}  
+	</select>
+
+	<!-- 회원 추가 -->
+	<insert id="insert" parameterType="Member">
+		INSERT INTO member(member_name, sns_provider, id, password, salt, email, phone, default_address)
+		VALUES(#{member_name}, #{sns_provider}, #{id}, #{password}, #{salt}, #{email}, #{phone}, #{default_address})
+	</insert>
+
+	<!-- 회원 수정 -->
+	<update id="update" parameterType="Member">
+		UPDATE member
+		SET password = #{password}, phone = #{phone}, default_address = #{default_address}
+		WHERE member_id = #{member_id}
+	</update>
+
+	<!-- 회원 삭제 -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM member WHERE member_id = #{member_id}
+	</delete>
+	
+	<!-- 총 레코드 수 -->
+	<select id="totalRecord" resultType="int">
+		SELECT COUNT(member_id) FROM member
+	</select>
+	
+</mapper>

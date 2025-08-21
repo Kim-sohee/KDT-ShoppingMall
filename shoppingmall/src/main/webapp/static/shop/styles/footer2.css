@@ -1,0 +1,23 @@
+/* Footer2 */
+.footer2 {
+    background-color: #D70C19;
+    color: white;
+    margin: auto;
+    padding: 1rem 0rem 3rem 0rem;
+    text-align: center;
+}
+
+.footer2 input[type="text"] {
+    border-radius: 5px;
+    border: none;
+    width: 250px;
+    height: 30px;
+}
+
+.footer2 button {
+    background-color: yellow;
+    border-radius: 5px;
+    border: none;
+    width: 75px;
+    height: 30px;
+}

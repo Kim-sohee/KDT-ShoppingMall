@@ -1,0 +1,171 @@
+<%@page import="shoppingmall.util.PriceFormat"%>
+<%@page import="shoppingmall.util.Paging"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@include file="../inc/init.jsp"%>
+<%
+	List<OrderSummary> orderSummaryList = (List)request.getAttribute("orderSummaryList");
+%>
+
+<body>
+	<!-- header 시작 -->
+	<%@ include file="../inc/header.jsp"%>
+	<!-- header 끝 -->
+
+	<!-- navigation 시작 -->
+	<%@ include file="../inc/nav.jsp"%>
+	<!-- navigation 끝 -->
+
+	<!-- 마이페이지 본문 시작 -->
+	<main class="main-content">
+		<div class="mypage-header">
+			<h1>마이페이지</h1>
+		</div>
+
+		<div class="container">
+			<!-- 마이페이지 사이드바 시작 -->
+			<%@ include file="../inc/sidebar.jsp"%>
+			<!-- 마이페이지 사이드바 끝 -->
+
+			<!-- 페이지 우측 aside 시작 -->
+			<section class="aside-container">
+				<!-- 주문 요약 시작 -->
+				<%@include file="../inc/order-summary.jsp"%>
+				<!-- 주문 요약 끝 -->
+
+				<!-- 마이페이지 상세내용 시작 -->
+				<section class="detail-content">
+					<div class="detail-content-name">
+						<span>취소 / 반품 / 교환 조회</span>
+					</div>
+
+					<!-- 기간 조회 시작 -->
+					<div>
+						<%@ include file="../inc/date.jsp"%>
+					</div>
+					<!-- 기간 조회 끝 -->
+
+					<!-- 상품 항목 card 영역 시작 -->
+					<div class="mypage-product">
+
+						<%
+							String status_type = request.getParameter("status_type");
+							if (status_type == null) status_type = "problematic"; // 기본 탭은 전체
+						%>
+
+						<div class="mypage-product-header">
+							<div
+								class="header-item <%= "problematic".equals(status_type) ? "selected" : "" %>">
+								<a href="/shop/mypage/list?page=<%= pageParam %>&status_type=problematic">전체</a>
+							</div>
+							<div
+								class="header-item <%= "returns".equals(status_type) ? "selected" : "" %>">
+								<a href="/shop/mypage/list?page=<%= pageParam %>&status_type=returns">취소/반품</a>
+							</div>
+							<div
+								class="header-item <%= "exchanges".equals(status_type) ? "selected" : "" %>">
+								<a href="/shop/mypage/list?page=<%= pageParam %>&status_type=exchanges">교환</a>
+							</div>
+						</div>
+						<%
+					        int curPos = paging.getCurPos();
+					        int num = paging.getNum();
+					        
+					        if(orderSummaryList.size() == 0) {
+					    %>
+					        <div class="no-orders">
+					            <% if ("returns".equals(status_type)) { %> 취소/반품 내역이 없습니다.
+						        <% } else if ("exchanges".equals(status_type)) { %> 교환 내역이 없습니다.
+						        <% } else { %> 나의 취소/반품/교환 내역이 없습니다.
+						        <% } %>
+					        </div>
+					    <%
+					        } else {
+					    %>
+						
+						<!-- table 영역 시작 -->
+					<div class="mypage-table">
+						<div class="col-12">				
+							<table class="my-hover-table">
+								<thead>
+									<tr>
+										<th>No</th>
+										<th>주문일자</th>
+										<th>전체금액</th>
+										<th>결제금액</th>
+										<th>사용포인트</th>
+										<th>결제수단</th>
+										<th>결제상세</th>
+									</tr>
+								</thead>
+								<tbody>
+								
+									<%	for(int i=0; i<paging.getPageSize(); i++){
+											if(curPos >= orderSummaryList.size()) break;
+											OrderSummary orderSummary = orderSummaryList.get(curPos++);									 		
+									 %>
+									 
+									<tr>
+										<td><%=num-- %></td>
+										<td><%=orderSummary.getOrdered_at() %></td>
+										<td><%=PriceFormat.productPriceFormat(orderSummary.getTotal_price()) %></td>
+										<td><%=PriceFormat.productPriceFormat(orderSummary.getFinal_price()) %></td>
+										<td><%=orderSummary.getPoint_used() %></td>
+										<td><%=orderSummary.getPayment_type() %></td>
+										<td>
+											<button style="border:0; border-radius: 0.5rem; background-color: #D70C19; color:white;">
+												<a href="/shop/mypage/order/detail?page=<%= pageParam %>&order_summary_id=<%= orderSummary.getOrder_summary_id() %>&status_type=<%= status_type %>"
+												  class="detail-link"
+												>
+												상세보기
+												</a>
+											</button>
+										</td>
+									</tr>
+									<%} %>
+									
+								</tbody>
+							</table>
+							<div class="card-footer clearfix">
+								<ul class="mypage-table-paging">
+									<%	if(paging.getFirstPage()-1 > 0){ %>
+									<li><a class="page-link" href="#" data-page="<%=paging.getFirstPage()-1%>">&laquo;</a></li>
+									<%	} else { %>
+									<li><a class="page-link disabled" href="#">&laquo;</a></li>
+									<%	} %>
+									
+									<% for(int i = paging.getFirstPage(); i <= paging.getLastPage(); i++) { %>
+									<% if (i > paging.getTotalPage()) break; //총 페이지 수를 넘으면 반복문 빠져나오기 %>
+									<li><a href=# class="page-link <%=(paging.getCurrentPage() == i) ? "active" : "" %>" data-page="<%=i %>"><%=i %></a></li>
+									<% } %>
+									
+									<% if(paging.getLastPage() < paging.getTotalPage()) {%>
+									<li><a class="page-link" href="#" data-page="<%=paging.getLastPage()+1%>">&raquo;</a></li>
+									<%	} else { %>
+									<li><a class="page-link disabled" href="#">&raquo;</a></li>
+									<%	} %>
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+					<% } %>
+					<!-- table 영역 끝 -->	
+
+				</section>
+				<!-- 마이페이지 상세내용 끝 -->
+			</section>
+			<!-- 페이지 우측 aside 끝 -->
+
+		</div>
+	</main>
+	<!-- 마이페이지 본문 끝 -->
+
+	<!-- footer 시작 -->
+	<%@ include file="../inc/footer.jsp"%>
+	<!-- footer 끝 -->
+</body>
+<script>
+	const pageParam = "<%= pageParam %>";
+</script>
+<script src="/static/mypage.js"></script>
+</html>
