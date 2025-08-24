@@ -89,11 +89,19 @@
 - **장바구니**  
   <img width="400" height="800" alt="Image" src="https://github.com/user-attachments/assets/3098c28c-9bde-4e7b-860e-a0443d908345" />
 
-- **결제 페이지**  
-  <img width="320" height="800" alt="Image" src="https://github.com/user-attachments/assets/f8d267ec-0f4b-477d-abba-dbe57364a864" /> <img width="320" height="800" alt="Image" src="https://github.com/user-attachments/assets/fe480a3b-4895-408d-8e18-b3528fe60381" /> <img width="320" height="800" alt="Image" src="https://github.com/user-attachments/assets/b1b8c636-099b-43d0-989a-f69d5bffc052" />
+- **결제 페이지**
+  <p align="center">
+  <img src="https://github.com/user-attachments/assets/f8d267ec-0f4b-477d-abba-dbe57364a864" style="width: 32%; height: auto;"/> 
+  <img src="https://github.com/user-attachments/assets/fe480a3b-4895-408d-8e18-b3528fe60381" style="width: 32%; height: auto;"/> 
+  <img src="https://github.com/user-attachments/assets/b1b8c636-099b-43d0-989a-f69d5bffc052" style="width: 32%; height: auto;"/>
+  </p>
 
-- **마이페이지**  
-  <img width="320" height="800" alt="Image" src="https://github.com/user-attachments/assets/1b203153-230b-4963-813e-1a220a4d01ec" /> <img width="320" height="800" alt="Image" src="https://github.com/user-attachments/assets/90cc479c-7866-4afe-80ce-aef54a4ca5a7" /> <img width="320" height="800" alt="Image" src="https://github.com/user-attachments/assets/c686adc1-d2bd-48af-8700-98b58812ccd6" />
+- **마이페이지**
+  <p align="center">
+  <img src="https://github.com/user-attachments/assets/1b203153-230b-4963-813e-1a220a4d01ec" style="width: 32%; height: auto;"/> 
+  <img src="https://github.com/user-attachments/assets/90cc479c-7866-4afe-80ce-aef54a4ca5a7" style="width: 32%; height: auto;"/> 
+  <img src="https://github.com/user-attachments/assets/c686adc1-d2bd-48af-8700-98b58812ccd6" style="width: 32%; height: auto;"/>
+  </p>
 
 ### 관리자 측면
 
